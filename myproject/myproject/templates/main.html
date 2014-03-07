@@ -15,6 +15,8 @@
 {% block content %}
     <div id="content">
     <!-- loop for plans -->
+    {% load staticfiles %}
+    <img src="{% static "img/testimg.JPG"%}"
 
     {% if plans %}
         {% for p in plans %}
