@@ -26,23 +26,21 @@ def getPlansAll(request):
 
     #return HttpResponse([p.name for p in plans])
 
-
-
-def getPlan(request,planId):
+def getPlan(request,id):
     '''
     gets single plan
     '''
 
-    plan  = Plan.objects.get(id = planId)
+    plan  = Plan.objects.get(id=id)
 
-    #return render_to_response('singlePlan.html',
-    #    {
-    #        'post':plan[0]
-    #    },
-    #    context_instance = RequestContext(request)
-    #    )
+    return render_to_response('single_plan.html',
+        {
+            'plan':plan
+        },
+        context_instance = RequestContext(request)
+        )
 
-    return HttpResponse(plan[0].name)
+    #return HttpResponse(plan[0].name)
 
 def getUser(request,userId):
     '''
@@ -59,3 +57,6 @@ def getUser(request,userId):
     #    )
 
     return HttpResponse(user[0].name)
+
+def addUser(request):
+

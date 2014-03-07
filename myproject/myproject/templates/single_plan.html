@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %} single plan: {{ plan.name }} {% endblock %}
+
+{% block inHead %}
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- @import url(http://reset5.googlecode.com/hg/reset.min.css); -->
+{% endblock %}
+
+{% block contentHeader %}
+    <div id="wrapper">
+    <h1>main</h1>
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+
+            <!-- {{ plan.name }} -->
+            <div> {{ plan.name }} </div> <!-- name -->
+            <div> {{ plan.creation_time }}</div> <!-- creation time -->
+            <p> {{ plan.geometry }} </p> <!-- geometry -->
+
+    </div> <!-- content -->
+{% endblock %}
+
+{% block contentFooter %}
+    <a href="../">back</a>
+    </div><!-- wrapper -->
+{% endblock %}

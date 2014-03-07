@@ -14,7 +14,7 @@ class User(models.Model):
 
 
     def get_absolute_url(self):
-        return '/model/%i' %self.id
+        return '/user/%i' %self.id
 
     def __unicode__(self):
         return u'%s' %self.name
@@ -37,7 +37,7 @@ class Plan(models.Model):
         return self.additional_points + self.initial_points
 
     def get_absolute_url(self):
-        return '/models/%i' %self.id
+        return '/plan/%i' %self.id
 
     def __unicode__(self):
         return u'%s:%s' %(self.name,str(self.total_points()))

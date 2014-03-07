@@ -19,10 +19,10 @@ urlpatterns = patterns('',
     url(r'^$','myproject.mainApp.views.getPlansAll'),
 
     #single plans
-    url(r'^plan/(?P<name>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getPlan'),
+    url(r'^plan/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getPlan'),
 
     #single users
-     url(r'^user/(?P<name>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getUser'),
+     url(r'^user/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getUser'),
 
     #media
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
