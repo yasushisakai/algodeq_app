@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    {% block inHead %}
+        <!-- block inHead -->
+    {% endblock %}
+</head>
+<body>
+    {% block contentHeader %}
+        <!-- block content header -->
+    {% endblock %}
+
+    <!-- ------------------------------------ -->
+
+    {% block content %}
+        <!-- block content -->
+    {% endblock%}
+
+    <!-- ------------------------------------ -->
+
+    {% block contentFooter %}
+        <!-- block content footer -->
+    {% endblock %}
+</body>
+</html>

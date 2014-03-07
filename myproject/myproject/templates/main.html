@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %} main {% endblock %}
+
+{% block inHead %}
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <!-- @import url(http://reset5.googlecode.com/hg/reset.min.css); -->
+{% endblock %}
+
+{% block contentHeader %}
+    <div id="wrapper">
+    <h1>main</h1>
+{% endblock %}
+
+{% block content %}
+    <div id="content">
+    <!-- loop for plans -->
+
+    {% if plans %}
+        {% for p in plans %}
+            <!-- {{ p.name }} -->
+            <div> {{ p.name }} </div> <!-- name -->
+            <div> {{ p.creation_time }}</div> <!-- creation time -->
+            <p> {{ p.geometry }} </p> <!-- geometry -->
+        {% endfor %}
+    {% else %}
+        there are no plans.
+    {% endif %}
+
+    <!-- enf of loops -->
+    </div> <!-- content -->
+{% endblock %}
+
+{% block contentFooter %}
+    </div><!-- wrapper -->
+{% endblock %}
