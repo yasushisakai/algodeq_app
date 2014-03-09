@@ -22,7 +22,15 @@ urlpatterns = patterns('',
     url(r'^plan/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getPlan'),
 
     #single users
-     url(r'^user/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getUser'),
+     url(r'^user/(?P<id>[-0-9]+)/?$', 'myproject.mainApp.views.getUser'),
+
+
+    #batch operations
+    url(r'^batch/', 'myproject.mainApp.views.batch'),
+    url(r'^batch-addUser/', 'myproject.mainApp.views.batchAddUser'),
+    url(r'^batch-deleteUser/', 'myproject.mainApp.views.batchDeleteUser'),
+    url(r'^batch-addPlan/', 'myproject.mainApp.views.batchAddPlan'),
+    url(r'^batch-deletePlan/', 'myproject.mainApp.views.batchDeletePlan'),
 
     #media
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
