@@ -25,6 +25,7 @@ urlpatterns = patterns('',
      url(r'^user/(?P<id>[-0-9]+)/?$', 'myproject.mainApp.views.getUser'),
 
 
+
     #batch operations
     url(r'^batch/', 'myproject.mainApp.views.batch'),
     url(r'^batch-addUser/', 'myproject.mainApp.views.batchAddUser'),
@@ -32,6 +33,13 @@ urlpatterns = patterns('',
     url(r'^batch-addPlan/', 'myproject.mainApp.views.batchAddPlan'),
     url(r'^batch-deletePlan/', 'myproject.mainApp.views.batchDeletePlan'),
 
+    ##########################################################################################################
+    #testing
+    ('^diffTest/','myproject.mainApp.views.diffTest'),
+    ('^saveImage/','myproject.mainApp.views.saveImage'),
+
+
+    ##########################################################################################################media and so on...
     #media
     (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 

@@ -3,7 +3,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import Http404,HttpResponse
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-from myproject.settings import MEDIA_URL,BASE_DIR,test_path
+from myproject.settings import MEDIA_URL,BASE_DIR,test_path,MEDIA_ROOT
 from django.contrib.syndication.views import Feed
 
 from myproject.mainApp.models import User,Plan
@@ -99,4 +99,15 @@ def batchDeletePlan(request):
 
     return render_to_response('batch_operation.html',locals())
 
+def diffTest(request):
+    return render_to_response('testing.html',context_instance=RequestContext(request))
 
+def saveImage(request):
+    image_data = request.POST['img'].decode("base64")
+    image_file = open(MEDIA_ROOT+"/plans/test.png","wb")
+    image_file.write(image_data)
+    image_file.close()
+    return render_to_response('testing.html',context_instance=RequestContext(request))
+
+def videocapter(request):
+    pass
