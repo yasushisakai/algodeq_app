@@ -1,9 +1,12 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %} main {% endblock %}
 
 {% block inHead %}
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script type="text/javascript" src="{% static "js/three.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
     <!-- @import url(http://reset5.googlecode.com/hg/reset.min.css); -->
 {% endblock %}
 
@@ -15,7 +18,55 @@
 {% block content %}
     <div id="content">
     <!-- loop for plans -->
-    {% load staticfiles %}
+    /////////test d3
+    <style>
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+</style>
+<svg class="chart"></svg>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script>
+
+var data = [4, 8, 15, 16, 23, 42];
+
+var width = 420,
+    barHeight = 20;
+
+var x = d3.scale.linear()
+    .domain([0, d3.max(data)])
+    .range([0, width]);
+
+var chart = d3.select(".chart")
+    .attr("width", width)
+    .attr("height", barHeight * data.length);
+
+var bar = chart.selectAll("g")
+    .data(data)
+  .enter().append("g")
+    .attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+
+bar.append("rect")
+    .attr("width", x)
+    .attr("height", barHeight - 1);
+
+bar.append("text")
+    .attr("x", function(d) { return x(d) - 3; })
+    .attr("y", barHeight / 2)
+    .attr("dy", ".35em")
+    .text(function(d) { return d; });
+
+</script>
+    ////////end test
+
 {#    <img src="{% static "img/testimg.JPG" %}">#}
 
     {% if plans %}
@@ -23,6 +74,7 @@
             <!-- {{ p.name }} -->
             <div> <a href="{{ p.get_absolute_url }}">{{ p.name }} </div></a> <!-- name -->
             <div> {{ p.creation_time }}</div> <!-- creation time -->
+            <p>{{ p.relation.id }}</p>
             <p> {{ p.geometry }} </p> <!-- geometry -->
             <hr>
         {% endfor %}
