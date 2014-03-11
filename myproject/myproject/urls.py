@@ -16,7 +16,8 @@ urlpatterns = patterns('',
     ('^hello/$',hello),
 
     #index
-    url(r'^$','myproject.mainApp.views.getPlansAll'),
+    url(r'^$','myproject.mainApp.views.getRecursiveAll'),
+    url(r'^obsolete/', 'myproject.mainApp.views.getPlansAll'),
 
     #single plans
     url(r'^plan/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getPlan'),

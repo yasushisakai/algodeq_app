@@ -67,7 +67,22 @@ bar.append("text")
 </script>
     ////////end test
 
-    {{ plans }}
+{#    <img src="{% static "img/testimg.JPG" %}">#}
+
+    {% if plans %}
+        {% for p in plans %}
+            <!-- {{ p.name }} -->
+            <div> <a href="{{ p.get_absolute_url }}">{{ p.name }} </div></a> <!-- name -->
+            <div> {{ p.creation_time }}</div> <!-- creation time -->
+            <p>{{ p.relation.id }}</p>
+            <p> {{ p.geometry }} </p> <!-- geometry -->
+            <hr>
+        {% endfor %}
+    {% else %}
+        there are no plans.
+    {% endif %}
+
+    <!-- enf of loops -->
     </div> <!-- content -->
 {% endblock %}
 

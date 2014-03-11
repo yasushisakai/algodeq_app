@@ -1,3 +1,5 @@
+import json
+
 from __builtin__ import locals
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
@@ -17,7 +19,7 @@ def getPlansAll(request):
 
     plans = Plan.objects.all()
 
-    return render_to_response('main.html',
+    return render_to_response('main_obsolete.html',
         {
             'plans':plans
         },
@@ -25,6 +27,42 @@ def getPlansAll(request):
     )
 
     #return HttpResponse([p.name for p in plans])
+
+
+def treeSearch(_array,_plan):
+    for a in _array:
+        if a['id'] == _plan.relation.id:
+            a['child'].append({'id':_plan.id, 'name':_plan.name, 'geometry':_plan.geometry, 'child':[]})
+        else:
+            treeSearch(a['child'],_plan)
+
+
+def getRecursiveAll(request):
+    '''
+    gets plan in a recursive json format.
+    '''
+
+    plans = Plan.objects.all()
+    rec_plans = []
+
+    for p in plans:
+
+        if len(rec_plans)<1:
+            rec_plans.append({'id':p.id,'name':p.name,'geometry':p.geometry,'child':[]})
+        else:
+            treeSearch(rec_plans,p)
+
+    return render_to_response('main.html',
+        {
+            'plans':rec_plans
+        },
+        context_instance = RequestContext(request)
+    )
+
+    #print json.dumps(rec_plans)
+
+
+
 
 def getPlan(request,id):
     '''

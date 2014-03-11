@@ -60,7 +60,7 @@ def addPlanRandom(number):
     plans = Plan.objects.all()
 
     prefixes = ['a','acro','allo','an','ante','anti','auto','bi','co','contra','counter','de','di','dis','dys','epi','extra','hemi','hexa','hyper','hypo','ig','im','in','infra','inter','intra','ir','macro','mal','maxi','meso','micro','mid','mini','mono','multi','non','octo','over','pan','para','penta','peri','per','poly','post','pre','pro','proto','pseudo','quadri','quasi','re','self','semi','sub','super','supra','tetra','trans','tri','ultra','un','under','xeno']
-    constellations = ['andromeda','antlia','apus','aquarius','aquila','ara','aries','auriga','bootes','caelum','camelopardalis','cancer','canes venatici','canis major','canis minor','capricornus','carina','cassiopeia','centaurus','cepheus','cetus','chamaeleon','circinus','columba','coma berenices','corona austrina','corona borealis','corvus','crater','crux','cygnus','delphinus','dorado','draco','equuleus','eridanus','fornax','gemini','grus','hercules','horologium','hydra','hydrus','indus','lacerta','leo','leominor','lepus','libra','lupus','lynx','lyra','mensa','microscopium','monoceros','musca','norma','octans','ophiuchus','orion','pavo','pegasus','perseus','phoenix','pictor','pisces','piscis austrinus','puppis','pyxis','reticulum','sagitta','sagittarius','scorpius','sculptor','scutum','serpens','sextans','taurus','telescopium','triangulum','triangulum australe','tucana','ursa major','ursa minor','vela','virgo','volans','vulpecula']
+    constellations = ['andromeda','antlia','apus','aquarius','aquila','ara','aries','auriga','bootes','caelum','camelopardalis','cancer','canesvenatici','canismajor','canisminor','capricornus','carina','cassiopeia','centaurus','cepheus','cetus','chamaeleon','circinus','columba','comaberenices','coronaaustrina','coronaborealis','corvus','crater','crux','cygnus','delphinus','dorado','draco','equuleus','eridanus','fornax','gemini','grus','hercules','horologium','hydra','hydrus','indus','lacerta','leo','leominor','lepus','libra','lupus','lynx','lyra','mensa','microscopium','monoceros','musca','norma','octans','ophiuchus','orion','pavo','pegasus','perseus','phoenix','pictor','pisces','piscis austrinus','puppis','pyxis','reticulum','sagitta','sagittarius','scorpius','sculptor','scutum','serpens','sextans','taurus','telescopium','triangulum','triangulumaustrale','tucana','ursa major','ursaminor','vela','virgo','volans','vulpecula']
 
     if len(plans)<1:
         #add initial plan
@@ -70,7 +70,7 @@ def addPlanRandom(number):
         constellation = random.choice(constellations)
 
         plan = Plan(
-           name = prefix+constellation,
+           name = prefix+constellation+str(1),
            initial_points = random.randint(1,100),
            additional_points = random.randint(1,100),
            creation_time = random_date_one_week(),
@@ -89,9 +89,10 @@ def addPlanRandom(number):
         print len(plans)
         prefix = random.choice(prefixes)
         constellation =random .choice(constellations)
-        model_name = prefix+constellation
+        model_name = prefix+constellation+str(len(plans)+2)
 
         sim = random.uniform(0.001, 0.999)
+        plans = Plan.objects.all() # will this change the parents??
         parent = random.choice(plans)
 
         plan = Plan(
