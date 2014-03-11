@@ -8,9 +8,7 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="{% static "js/three.js" %}"></script>
 
-    <!-- css -->
-    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.4.2/base-min.css">
-    <link rel="stylesheet" href="{% static "css/style.css" %}">
+
 {% endblock %}
 
 {% block contentHeader %}
@@ -21,7 +19,7 @@
 {% endblock %}
 
 {% block content %}
-    <div id="content" class="pure-g-u">
+    <div id="content" class="pure-g">
     <div id="d3test" class="pure-u-1-3">
     /////////test d3
 
@@ -73,7 +71,7 @@
     ////////end test
     </div>
 
-    <div id="data" class="pure-u-1-3">
+    <div id="data" class="pure-u-2-3">
     <!-- data starts from here -->
 
     {{ plans }}
