@@ -32,9 +32,9 @@ def getPlansAll(request):
 def treeSearch(_array,_plan):
     for a in _array:
         if a['id'] == _plan.relation.id:
-            a['child'].append({'id':_plan.id, 'name':_plan.name, 'geometry':_plan.geometry, 'child':[]})
+            a['children'].append({'id':_plan.id, 'name':_plan.name, 'geometry':_plan.geometry, 'children':[]})
         else:
-            treeSearch(a['child'],_plan)
+            treeSearch(a['children'],_plan)
 
 
 def getRecursiveAll(request):
@@ -48,13 +48,13 @@ def getRecursiveAll(request):
     for p in plans:
 
         if len(rec_plans)<1:
-            rec_plans.append({'id':p.id,'name':p.name,'geometry':p.geometry,'child':[]})
+            rec_plans.append({'id':p.id,'name':p.name,'geometry':p.geometry,'children':[]})
         else:
             treeSearch(rec_plans,p)
 
     return render_to_response('main.html',
         {
-            'plans':rec_plans
+            'plans':json.dumps(rec_plans)
         },
         context_instance = RequestContext(request)
     )
@@ -62,6 +62,38 @@ def getRecursiveAll(request):
     #print json.dumps(rec_plans)
 
 
+def getRecursiveAllTest(request):
+    '''
+    gets plan in a recursive json format.
+    '''
+
+    plans = Plan.objects.all()
+    rec_plans = []
+
+    for p in plans:
+
+        if len(rec_plans)<1:
+            rec_plans.append({'id':p.id,'name':p.name,'geometry':p.geometry,'children':[]})
+        else:
+            treeSearch(rec_plans,p)
+
+    return render_to_response('tree.html',
+        {
+            'plans':json.dumps(rec_plans)
+        },
+        context_instance = RequestContext(request)
+    )
+
+    #print json.dumps(rec_plans)
+
+
+def signin(request):
+        return render_to_response('sign_in.html',
+        {
+
+        },
+        context_instance = RequestContext(request)
+        )
 
 
 def getPlan(request,id):
