@@ -8,7 +8,10 @@
     <script src="http://d3js.org/d3.v3.min.js"></script>
     <script type="text/javascript" src="{% static "js/three.js" %}"></script>
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> f09c0413c18d38f0ce0e4ae0791d94280d76f363
 {% endblock %}
 
 {% block contentHeader %}
@@ -19,8 +22,14 @@
 {% endblock %}
 
 {% block content %}
+<<<<<<< HEAD
     <div id="content" class="pure-g">
     <div id="d3test" class="pure-u-1-3">
+=======
+    <div id="content" class="pure-g-u">
+    <div id="d3test" class="pure-u-2-5">
+        <p>
+>>>>>>> f09c0413c18d38f0ce0e4ae0791d94280d76f363
     /////////test d3
 
     <style>
@@ -69,13 +78,19 @@
 
     </script>
     ////////end test
+        </p>
     </div>
 
+<<<<<<< HEAD
     <div id="data" class="pure-u-2-3">
+=======
+    <div id="data" class="pure-u-3-5">
+>>>>>>> f09c0413c18d38f0ce0e4ae0791d94280d76f363
     <!-- data starts from here -->
 
-    {{ plans }}
-
+        <p>
+    {{ plans | safe }}
+        </p>
     <!-- data ends here -->
     </div>
     </div><!-- content -->

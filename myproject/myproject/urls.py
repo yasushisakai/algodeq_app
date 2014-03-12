@@ -19,6 +19,13 @@ urlpatterns = patterns('',
     url(r'^$','myproject.mainApp.views.getRecursiveAll'),
     url(r'^obsolete/', 'myproject.mainApp.views.getPlansAll'),
 
+    #tree
+    url(r'^tree/','myproject.mainApp.views.getRecursiveAllTest'),
+
+    #sign-in
+    url(r'^signin/','myproject.mainApp.views.signin'),
+
+
     #single plans
     url(r'^plan/(?P<id>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.getPlan'),
 

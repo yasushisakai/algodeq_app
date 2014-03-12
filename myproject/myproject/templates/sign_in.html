@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block contentHeader %}
+
+    <div class = "wrapper">
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="pure-g" xmlns="http://www.w3.org/1999/html">
+    <form class="pure-form pure-u-1-2">
+
+            <input type="text" class="pure-input-1-2" placeholder="Username" required>
+        <fieldset class="pure-group">
+            <input type="password" class="pure-input-1-2" placeholder="Password" required>
+            <input type="password" class="pure-input-1-2" placeholder="Re-type Password" required>
+        </fieldset>
+            <input type="email" class="pure-input-1-2" placeholder="Email" required>
+
+        <button type="submit" class="pure-button pure-input-1-2 pure-button-primary">Sign in</button>
+    </form>
+
+    <div class="pure-u-1-2">
+
+
+    email will be only used for following
+
+    <ul>
+        <li>1. logging in</li>
+        <li>2. to notify the overall prize money(when available)</li>
+
+    </ul>
+    </div>
+
+    </div>
+
+
+{% endblock %}
+
+{% block contentFooter%}
+
+    </div>
+
+{% endblock %}
