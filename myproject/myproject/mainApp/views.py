@@ -128,6 +128,19 @@ def getUser(request,userId):
 
    # return HttpResponse(user[0].name)
 
+
+def ajax_test(request):
+    if request.method == 'POST' and request.is_ajax():
+        name = request.POST['name']
+        city = request.POST['city']
+        message = name + 'lives in' + city
+
+        return HttpResponse(json.dumps({'message': message}))
+    return 
+
+
+
+
 def batch(request):
     return render_to_response('batch.html',context_instance = RequestContext(request))
 
@@ -178,6 +191,3 @@ def saveImage(request):
     image_file.write(image_data)
     image_file.close()
     return render_to_response('testing.html',context_instance=RequestContext(request))
-
-def videocapter(request):
-    pass
