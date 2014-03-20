@@ -1,7 +1,8 @@
 import json
+import datetime
 
 from __builtin__ import locals
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response,render
 from django.template.context import RequestContext
 from django.http import Http404,HttpResponse
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -128,17 +129,18 @@ def getUser(request,userId):
 
    # return HttpResponse(user[0].name)
 
-
 def ajax_test(request):
     if request.method == 'POST' and request.is_ajax():
-        name = request.POST['name']
-        city = request.POST['city']
-        message = name + 'lives in' + city
+        image_data = request.POST['image'].decode("base64")
+        img_name='img_'+datetime.datetime.now().strftime("%y%m%d%H%M%S")+'.png'
+        image_file = open(MEDIA_ROOT+"/plans/"+img_name,"wb")
+        image_file.write(image_data)
+        image_file.close()
+        message = "successfully uploaded "+img_name
 
         return HttpResponse(json.dumps({'message': message}))
-    return 
 
-
+    return render(request, 'ajax.html')
 
 
 def batch(request):

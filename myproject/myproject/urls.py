@@ -33,7 +33,7 @@ urlpatterns = patterns('',
      url(r'^user/(?P<id>[-0-9]+)/?$', 'myproject.mainApp.views.getUser'),
 
     #ajax-test
-    url(r'^ajax/$','myproject.views.ajax_test', name="ajax"),
+    url(r'^ajax/$','myproject.mainApp.views.ajax_test', name="ajax"),
 
 
     #batch operations
