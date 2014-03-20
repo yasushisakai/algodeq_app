@@ -1,0 +1,63 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="{% static "js/three.js" %}"></script>
+<script>
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+
+    var renderer = new THREE.CanvasRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    var material = new THREE.MeshBasicMaterial({color: 0xffffff, wireframe: true});
+
+    {#    var triangle = new THREE.Shape(#}
+    {#            [#}
+    {#                new THREE.Vector2(0, 1),#}
+    {#                new THREE.Vector2(1, 1),#}
+    {#                new THREE.Vector2(1, 0)#}
+    {#            ]#}
+    {#    );#}
+    {##}
+    {#    var geom = new THREE.ExtrudeGeometry(triangle, {bevelEnabled: false, amount: 2});#}
+
+    var geom = new THREE.Geometry();
+    geom.vertices = [
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 1, 0),
+        new THREE.Vector3(0, 0, 1)
+    ];
+
+    geom.faces.push(new THREE.Face3(0, 1, 2));
+    geom.computeBoundingSphere();
+
+    var mesh = new THREE.Mesh(geom, material);
+    scene.add(mesh);
+
+    camera.position.z = 10;
+
+    var render = function () {
+        requestAnimationFrame(render);
+
+        mesh.rotation.x += 0.001;
+        mesh.rotation.y += 0.005;
+
+        renderer.render(scene, camera);
+    };
+
+    render();
+</script>
+</body>
+</html>

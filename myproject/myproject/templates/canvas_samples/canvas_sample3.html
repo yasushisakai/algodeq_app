@@ -1,0 +1,90 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            background-color: #ffffff;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<script type="text/javascript" src="{% static "js/three.js" %}"></script>
+<script>
+
+    var camera, scene, renderer;
+
+    function setup() {
+        document.body.style.backgroundColor = '#d7f0fd';
+
+        setupThreeJS();
+        setupWorld();
+
+        requestAnimationFrame(function animate() {
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        });
+
+    }
+
+    function setupThreeJS() {
+
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.y = 1200;
+        camera.position.z = 1200;
+        camera.rotation.x = -45 * Math.PI / 180;
+
+        renderer = new THREE.CanvasRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+    }
+
+    function setupWorld() {
+
+        //floor
+        var geo = new THREE.PlaneGeometry(2000, 2000, 20, 20);
+        var mat = new THREE.MeshBasicMaterial({color: 0x9db3b5, overdraw: true});
+        var mesh = new THREE.Mesh(geo, mat);
+
+        mesh.rotation.x = -90 * Math.PI / 180;
+        scene.add(mesh);
+
+        //class object of building
+        var material = new THREE.MeshPhongMaterial({overdraw: true, color: 0xcccccc});
+
+        var geo = new THREE.CubeGeometry(1, 1, 1);
+        geo.applyMatrix(new THREE.Matrix4().makeTranslation(0, 0.5, 0));
+
+        //clone it
+
+        var cityGeometry = new THREE.Geometry();
+
+        for (var i = 0; i < 300; i++) {
+
+            var building = new THREE.Mesh(geo.clone(), material.clone());
+            building.position.x = Math.floor(Math.random() * 200 - 100) * 4;
+            building.position.y = Math.floor(Math.random() * 200 - 100) * 4;
+
+            building.scale.x = Math.random() * 50 + 10;
+            building.scale.y = Math.random() * building.scale.x * 8 + 8;
+            building.scale.z = building.scale.x;
+            THREE.GeometryUtils.merge(cityGeometry, building);
+            //scene.add(building);
+        }
+
+        var city = new THREE.Mesh(cityGeometry, material);
+        scene.add(city);
+
+
+    }
+
+    setup();
+
+</script>
+</body>
+</html>

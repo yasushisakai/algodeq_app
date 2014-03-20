@@ -143,6 +143,15 @@ def ajax_test(request):
     return render(request, 'ajax.html')
 
 
+def canvas_test(request):
+    return render_to_response('canvas_samples/canvas_sample3.html',
+        {
+
+        },
+                              context_instance=RequestContext(request)
+    )
+
+
 def batch(request):
     return render_to_response('batch.html',context_instance = RequestContext(request))
 

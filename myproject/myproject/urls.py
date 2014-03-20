@@ -35,6 +35,9 @@ urlpatterns = patterns('',
     #ajax-test
     url(r'^ajax/$','myproject.mainApp.views.ajax_test', name="ajax"),
 
+    #canvas-test
+    url(r'^canvas/$', 'myproject.mainApp.views.canvas_test'),
+
 
     #batch operations
     url(r'^batch/', 'myproject.mainApp.views.batch'),
