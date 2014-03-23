@@ -41,18 +41,13 @@
 
 {% block content %}
     <div id="content" class="pure-g-u">
-    /////////test d3
+
 
     <div id="body">
-        <div id="footer">
-            d3.layout.cluster
-            <div class="hint">
-                drag the ring to rotate
-            </div>
-        </div>
-    </div>
+     /////////test d3
     <script type="text/javascript">
     var impData = {{ plans | safe }};
+    console.log(impData[0]);
 
     var data =impData[0];
 
@@ -114,6 +109,20 @@
         node.append("svg:text")
                 .attr("dx", function (d) {
                     return d.x < 180 ? 8 : -8;
+                })
+                .attr("dy", ".31em")
+                .attr("text-anchor", function (d) {
+                    return d.x < 180 ? "start" : "end";
+                })
+                .attr("transform", function (d) {
+                    return d.x < 180 ? null : "rotate(180)";
+                })
+                .text(function (d) {
+                    return d.id;
+                });
+        node.append("svg:text")
+                .attr("dx", function (d) {
+                    return d.x < 180 ? 30 : -30;
                 })
                 .attr("dy", ".31em")
                 .attr("text-anchor", function (d) {
@@ -194,7 +203,8 @@
 
     </script>
     ////////end test
-    </p>
+    </div>
+
     </div>
     <div id="data" class="pure-u-3-5">
         <!-- data starts from here -->
