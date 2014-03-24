@@ -47,7 +47,6 @@
      /////////test d3
     <script type="text/javascript">
     var impData = {{ plans | safe }};
-    console.log(impData[0]);
 
     var data =impData[0];
 
@@ -61,6 +60,9 @@
     var cluster = d3.layout.cluster()
             .size([360, ry - 120]);
 
+    var arc = d3.svg.arc()
+            .outerRadius(rx - 10)
+            .innerRadius(rx - 70);
 
     var diagonal = d3.svg.diagonal.radial()
             .projection(function (d) {
@@ -80,7 +82,7 @@
 
 {#    vis.append("svg:path")#}
 {#            .attr("class", "arc")#}
-{#            .attr("d", d3.svg.arc().innerRadius(ry - 120).outerRadius(ry).startAngle(0).endAngle(2 * Math.PI))#}
+{#            .attr("d", d3.svg.arc().innerRadius(ry - 120).outerRadius(ry).startAngle(0.5).endAngle(2 * Math.PI))#}
 {#            .on("mousedown", mousedown);#}
 
     netnode(data);
@@ -88,6 +90,7 @@
 
     function netnode(json) {
         var nodes = cluster.nodes(json);
+
 
         var link = vis.selectAll("path.link")
                 .data(cluster.links(nodes))
@@ -134,12 +137,25 @@
                 .text(function (d) {
                     return d.name;
                 });
+        node.append("svg:path")
+                .attr("class", "arc")
+                .attr("d", d3.svg.arc().innerRadius(10).outerRadius(function(d){return (d.id)/100;}).startAngle(0.5).endAngle(2 * Math.PI));
     }
     ;
 
     d3.select(window)
             .on("mousemove", mousemove)
             .on("mouseup", mouseup);
+    // Interpolate the arcs in data space.
+function arcTween(a) {
+  var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
+  return function(t) {
+    var b = i(t);
+    a.x0 = b.x;
+    a.dx0 = b.dx;
+    return arc(b);
+  };
+}
 
     function mouse(e) {
         return [e.pageX - rx, e.pageY - ry];
