@@ -55,6 +55,7 @@ def getRecursiveAll(request):
 
     return render_to_response('main.html',
         {
+            'nums':len(plans),
             'plans':json.dumps(rec_plans)
         },
         context_instance = RequestContext(request)
@@ -144,7 +145,7 @@ def ajax_test(request):
 
 
 def canvas_test(request):
-    return render_to_response('canvas_samples/canvas_sample3.html',
+    return render_to_response('canvas_samples/canvas_sample5.html',
         {
 
         },
