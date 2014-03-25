@@ -2,6 +2,7 @@ import random
 import uuid
 from datetime import datetime,timedelta
 from myproject.mainApp.models import User,Plan
+import json;
 
 
 def random_date(start,end):
@@ -69,12 +70,23 @@ def addPlanRandom(number):
         prefix = random.choice(prefixes)
         constellation = random.choice(constellations)
 
+        geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [], 'glassWall': []}
+
+        for i in range(5):
+            geomData['site'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['woodFloor'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['concreteFloor'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['woodWall'].append([random.randint(0, 144), random.randint(0, 3)])
+            geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
+            geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
+
+
         plan = Plan(
            name = prefix+constellation+str(1),
            initial_points = random.randint(1,100),
            additional_points = random.randint(1,100),
            creation_time = random_date_one_week(),
-           geometry = uuid.uuid4(),
+           geometry = json.dumps(geomData),
            image = '',
            similarity = -1,
            user = random.choice(users)
@@ -89,6 +101,17 @@ def addPlanRandom(number):
         print len(plans)
         prefix = random.choice(prefixes)
         constellation =random .choice(constellations)
+
+        geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [], 'glassWall': []}
+
+        for i in range(5):
+            geomData['site'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['woodFloor'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['concreteFloor'].append([random.randint(0, 64), random.randint(0, 4)])
+            geomData['woodWall'].append([random.randint(0, 144), random.randint(0, 3)])
+            geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
+            geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
+
         model_name = prefix+constellation+str(len(plans)+2)
 
         sim = random.uniform(0.001, 0.999)
@@ -100,7 +123,7 @@ def addPlanRandom(number):
             initial_points = parent.total_points() * sim,
             additional_points = random.randint(1, 100),
             creation_time = random_date_one_week(),
-            geometry = uuid.uuid4(),
+            geometry = geomData,
             image = '',
             similarity = sim,
             user = random.choice(users),

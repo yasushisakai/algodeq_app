@@ -5,25 +5,41 @@
     <meta charset="utf-8">
     <style>
         body {
-            background-color: #ffffff;
+            background-color: #cccccc;
             margin: 0;
             overflow: hidden;
         }
     </style>
 </head>
 <body>
+
 <script type="text/javascript" src="{% static "js/three.js" %}"></script>
 <script type="text/javascript" src="{% static "js/OrbitControls.js" %}"></script>
+
+
+<script type="text/javascript" src="{% static "model/Coefficients.js" %}"></script>
+<script type="text/javascript" src="{% static "model/Wall.js" %}"></script>
+<script type="text/javascript" src="{% static "model/Floor.js" %}"></script>
+
+<script>
+
+    //the line below will come from the server.
+
+    var geometryData = {{ geomData | safe }};
+
+</script>
+
+
 <script>
 
     var camera, scene, renderer;
-
-    var grid, materials, cube,intersection = null;
-
     var controls, clock, projector;
 
+    var mesh;
+
+
     function setup() {
-        document.body.style.backgroundColor = '#d7f0fd';
+        document.body.style.backgroundColor = '#cccccc';
 
         setupThreeJS();
         setupWorld();
@@ -40,10 +56,10 @@
     function setupThreeJS() {
 
         scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x9db3b5, 0.0004);
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-        camera.position.y = 1200;
-        camera.position.z = 1200;
+        {#        scene.fog = new THREE.FogExp2(0x9db3b5, 0.0004);#}
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 50000);
+        camera.position.y = 10000;
+        camera.position.z = 10000;
         camera.rotation.x = -45 * Math.PI / 180;
 
         clock = new THREE.Clock();
@@ -60,53 +76,101 @@
 
     function setupWorld() {
 
-        //geometry
-
-        //floor
-        var geo = new THREE.PlaneGeometry(2000, 2000, 20, 20);
+        //FLOOR
+        var geo = new THREE.PlaneGeometry(unitLength, unitLength, resolution, resolution);
         {#        var mat = new THREE.MeshPhongMaterial({color: 0x9db3b5, overdraw: true, wireframe: true});#}
-        var mat = new THREE.MeshPhongMaterial({color: 0x9db3b5, overdraw: true});
-        var mesh = new THREE.Mesh(geo, mat);
+        var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
+        mesh = new THREE.Mesh(geo, mat);
+        mesh.material.side = THREE.DoubleSide;
 
         mesh.rotation.x = -90 * Math.PI / 180;
         mesh.receiveShadow = true;
         scene.add(mesh);
 
 
-        //grid material
-        grid=[];
-        materials=[];
+        //GRID
+        var gridMat = new THREE.LineBasicMaterial({color: 0x000000});
 
+        for (var i = 0; i < resolution; i++) {
+            for (var j = 0; j < resolution; j++) {
+                var lineGeom = new THREE.Geometry();
+                lineGeom.vertices.push(new THREE.Vector3(i * unitSize - unitLength / 2.0, 10, -unitLength / 2.0));
+                lineGeom.vertices.push(new THREE.Vector3(i * unitSize - unitLength / 2.0, 10, unitLength / 2.0));
 
-        //grid geometry
-        var gridGeometry;
-        for (var i = 0; i < 10; i++) {
-            var lineGeom = new THREE.Geometry();
+                var line = new THREE.Line(lineGeom, gridMat);
+                scene.add(line);
 
-            lineGeom.vertices.push(new THREE.Vector3(i * 50, 0, 0));
-            lineGeom.vertices.push(new THREE.Vector3((i + 1) * 50, 0, 0));
+                lineGeom = new THREE.Geometry();
+                lineGeom.vertices.push(new THREE.Vector3(-unitLength / 2.0, 10, j * unitSize - unitLength / 2.0));
+                lineGeom.vertices.push(new THREE.Vector3(unitLength / 2.0, 10, j * unitSize - unitLength / 2.0));
 
-            var material = new THREE.LineBasicMaterial({color: 0xff0000});
+                line = new THREE.Line(lineGeom, gridMat);
+                scene.add(line);
 
-            line = new THREE.Line(lineGeom, material);
-            grid.push(line);
-            scene.add(line);
-
+            }
         }
-        //scene.add(grid);
+
+        //MODEL
 
 
-        var cubeGeom = new THREE.CubeGeometry(100,100,100);
-        var cubeMat = new THREE.MeshPhongMaterial({color:0xffff00});
-        cube = new THREE.Mesh(cubeGeom,cubeMat);
-        scene.add(cube);
-        cube.visible = false;
+        var entities = new THREE.Geometry();
 
+        {#        for (var i = 0; i < resolution * (resolution + 1) * 2; i++) {#}
+        {##}
+        {#            var wall = addWall(#}
+        {#                    //Math.floor(resolution*(resolution+1)*2 * Math.random()),#}
+        {#                    i,#}
+        {#                    //Math.floor(Math.random() * (maxFloor-1))#}
+        {#                    0#}
+        {#            );#}
+        {#            THREE.GeometryUtils.merge(entities, wall, Math.floor(Math.random() * wallMaterials.length));#}
+        {#        }#}
 
+        var walls = geometryData["woodWall"];
+        for (var i = 0; i < walls.length; i++) {
+            THREE.GeometryUtils.merge(entities, addWall(walls[i][0], walls[i][1]), 0);
+        }
 
-        //light
+        walls = geometryData["concreteWall"];
+        for (var i = 0; i < walls.length; i++) {
+            THREE.GeometryUtils.merge(entities, addWall(walls[i][0], walls[i][1]), 1);
+        }
+
+        walls = geometryData["glassWall"];
+        for (var i = 0; i < walls.length; i++) {
+            THREE.GeometryUtils.merge(entities, addWall(walls[i][0], walls[i][1]), 2);
+        }
+
+        {#        for (var i = 0; i < resolution * resolution; i++) {#}
+        {#            var floor = addFloor(#}
+        {#                    i,#}
+        {#                    1#}
+        {#            );#}
+        {##}
+        {#            THREE.GeometryUtils.merge(entities, floor, wallMaterials.length + Math.floor(Math.random() * floorMaterials.length));#}
+        {##}
+        {#        }#}
+
+        var floors = geometryData["site"];
+        for (var i = 0; i < floors.length; i++) {
+            THREE.GeometryUtils.merge(entities, addFloor(floors[i][0], floors[i][1]), wallMaterials.length);
+        }
+
+         floors = geometryData["woodFloor"];
+        for (var i = 0; i < floors.length; i++) {
+            THREE.GeometryUtils.merge(entities, addFloor(floors[i][0], floors[i][1]), wallMaterials.length+1);
+        }
+        floors = geometryData["concreteFloor"];
+        for (var i = 0; i < floors.length; i++) {
+            THREE.GeometryUtils.merge(entities, addFloor(floors[i][0], floors[i][1]), wallMaterials.length+2);
+        }
+
+        var model = new THREE.Mesh(entities, new THREE.MeshFaceMaterial(wallMaterials.concat(floorMaterials)));
+        scene.add(model);
+
+        //LIGHT
         var light = new THREE.DirectionalLight(0xf9f1c2, 1);
-        light.position.set(500, 1500, 1000);
+        light.position.set(10000, 10000, 10000);
         light.castShadow = true;
         light.shadowMapWidth = 2048;
         light.shadowMapHeight = 2048;
@@ -115,7 +179,7 @@
         light.shadowCameraRight = -d;
         light.shadowCameraTop = d;
         light.shadowCameraBottom = -d;
-        light.shadowCameraFar = 2500;
+        light.shadowCameraFar = 40000;
         scene.add(light);
 
     }
@@ -138,35 +202,19 @@
                     vector.sub(camera.position).normalize()
             );
 
-            var intersects = raycaster.intersectObjects(grid);
+            var intersects = raycaster.intersectObject(mesh);
             if (intersects.length) {
-                intersection = intersects[0];
-                console.log(intersects[0]);
-                console.log(intersection.object.vertices);
-                for(var i=0;i<grid.length;i++){
-                    grid[i].material
-                }
-                intersection.object.material.color.setHex(0x0000ff);
-                intersection.object.geometry.colorsNeedUpdate = true;
+                var vec = intersects[0].point;
+                console.log(vec);
             } else {
-                if (intersection != null) {
-                    intersection.object.material.color.setHex(0xff0000);
-                    intersection.object.geometry.colorsNeedUpdate = true;
-                    intersection = null;
-                }
-            }
 
+            }
         });
 
 
-        renderer.domElement.addEventListener('mousedown',function(event){
+        renderer.domElement.addEventListener('mousedown', function (event) {
             event.preventDefault();
 
-            if(intersection!=null){
-                cube.visible = true;
-            }else{
-                cube.visible = false;
-            }
         });
 
     }
