@@ -34,7 +34,9 @@ def getPlansAll(request):
 def treeSearch(_array, _plan):
     for a in _array:
         if a['id'] == _plan.relation.id:
-            a['children'].append({'id': _plan.id, 'name': _plan.name, 'geometry': _plan.geometry, 'children': []})
+            a['children'].append(
+                {'id': _plan.id, 'name': _plan.name, 'parent': _plan.relation.id, 'geometry': _plan.geometry,
+                 'children': []})
         else:
             treeSearch(a['children'], _plan)
 
@@ -50,7 +52,8 @@ def getRecursiveAll(request):
     for p in plans:
 
         if len(rec_plans) < 1:
-            rec_plans.append({'id': p.id, 'name': p.name, 'geometry': json.loads(p.geometry), 'children': []})
+            rec_plans.append(
+                {'id': p.id, 'name': p.name, 'parent': None, 'geometry': json.loads(p.geometry), 'children': []})
         else:
             treeSearch(rec_plans, p)
 
@@ -63,7 +66,30 @@ def getRecursiveAll(request):
                               context_instance=RequestContext(request)
     )
 
-    #print json.dumps(rec_plans)
+
+def getRecursiveAll2(request):
+    '''
+    gets plan in a recursive json format.
+    '''
+
+    plans = Plan.objects.all()
+    rec_plans = []
+
+    for p in plans:
+
+        if len(rec_plans) < 1:
+            rec_plans.append({'id': p.id, 'name': p.name, 'geometry': json.loads(p.geometry), 'children': []})
+        else:
+            treeSearch(rec_plans, p)
+
+    return render_to_response('main2.html',
+                              {
+                                  'rawPlans': plans,
+                                  'nums': len(plans),
+                                  'plans': json.dumps(rec_plans)
+                              },
+                              context_instance=RequestContext(request)
+    )
 
 
 def getRecursiveAllTest(request):
@@ -111,7 +137,7 @@ def getPlan(request, id):
                               {
                                   'plan': plan,
                                   #'geom': json.dumps(plan.geometry)
-                                  'geom':plan.geometry
+                                  'geom': plan.geometry
                               },
                               context_instance=RequestContext(request)
     )

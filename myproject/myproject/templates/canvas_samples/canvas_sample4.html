@@ -115,17 +115,6 @@
 
         var entities = new THREE.Geometry();
 
-        {#        for (var i = 0; i < resolution * (resolution + 1) * 2; i++) {#}
-        {##}
-        {#            var wall = addWall(#}
-        {#                    //Math.floor(resolution*(resolution+1)*2 * Math.random()),#}
-        {#                    i,#}
-        {#                    //Math.floor(Math.random() * (maxFloor-1))#}
-        {#                    0#}
-        {#            );#}
-        {#            THREE.GeometryUtils.merge(entities, wall, Math.floor(Math.random() * wallMaterials.length));#}
-        {#        }#}
-
         var walls = geometryData["woodWall"];
         for (var i = 0; i < walls.length; i++) {
             THREE.GeometryUtils.merge(entities, addWall(walls[i][0], walls[i][1]), 0);
@@ -140,16 +129,6 @@
         for (var i = 0; i < walls.length; i++) {
             THREE.GeometryUtils.merge(entities, addWall(walls[i][0], walls[i][1]), 2);
         }
-
-        {#        for (var i = 0; i < resolution * resolution; i++) {#}
-        {#            var floor = addFloor(#}
-        {#                    i,#}
-        {#                    1#}
-        {#            );#}
-        {##}
-        {#            THREE.GeometryUtils.merge(entities, floor, wallMaterials.length + Math.floor(Math.random() * floorMaterials.length));#}
-        {##}
-        {#        }#}
 
         var floors = geometryData["site"];
         for (var i = 0; i < floors.length; i++) {
