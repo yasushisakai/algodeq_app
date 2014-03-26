@@ -44,217 +44,251 @@
 
 
     {% for p in rawPlans %}
-        
+
         <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
 
     {% endfor %}
-    
+
     <div id="body">
     /////////test d3
     {#            <script src="{% static "js/newick.js" %}"></script>#}
     {#        <script src="{% static "js/life.js" %}"></script>#}
     <script type="text/javascript">
-        var impData = {{ plans | safe }};
-        var count = {{ nums }};
+    var impData = {{ plans | safe }};
+    var count = {{ nums }};
 
-        var data = impData[0];
-        var yid = 927;
-        console.log(data);
-        var w = 1280,
-                h = 800,
-                rx = w / 2,
-                ry = h / 2,
-                m0,
-                r = 960 / 2,
-                rotate = 0;
+    var data = impData[0];
+    var yid = 927;
+    console.log(data);
+    var w = 1280,
+            h = 800,
+            rx = w / 2,
+            ry = h / 2,
+            m0,
+            r = 960 / 2,
+            rotate = 0;
 
-        var cluster = d3.layout.cluster()
-                .size([360, 300])
-                .sort(null)
-                .value(function (d) {
-                    return d.length;
+    var totalSize = 0;
+
+    var cluster = d3.layout.cluster()
+            .size([360, 300])
+            .sort(null)
+            .value(function (d) {
+                return d.length;
+            })
+    {#                        .children(function (d) {#}
+    {#                            return d.branchset;#}
+    {#                        })#}
+    {#                        .separation(function (a, b) {#}
+    {#                            return 1;#}
+    {#                        });#}
+
+    function project(d) {
+        var r = d.y, a = (d.x - 90) / 180 * Math.PI;
+        return [r * Math.cos(a), r * Math.sin(a)];
+    }
+    function cross(a, b) {
+        return a[0] * b[1] - a[1] * b[0];
+    }
+    function dot(a, b) {
+        return a[0] * b[0] + a[1] * b[1];
+    }
+    function step(d) {
+        var s = project(d.source),
+                m = project({x: d.target.x, y: d.source.y}),
+                t = project(d.target),
+                r = d.source.y,
+                sweep = d.target.x > d.source.x ? 1 : 0;
+        return (
+                "M" + s[0] + "," + s[1] +
+                        "A" + r + "," + r + " 0 0," + sweep + " " + m[0] + "," + m[1] +
+                        "L" + t[0] + "," + t[1]);
+    }
+    var diagonal = d3.svg.diagonal.radial()
+            .projection(function (d) {
+                return [d.y, d.x / 180 * Math.PI];
+            });
+
+    var svg = d3.select("#body").append("div")
+            .style("width", w + "px")
+            .style("height", w + "px");
+
+    var vis = svg.append("svg:svg")
+            .attr("width", w)
+            .attr("height", w)
+            .append("svg:g")
+            .attr("transform", "translate(" + r + "," + r + ")");
+
+    vis.append("svg:path")
+            .attr("class", "arc")
+            .attr("d", d3.svg.arc().innerRadius(ry - 80).outerRadius(ry + 80).startAngle(0).endAngle(2 * Math.PI))
+            .style("fill", "#FFFF00");
+
+    var start = null,
+            rotate = 0,
+            div = document.getElementById("body");
+
+
+    function phylo(n, offset) {
+        if (n.length != null) offset += n.length * 115;
+        n.y = offset;
+        if (n.children)
+            n.children.forEach(function (n) {
+                phylo(n, offset);
+            });
+    }
+
+    netnode(data);
+    function netnode(json) {
+        var nodes = cluster.nodes(json);
+        //phylo(nodes[0],0);
+
+        var link = vis.selectAll("path.link")
+                .data(cluster.links(nodes))
+                .enter().append("svg:path")
+                .attr("class", "link")
+                .attr("d", step)
+                .style("stroke-width", function (d) {
+                    return Math.round(d.target.id / 400);
+                });
+
+        var node = vis.selectAll("g.node")
+                .data(nodes.filter(function (n) {
+                    return n.x !== undefined;
+                }))
+                .enter().append("svg:g")
+                .attr("class", "node")
+                .attr("transform", function (d) {
+                    return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
                 })
-        {#                        .children(function (d) {#}
-        {#                            return d.branchset;#}
-        {#                        })#}
-        {#                        .separation(function (a, b) {#}
-        {#                            return 1;#}
-        {#                        });#}
 
-        function project(d) {
-            var r = d.y, a = (d.x - 90) / 180 * Math.PI;
-            return [r * Math.cos(a), r * Math.sin(a)];
+        node.append("svg:circle")
+                .attr("r", 2.5);
+
+
+        var label = vis.selectAll("text")
+                .data(nodes.filter(function (d) {
+                    return d.x !== undefined;
+                    //return d.x !== undefined && !d.children;
+                }))
+                .enter().append("text")
+                .attr("dx", function (d) {
+                    return (d.id - yid) * 360 / count < 180 ? 8 : -8;
+                })
+                .attr("dy", ".31em")
+                .attr("text-anchor", function (d) {
+                    return (d.id - yid) * 360 / count < 180 ? "start" : "end";
+                })
+                .attr("transform", function (d) {
+                    return "rotate(" + ((d.id - yid) * 360 / count - 90) + ")translate(" + (r - 170 + 8) + ")rotate(" + ((d.id - yid) * 360 / count < 180 ? 0 : 180) + ")";
+                })
+                .text(function (d) {
+                    var ccc = d.id - yid;
+                    return d.name;
+                })
+                .on("mouseover", mouseover)
+                .on("mouseleave", mouseleave);
+    }
+    ;
+
+    d3.select(window)
+            .on("mousemove", mousemove)
+            .on("mouseup", mouseup);
+
+    function mouseover(d) {
+
+        // Fade all the segments.
+        d3.select(this)
+                .style("fill", "#ffffff");
+
+        svg.selectAll("path.link.target-" + d.key)
+                .style("stroke", "#000000");
+
+        var thisNode = d3.select(this);
+        var thisNodeCol = thisNode.select("path.link").style("stroke","#ffffff");
+        thisNode.selectAll(".nodebox")
+
+                .style("fill", thisNodeCol)
+        // 	            .style("opacity", 0.6)
+        svg.selectAll(".link")
+                .style("stroke", thisNodeCol)
+
+
+    }
+    function mouseleave(d) {
+
+        d3.select(this)
+                .style("fill", "#000000");
+
+    }
+
+
+    function mouse(e) {
+        return [e.pageX - rx, e.pageY - ry];
+    }
+
+    function mousedown() {
+        m0 = mouse(d3.event);
+        d3.event.preventDefault();
+    }
+
+    function mousemove() {
+        if (m0) {
+            var m1 = mouse(d3.event),
+                    dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI,
+                    tx = "translate3d(0," + (ry - rx) + "px,0)rotate3d(0,0,0," + dm + "deg)translate3d(0," + (rx - ry) + "px,0)";
+            svg
+                    .style("-moz-transform", tx)
+                    .style("-ms-transform", tx)
+                    .style("-webkit-transform", tx);
         }
-        function cross(a, b) {
-            return a[0] * b[1] - a[1] * b[0];
-        }
-        function dot(a, b) {
-            return a[0] * b[0] + a[1] * b[1];
-        }
-        function step(d) {
-            var s = project(d.source),
-                    m = project({x: d.target.x, y: d.source.y}),
-                    t = project(d.target),
-                    r = d.source.y,
-                    sweep = d.target.x > d.source.x ? 1 : 0;
-            return (
-                    "M" + s[0] + "," + s[1] +
-                            "A" + r + "," + r + " 0 0," + sweep + " " + m[0] + "," + m[1] +
-                            "L" + t[0] + "," + t[1]);
-        }
-        var diagonal = d3.svg.diagonal.radial()
-                .projection(function (d) {
-                    return [d.y, d.x / 180 * Math.PI];
-                });
+    }
 
-        var svg = d3.select("#body").append("div")
-                .style("width", w + "px")
-                .style("height", w + "px");
+    function mouseup() {
+        if (m0) {
+            var m1 = mouse(d3.event),
+                    dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI,
+                    tx = "rotate3d(0,0,0,0deg)";
 
-        var vis = svg.append("svg:svg")
-                .attr("width", w)
-                .attr("height", w)
-                .append("svg:g")
-                .attr("transform", "translate(" + r + "," + r + ")");
-        var start = null,
-                rotate = 0,
-                div = document.getElementById("body");
+            rotate += dm;
+            if (rotate > 360) rotate -= 360;
+            else if (rotate < 0) rotate += 360;
+            m0 = null;
 
+            svg
+                    .style("-moz-transform", tx)
+                    .style("-ms-transform", tx)
+                    .style("-webkit-transform", tx);
 
-        function phylo(n, offset) {
-            if (n.length != null) offset += n.length * 115;
-            n.y = offset;
-            if (n.children)
-                n.children.forEach(function (n) {
-                    phylo(n, offset);
-                });
-        }
-
-        netnode(data);
-        function netnode(json) {
-            var nodes = cluster.nodes(json);
-            //phylo(nodes[0],0);
-
-            var link = vis.selectAll("path.link")
-                    .data(cluster.links(nodes))
-                    .enter().append("svg:path")
-                    .attr("class", "link")
-                    .attr("d", step);
-
-            var node = vis.selectAll("g.node")
-                    .data(nodes.filter(function (n) {
-                        return n.x !== undefined;
-                    }))
-                    .enter().append("svg:g")
-                    .attr("class", "node")
-                    .attr("transform", function (d) {
-                        return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")";
-                    })
-
-            node.append("svg:circle")
-                    .attr("r", 2.5);
-
-
-            var label = vis.selectAll("text")
-                    .data(nodes.filter(function (d) {
-                        return d.x !== undefined;
-                        //return d.x !== undefined && !d.children;
-                    }))
-                    .enter().append("text")
+            vis
+                    .attr("transform", "translate(" + rx + "," + ry + ")rotate(" + rotate + ")")
+                    .selectAll("g.node text")
                     .attr("dx", function (d) {
-                        return (d.id-yid)*360/count < 180 ? 8 : -8;
+                        return (d.x + rotate) % 360 < 180 ? 8 : -8;
                     })
-                    .attr("dy", ".31em")
                     .attr("text-anchor", function (d) {
-                        return (d.id-yid)*360/count < 180 ? "start" : "end";
+                        return (d.x + rotate) % 360 < 180 ? "start" : "end";
                     })
                     .attr("transform", function (d) {
-                        return "rotate(" + ((d.id-yid)*360/count - 90) + ")translate(" + (r - 170 + 8) + ")rotate(" + ((d.id-yid)*360/count < 180 ? 0 : 180) + ")";
-                    })
-                    .text(function (d) {
-                        var ccc = d.id-yid;
-                        return d.name;
+                        return (d.x + rotate) % 360 < 180 ? null : "rotate(180)";
                     });
-            {#                    node.append("svg:text")#}
-            {#                            .attr("dx", function (d) {#}
-            {#                                return d.x < 180 ? 8 : -8;#}
-            {#                            })#}
-            {#                            .attr("dy", ".31em")#}
-            {#                            .attr("text-anchor", function (d) {#}
-            {#                                return d.x < 180 ? "start" : "end";#}
-            {#                            })#}
-            {#                            .attr("transform", function (d) {#}
-            {#                                return d.x < 180 ? null : "rotate(180)";#}
-            {#                            })#}
-            {#                            .text(function (d) {#}
-            {#                                return d.name;#}
-            {#                            });#}
         }
-        ;
+    }
 
-        d3.select(window)
-                .on("mousemove", mousemove)
-                .on("mouseup", mouseup);
+    function cross(a, b) {
+        return a[0] * b[1] - a[1] * b[0];
+    }
 
-        function mouse(e) {
-            return [e.pageX - rx, e.pageY - ry];
-        }
+    function dot(a, b) {
+        return a[0] * b[0] + a[1] * b[1];
+    }
 
-        function mousedown() {
-            m0 = mouse(d3.event);
-            d3.event.preventDefault();
-        }
-
-        function mousemove() {
-            if (m0) {
-                var m1 = mouse(d3.event),
-                        dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI,
-                        tx = "translate3d(0," + (ry - rx) + "px,0)rotate3d(0,0,0," + dm + "deg)translate3d(0," + (rx - ry) + "px,0)";
-                svg
-                        .style("-moz-transform", tx)
-                        .style("-ms-transform", tx)
-                        .style("-webkit-transform", tx);
-            }
-        }
-
-        function mouseup() {
-            if (m0) {
-                var m1 = mouse(d3.event),
-                        dm = Math.atan2(cross(m0, m1), dot(m0, m1)) * 180 / Math.PI,
-                        tx = "rotate3d(0,0,0,0deg)";
-
-                rotate += dm;
-                if (rotate > 360) rotate -= 360;
-                else if (rotate < 0) rotate += 360;
-                m0 = null;
-
-                svg
-                        .style("-moz-transform", tx)
-                        .style("-ms-transform", tx)
-                        .style("-webkit-transform", tx);
-
-                vis
-                        .attr("transform", "translate(" + rx + "," + ry + ")rotate(" + rotate + ")")
-                        .selectAll("g.node text")
-                        .attr("dx", function (d) {
-                            return (d.x + rotate) % 360 < 180 ? 8 : -8;
-                        })
-                        .attr("text-anchor", function (d) {
-                            return (d.x + rotate) % 360 < 180 ? "start" : "end";
-                        })
-                        .attr("transform", function (d) {
-                            return (d.x + rotate) % 360 < 180 ? null : "rotate(180)";
-                        });
-            }
-        }
-
-        function cross(a, b) {
-            return a[0] * b[1] - a[1] * b[0];
-        }
-
-        function dot(a, b) {
-            return a[0] * b[0] + a[1] * b[1];
-        }
+    function updateNodes(name, value) {
+        return function (d) {
+            if (value) this.parentNode.appendChild(this);
+            svg.select("#node-" + d[name].key).classed(name, value);
+        };
+    }
 
 
     </script>
