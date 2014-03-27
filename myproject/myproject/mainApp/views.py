@@ -187,7 +187,7 @@ def canvas_test(request):
         geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
         geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
 
-    return render_to_response('canvas_samples/canvas_sample4.html',
+    return render_to_response('canvas_samples/canvas_sample6.html',
                               {
                                   'geomData': json.dumps(geomData),
                               },
