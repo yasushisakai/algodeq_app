@@ -58,8 +58,7 @@
     var count = {{ nums }};
 
     var data = impData[0];
-    var yid = 927;
-    console.log(data);
+    var yid = 1105;
     var w = 1280,
             h = 800,
             rx = w / 2,
@@ -76,12 +75,7 @@
             .value(function (d) {
                 return d.length;
             })
-    {#                        .children(function (d) {#}
-    {#                            return d.branchset;#}
-    {#                        })#}
-    {#                        .separation(function (a, b) {#}
-    {#                            return 1;#}
-    {#                        });#}
+
 
     function project(d) {
         var r = d.y, a = (d.x - 90) / 180 * Math.PI;
@@ -114,18 +108,18 @@
             .style("height", w + "px");
 
     var vis = svg.append("svg:svg")
-            .attr("width", w)
+            .attr("width", 1800)
             .attr("height", w)
             .append("svg:g")
             .attr("transform", "translate(" + r + "," + r + ")");
 
     vis.append("svg:path")
             .attr("class", "arc")
-            .attr("d", d3.svg.arc().innerRadius(ry - 80).outerRadius(ry + 80).startAngle(0).endAngle(2 * Math.PI))
+            .attr("d", d3.svg.arc().innerRadius(ry - 80).outerRadius(ry + 100).startAngle(0).endAngle(2 * Math.PI))
             .style("fill", "#FFFF00");
 
     var start = null,
-            rotate = 0,
+            rotate = 90,
             div = document.getElementById("body");
 
 
@@ -198,20 +192,88 @@
     function mouseover(d) {
 
         // Fade all the segments.
+        var ob_pro;
+        var num;
+        var p_num;
+        var ch_array;
+
+
         d3.select(this)
-                .style("fill", "#ffffff");
+                .style("fill", "#ffffff")
+                .attr("name", function (d) {
+                    ob_pro = d.id;
+                });
+        d3.selectAll("g.node").select("circle")
+                .style("stroke", function (d, i) {
+                    if (d.id == ob_pro) {
+                        num = i;
+                        ch_array = d.children;
+                        return "#000000";
+                    }
+                })
+                .style("stroke-width", function (d, i) {
+                    if (d.id == ob_pro) {
+                        num = i;
+                        ch_array = d.children;
+                        return 10;
+                    }
+                }
+        );
+        //select children node
+        d3.selectAll("path.link")
+                .style("stroke", function (d) {
+                    if (d.target.id == ob_pro) {
+                        return "#000000";
+                    }
+                    for (var k = 0; k < ch_array.length; k++) {
+                        if (d.target.id == ch_array[k].id) {
+                            return "steelblue";
+                        }
+                    }
 
-        svg.selectAll("path.link.target-" + d.key)
-                .style("stroke", "#000000");
+                });
 
-        var thisNode = d3.select(this);
-        var thisNodeCol = thisNode.select("path.link").style("stroke","#ffffff");
-        thisNode.selectAll(".nodebox")
+        var fontSize = 10;
+        var lineSpace = 2;
+        var boxHeight = 100;
+        var boxWidth = 100;
+        var infoBoxHeight = boxHeight * 4.5;
+        var infoBoxWidth = boxWidth * 4.5;
+        //var nodeName = node.attr("id");
+        var infoX =00;//infoBoxWidth / 2 * 0.6;
+        var infoY = -400;//infoBoxHeight / 2 * 1.05;
+        var infoBox = vis.append("svg");
+        var imgOffsetX =200;//-infoBoxWidth / 2// * 0.95
+        var imgOffsetY =30;// -infoBoxHeight / 2 + fontSize + 8 + 2 * lineSpace;
+        var pass = "media/plans/";
 
-                .style("fill", thisNodeCol)
-        // 	            .style("opacity", 0.6)
-        svg.selectAll(".link")
-                .style("stroke", thisNodeCol)
+        infoBox
+                .attr("class", "popup")
+                .attr("x",imgOffsetX+300)
+                .attr("y",imgOffsetY-200)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("transform", function (d) {
+                    return "translate(" + infoX + "," + infoY + ")";
+                });
+
+        infoBox
+                .append("text")
+                .attr("x",imgOffsetX-100)
+                .attr("y",imgOffsetY)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("text-anchor", "left")
+                .text(d.name)
+                .attr("font-size", fontSize + 8 + "px")
+
+
+        infoBox
+                .append("svg:image")
+                .attr("xlink:href", pass + "test" + ".jpg")
+                .attr("width", infoBoxWidth * 0.99)
+                .attr("height", infoBoxHeight * 0.99)
+                .attr("x",imgOffsetX-310)
+                .attr("y",imgOffsetY-20)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("transform", function (d) {
+                    return "translate(" + imgOffsetX + "," + imgOffsetY + ")";
+                })
 
 
     }
@@ -220,6 +282,12 @@
         d3.select(this)
                 .style("fill", "#000000");
 
+        d3.selectAll("g.node").select("circle")
+                .style("stroke", "steelblue");
+        d3.selectAll("path.link")
+                .style("stroke", "#ccc");
+        svg.selectAll(".popup")
+			.remove()
     }
 
 
@@ -275,24 +343,10 @@
         }
     }
 
-    function cross(a, b) {
-        return a[0] * b[1] - a[1] * b[0];
-    }
-
-    function dot(a, b) {
-        return a[0] * b[0] + a[1] * b[1];
-    }
-
-    function updateNodes(name, value) {
-        return function (d) {
-            if (value) this.parentNode.appendChild(this);
-            svg.select("#node-" + d[name].key).classed(name, value);
-        };
-    }
-
 
     </script>
     ////////end test
+    {{ plans | safe }}
     </div>
 
     </div>
