@@ -7,9 +7,11 @@
 <body>
 
 <script type="text/javascript" src="{% static "js/three.js" %}"></script>
+<script type="text/javascript" src="{% static "js/tween.min.js" %}"></script>
 <script type="text/javascript" src="{% static "js/OrbitControls.js" %}"></script>
 
 <script type="text/javascript" src="{% static "model/Coefficients.js" %}"></script>
+<script type="text/javascript" src="{% static "model/class/Axis.js" %}"></script>
 <script type="text/javascript" src="{% static "model/class/Wall.js" %}"></script>
 <script type="text/javascript" src="{% static "model/class/Floor.js" %}"></script>
 <script type="text/javascript" src="{% static "model/class/Plan.js" %}"></script>
@@ -17,70 +19,97 @@
 <script type="text/javascript">
 
     //globals
-    var mesh;
+    var planes;
+
+    var geometryData, root;
 
     function initialize() {
         document.body.style.backgroundColor = '#cccccc';
 
         setupThreeJS();
         setupWorld();
+        setupTween();
         setupEvents();
 
         //looping
         requestAnimationFrame(function animate() {
             renderer.render(scene, camera);
             controls.update(clock.getDelta());
+            TWEEN.update();
             requestAnimationFrame(animate);
         });
     }
 
+    function setupThreeJS() {
+
+        geometryData = [];
+        {% for p in geomData %} geometryData.push({{ p.geometry | safe }});
+        {% endfor %}
+
+        root = Math.ceil(Math.sqrt(geometryData.length));
+
+        scene = new THREE.Scene();
+        {#        scene.fog = new THREE.FogExp2(0x9db3b5, 0.0004);#}
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 500000);
+        {#        camera.position.y = (root * (unitLength + 250)) / 2.0;#}
+        {#        camera.position.z = (root * (unitLength + 250)) / 2.0;#}
+        {#        camera.rotation.x = -45 * Math.PI / 180;#}
+
+        camera.position.x = (root * (unitLength + 250));
+        camera.position.y = (root * (unitLength + 250));
+        camera.position.z = (root * (unitLength + 250));
+
+
+        clock = new THREE.Clock();
+        controls = new THREE.OrbitControls(camera);
+        controls.target = new THREE.Vector3(
+                (root * (unitLength + 250)) / 2.0,
+                0.0,
+                (root * (unitLength + 250)) / 2.0
+        );
+
+
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMapEnabled = true;
+        document.body.appendChild(renderer.domElement);
+
+        projector = new THREE.Projector();
+    }
+
     function setupWorld() {
 
-        //FLOOR
-        var geo = new THREE.PlaneGeometry(unitLength, unitLength, resolution, resolution);
-        {#        var mat = new THREE.MeshPhongMaterial({color: 0x9db3b5, overdraw: true, wireframe: true});#}
-        var mat = new THREE.MeshBasicMaterial({color: 0xffffff});
-        mesh = new THREE.Mesh(geo, mat);
-        mesh.material.side = THREE.DoubleSide;
-
-        mesh.rotation.x = -90 * Math.PI / 180;
-        mesh.receiveShadow = true;
-        scene.add(mesh);
-
-
-        //GRID
-        var gridMat = new THREE.LineBasicMaterial({color: 0x000000});
-
-        for (var i = 0; i < resolution; i++) {
-            for (var j = 0; j < resolution; j++) {
-                var lineGeom = new THREE.Geometry();
-                lineGeom.vertices.push(new THREE.Vector3(i * unitSize - unitLength / 2.0, 10, -unitLength / 2.0));
-                lineGeom.vertices.push(new THREE.Vector3(i * unitSize - unitLength / 2.0, 10, unitLength / 2.0));
-
-                var line = new THREE.Line(lineGeom, gridMat);
-                scene.add(line);
-
-                lineGeom = new THREE.Geometry();
-                lineGeom.vertices.push(new THREE.Vector3(-unitLength / 2.0, 10, j * unitSize - unitLength / 2.0));
-                lineGeom.vertices.push(new THREE.Vector3(unitLength / 2.0, 10, j * unitSize - unitLength / 2.0));
-
-                line = new THREE.Line(lineGeom, gridMat);
-                scene.add(line);
-
-            }
-        }
-
+        var plan;
         var entities = new THREE.Geometry();
 
-        var geometryData = {{ geomData | safe }};
+        for (var j = 0; j < Math.pow(root, 2); j++) {
+            //0. declare plan
 
-        var plan = new Plan(geometryData);
-        plan.create(entities);
+            if (j > geometryData.length - 1) break;
+            console.log(j);
+            plan = new Plan(
+                    geometryData[j],
+                    j % root * (unitLength + 250),
+                    Math.floor(j / root) * (unitLength + 250)
+            );
 
-        var model = new THREE.Mesh(entities,new THREE.MeshFaceMaterial(Wall.materialList.concat(Floor.materialList)));
-        scene.add(model);
+            //1.planes
+            plan.createPlane(entities);
+            //var planes = new THREE.Mesh(planeEntities, Plan.planeMat);
+            //scene.add(planes);
 
-        //LIGHT
+            //2.grid
+            //plan.createGrid();
+
+            //3.walls and floors
+            plan.create(entities);
+            var model = new THREE.Mesh(entities, Plan.materialList);
+            scene.add(model);
+        }
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        // light
+        //////////////////////////////////////////////////////////////////////////////////////
         var light = new THREE.DirectionalLight(0xf9f1c2, 1);
         light.position.set(10000, 10000, 10000);
         light.castShadow = true;
@@ -94,28 +123,49 @@
         light.shadowCameraFar = 40000;
         scene.add(light);
 
+
+        /////////////////////////////////////////////////////////////////////////////////////////
+        // axis
+        /////////////////////////////////////////////////////////////////////////////////////////
+        var axis = new Axis(100000, 10);
+        axis.create();
+
     }
 
-    function setupThreeJS() {
+    function setupTween() {
 
-        scene = new THREE.Scene();
-        {#        scene.fog = new THREE.FogExp2(0x9db3b5, 0.0004);#}
-        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 50000);
-        camera.position.y = 10000;
-        camera.position.z = 10000;
-        camera.rotation.x = -45 * Math.PI / 180;
+{#        var target = [];#}
+        var target;
+        var tween = [];
 
-        clock = new THREE.Clock();
-        controls = new THREE.OrbitControls(camera);
+        for (var i = 0; i < geometryData.length; i++) {
 
+            target = new THREE.Vector3(
+                    i % root * (unitLength + 250),
+                    0.0,
+                    Math.floor(i / root) * (unitLength + 250)
+            );
 
-        renderer = new THREE.WebGLRenderer({antialias: true});
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.shadowMapEnabled = true;
-        document.body.appendChild(renderer.domElement);
+            var tempTween = new TWEEN.Tween(controls.target)
+                    .to({
+                        x:target.x,
+                        y:target.y,
+                        z:target.z
+                    },1500)
+                    .delay(1000)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut);
 
-        projector = new THREE.Projector();
+            tween.push(tempTween);
+        }
+
+        for(var i=0;i<geometryData.length-1;i++){
+            tween[i].chain(tween[i+1]);
+        }
+
+        tween[0].start();
+
     }
+
 
     function setupEvents() {
         renderer.domElement.addEventListener('mousemove', function (event) {
@@ -135,19 +185,21 @@
                     vector.sub(camera.position).normalize()
             );
 
-            var intersects = raycaster.intersectObject(mesh);
-            if (intersects.length) {
-                var vec = intersects[0].point;
-                console.log(vec);
-            } else {
-
-            }
+            {#            var intersects = raycaster.intersectObject(mesh);#}
+            {#            if (intersects.length) {#}
+            {#                var vec = intersects[0].point;#}
+            {#                console.log(vec);#}
+            {#            } else {#}
+            {##}
+            {#            }#}
         });
 
 
         renderer.domElement.addEventListener('mousedown', function (event) {
             event.preventDefault();
 
+            console.log(camera.position);
+            console.log(controls.target);
         });
 
     }

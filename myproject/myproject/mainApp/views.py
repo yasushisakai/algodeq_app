@@ -177,19 +177,21 @@ def ajax_test(request):
 
 
 def canvas_test(request):
-    geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [], 'glassWall': []}
+    #geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [], 'glassWall': []}
+    #
+    #for i in range(64):
+    #    geomData['site'].append([random.randint(0, 64), random.randint(0, 4)])
+    #    geomData['woodFloor'].append([i, 1])
+    #    geomData['concreteFloor'].append([random.randint(0, 64), random.randint(0, 4)])
+    #    geomData['woodWall'].append([random.randint(0, 144), random.randint(0, 3)])
+    #    geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
+    #    geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
 
-    for i in range(64):
-        geomData['site'].append([random.randint(0, 64), random.randint(0, 4)])
-        geomData['woodFloor'].append([i, 1])
-        geomData['concreteFloor'].append([random.randint(0, 64), random.randint(0, 4)])
-        geomData['woodWall'].append([random.randint(0, 144), random.randint(0, 3)])
-        geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
-        geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
+    plans = Plan.objects.all();
 
     return render_to_response('canvas_samples/canvas_sample6.html',
                               {
-                                  'geomData': json.dumps(geomData),
+                                  'geomData': plans,
                               },
                               context_instance=RequestContext(request)
     )
