@@ -135,8 +135,9 @@
     function setupTween() {
 
 {#        var target = [];#}
-        var target;
-        var tween = [];
+        var position,target;
+        var tweenPosition= [],tweenTarget = [];
+        var segment =600;
 
         for (var i = 0; i < geometryData.length; i++) {
 
@@ -146,23 +147,48 @@
                     Math.floor(i / root) * (unitLength + 250)
             );
 
-            var tempTween = new TWEEN.Tween(controls.target)
+{#            position = new THREE.Vector3(#}
+{#                    target.x + unitLength,#}
+{#                    unitLength *2,#}
+{#                    target.z + unitLength#}
+{#            );#}
+
+            position = new THREE.Vector3(
+                    Math.floor(Math.random()*root)*unitLength,
+                    unitLength*2,
+                    Math.floor(Math.random()*root)*unitLength
+            );
+
+            var tempTweenPosition = new TWEEN.Tween(camera.position)
+                    .to({
+                        x:position.x,
+                        y:position.y,
+                        z:position.z
+                    },segment)
+                    .delay(segment)
+                    .easing(TWEEN.Easing.Sinusoidal.InOut);
+
+            var tempTweenTarget = new TWEEN.Tween(controls.target)
                     .to({
                         x:target.x,
                         y:target.y,
                         z:target.z
-                    },1500)
-                    .delay(1000)
+                    },segment)
+                    .delay(segment)
                     .easing(TWEEN.Easing.Sinusoidal.InOut);
 
-            tween.push(tempTween);
+            tweenTarget.push(tempTweenTarget);
+            tweenPosition.push(tempTweenPosition);
         }
 
         for(var i=0;i<geometryData.length-1;i++){
-            tween[i].chain(tween[i+1]);
+            tweenTarget[i].chain(tweenTarget[i+1]);
+            tweenPosition[i].chain(tweenPosition[i+1]);
         }
 
-        tween[0].start();
+
+        tweenTarget[0].start();
+        tweenPosition[0].start();
 
     }
 
