@@ -36,7 +36,8 @@ var frameNo = 0;
 var plans = [];
 var geometryData, root;
 
-var record = false;
+var density = 1.4;
+var record = true;
 
 function initialize() {
     document.body.style.backgroundColor = '#cccccc';
@@ -53,11 +54,12 @@ function initialize() {
         renderer.render(scene, camera);
         controls.update(clock.getDelta());
 
-        if (frameNo % 2 == 0 && frameNo/2 < plans.length) {
-            plans[frameNo / 2].toggleVisible();
+        var pace = 1;
+        if (frameNo % pace == 0 && frameNo / pace < plans.length) {
+            plans[frameNo / pace].toggleVisible();
         }
 
-        if (frameNo < 100 && record) {
+        if (frameNo < 400 && record) {
             console.log(frameNo);
             $.post("",
                     {
@@ -97,21 +99,21 @@ function setupThreeJS() {
 
     scene = new THREE.Scene();
     {#        scene.fog = new THREE.FogExp2(0x9db3b5, 0.0004);#}
-    camera = new THREE.PerspectiveCamera(50, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 50000000);
+    camera = new THREE.PerspectiveCamera(35, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 50000000);
     {#        camera.position.y = (root * (unitLength + 250)) / 2.0;#}
     {#        camera.position.z = (root * (unitLength + 250)) / 2.0;#}
     {#        camera.rotation.x = -45 * Math.PI / 180;#}
 
     camera.position.x = (root * (unitLength + 250));
-    camera.position.y = (root * (unitLength + 250));
+    camera.position.y = unitLength;
     camera.position.z = (root * (unitLength + 250));
 
     clock = new THREE.Clock();
     controls = new THREE.OrbitControls(camera);
     controls.target = new THREE.Vector3(
-            (root * (unitLength + 250)) / 2.0,
+            (root * (unitLength + 250)) / 2,
             0.0,
-            (root * (unitLength + 250)) / 2.0
+            (root * (unitLength + 250)) / 2
     );
 
     renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
@@ -131,10 +133,9 @@ function setupThreeJS() {
 function setupWorld() {
 
     //higher density value makes it sporadic
-    var density = 1.4;
 
-    var order=[];
-    for (var i=0;i<root*root*density*density;i++) order.push(i);
+    var order = [];
+    for (var i = 0; i < root * root * density * density; i++) order.push(i);
 
     function shuffle(array) {
         //shuffles the array
@@ -156,8 +157,8 @@ function setupWorld() {
         //console.log(j);
         var plan = new Plan(
                 geometryData[j],
-                order[j] % Math.floor(root*density) * (unitLength + 250),
-                Math.floor(order[j] / (root*density)) * (unitLength + 250)
+                order[j] % Math.floor(root * density) * (unitLength + 250),
+                Math.floor(order[j] / (root * density)) * (unitLength + 250)
         );
 
         plan.createEntity();
@@ -261,19 +262,19 @@ function setupTween() {
     //var tweenPosition = [], tweenTarget = [];
     var segment = 600;
 
-    if(record)segment = segment*100;
+    if (record)segment = segment * 100;
 
 
     target = new THREE.Vector3(
-            root / 2 * (unitLength + 250),
+            root * (unitLength + 250) / 2,
             0.0,
-            root / 2 * (unitLength + 250)
+            root * (unitLength + 250) / 2
     );
 
     position = new THREE.Vector3(
-            target.x * 2,
+            root * (unitLength + 250),
             500000,
-            target.z * 2
+            root * (unitLength + 250)
     );
 
     var tweenPos = new TWEEN.Tween(camera.position)
