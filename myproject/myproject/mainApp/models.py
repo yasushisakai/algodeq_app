@@ -25,7 +25,7 @@ class Plan(models.Model):
     initial_points = models.FloatField()
     additional_points  = models.FloatField()
     creation_time = models.DateTimeField()
-    geometry = models.CharField(max_length=1000)
+    geometry = models.CharField(max_length=5000)
     image = models.ImageField(upload_to='plans',blank=True)
     similarity = models.FloatField()
     #fields with relations

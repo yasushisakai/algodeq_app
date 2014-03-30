@@ -137,20 +137,7 @@ function setupWorld() {
     var order = [];
     for (var i = 0; i < root * root * density * density; i++) order.push(i);
 
-    function shuffle(array) {
-        //shuffles the array
-        var m = array.length, t, i;
-        while (m) {
-            i = Math.floor(Math.random() * m--);
-            t = array[m];
-            array[m] = array[i];
-            array[i] = t;
-        }
-    }
-
     shuffle(order);
-
-    console.log(order[0]);
 
     for (var j = 0; j < geometryData.length; j++) {
 
@@ -166,6 +153,19 @@ function setupWorld() {
         plans.push(plan);
     }
 
+    var bigplaneGeom = new THREE.PlaneGeometry((unitLength+250)*(root+2)*density,(unitLength+250)*(root+2)*density,1,1);
+
+    var bigmat = new THREE.MeshLambertMaterial({color:"0xEEEEEE"});
+    var bigPlane = new THREE.Mesh(bigplaneGeom,bigmat);
+
+
+    bigPlane.rotation.x = -90 * Math.PI / 180;
+    bigPlane.position.x = (unitLength+250)*root*density/2.0;
+    bigPlane.position.z = (unitLength+250)*root*density/2.0;
+    bigPlane.position.y = -200;
+
+    bigPlane.recieveShadow=true;
+    scene.add(bigPlane);
 
     {#    var plan;#}
     {#    var entities = new THREE.Geometry();#}
@@ -210,41 +210,46 @@ function setupWorld() {
 
     var SHADOW_MAP_WIDTH = 2048, SHADOW_MAP_HEIGHT = 1024;
 
-    var ambient = new THREE.AmbientLight(0x8f9fa3);
+    var ambient = new THREE.AmbientLight(0x474d4f);
     scene.add(ambient);
 
-    var light = new THREE.DirectionalLight(0xf9f1c2, 1);
-    light.position.set(10000, 10000, 10000);
-    light.castShadow = true;
-    light.shadowMapWidth = SHADOW_MAP_WIDTH;
-    light.shadowMapHeight = SHADOW_MAP_HEIGHT;
-    var d = 1000;
-    light.shadowCameraLeft = d;
-    light.shadowCameraRight = -d;
-    light.shadowCameraTop = d;
-    light.shadowCameraBottom = -d;
-    light.shadowCameraFar = 40000;
-    scene.add(light);
-
-    {#    light = new THREE.SpotLight(0xffffff, 1, 0, Math.PI, 1.0);#}
-    {#    light.position.set(25000, 40000, 25000);#}
-    {#    light.target.position.set(0, 0, 0);#}
-    {##}
+    {#    var light = new THREE.DirectionalLight(0xf9f1c2, 1);#}
+    {#    light.position.set(root * (unitLength + 250), 50000, root * (unitLength + 250));#}
     {#    light.castShadow = true;#}
-    {##}
-    {#    light.shadowCameraNear = 7000;#}
-    {#    light.shadowCameraFar = camera.far;#}
-    {#    light.shadowCameraFov = 80;#}
-    {##}
-    {#    //light.shadowCameraVisible = true;#}
-    {##}
-    {#    light.shadowBias = 0.000001;#}
-    {#    light.shadowDarkness = 0.2;#}
-    {##}
     {#    light.shadowMapWidth = SHADOW_MAP_WIDTH;#}
     {#    light.shadowMapHeight = SHADOW_MAP_HEIGHT;#}
+    {#    var d = 100000;#}
+    {#    light.shadowCameraLeft = d;#}
+    {#    light.shadowCameraRight = -d;#}
+    {#    light.shadowCameraTop = d;#}
+    {#    light.shadowCameraBottom = -d;#}
+    {#    light.shadowCameraFar = 200000;#}
+    {#    light.shadowCameraVisible=true;#}
+    {#    scene.add(light);#}
+
+
+    var light = new THREE.SpotLight(0xffffff, 1.1, 0, Math.PI*1.4, 2.0);
+    light.position.set(root * (unitLength + 250)*density, 50000, root * (unitLength + 250)*density);
+    light.target.position.set(root * (unitLength + 250)*density/2.0, 0, root * (unitLength + 250)*density/2.0);
+
+    light.castShadow = true;
+
+    light.shadowCameraNear = 7000;
+    light.shadowCameraFar = camera.far;
+    light.shadowCameraFov = 80;
+
+    light.shadowCameraVisible = true;
+
+    light.shadowBias = 0.000001;
+    light.shadowDarkness = 0.2;
+
+    light.shadowMapWidth = SHADOW_MAP_WIDTH;
+    light.shadowMapHeight = SHADOW_MAP_HEIGHT;
 
     scene.add(light);
+
+{#    var lighthelper = new THREE.DirectionalLightHelper(light, 100000);#}
+{#    scene.add(lighthelper);#}
 
 
     /////////////////////////////////////////////////////////////////////////////////////////

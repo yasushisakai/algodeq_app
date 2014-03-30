@@ -398,7 +398,9 @@ def addRoom(sx, sz, ex, ez):
     #add floors
     for x in range(sx, ex + 1):
         for z in range(sz, ez + 1):
-            floorNums.append(x + 8 * z)
+            fn = x + 8 * z
+            floorNums.append(fn)
+
 
     #add walls
     #      c
@@ -409,8 +411,8 @@ def addRoom(sx, sz, ex, ez):
 
     #a and c
     for x in range(sx, ex + 1):
-        wallNums.append(sz * 17 + (x + 1) * 2)
-        wallNums.append((ez + 1) * 17 + (x + 1) * 2)
+        wallNums.append(sz * 17 + x * 2 + 1)
+        wallNums.append((ez + 1) * 17 + x * 2 + 1)
 
     #b and d
     for z in range(sz, ez + 1):
@@ -418,6 +420,103 @@ def addRoom(sx, sz, ex, ez):
         wallNums.append(z * 17 + (ex + 1) * 2)
 
     return [floorNums, wallNums]
+
+
+def makeRooms(num):
+    floors = []
+    walls = []
+
+    for i in range(num):
+        SX = random.randint(0, 7 - 1)
+        SZ = random.randint(0, 7 - 1)
+        if SX == (7 - 1):
+            EX = 7
+        else:
+            EX = random.randint(SX + 1, 7)
+
+        if SZ == (7 - 1):
+            EZ = 7
+        else:
+            EZ = random.randint(SZ + 1, 7)
+
+        rooms = addRoom(SX, SZ, EX, EZ)
+        floors += rooms[0]
+        walls += rooms[1]
+
+    floors = list(set(floors))
+    walls = list(set(walls))
+
+    return [floors, walls]
+
+
+def makeGeomData(first, second, third):
+    '''
+    I'm verrry sorry about what i did with this function,
+    I'm starting to regret this as I was writing the last line.
+    forgive me
+    '''
+
+    geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [],
+                'glassWall': []}
+
+    room = makeRooms(first)
+
+    rand = random.random()
+    for f in room[0]:
+        geomData['site'].append([f, 0])
+        if rand < 0.5:
+            geomData['woodFloor'].append([f, 1])
+        else:
+            geomData['concreteFloor'].append([f, 1])
+
+    for w in room[1]:
+        rand = random.random() < 0.33333
+        if rand < 0.333:
+            geomData['glassWall'].append([w, 0])
+        elif rand < 0.6666:
+            geomData['woodWall'].append([w, 0])
+        else:
+            geomData['concreteWall'].append([w, 0])
+
+    room = makeRooms(second)
+
+    rand = random.random()
+    for f in room[0]:
+        geomData['woodFloor'].append([f, 1])
+        if rand < 0.5:
+            geomData['woodFloor'].append([f, 2])
+        else:
+            geomData['concreteFloor'].append([f, 2])
+
+    for w in room[1]:
+        rand = random.random() < 0.33333
+        if rand < 0.333:
+            geomData['glassWall'].append([w, 1])
+        elif rand < 0.6666:
+            geomData['woodWall'].append([w, 1])
+        else:
+            geomData['concreteWall'].append([w, 1])
+
+    room = makeRooms(third)
+
+    rand = random.random()
+    for f in room[0]:
+        geomData['woodFloor'].append([f, 2])
+        if rand < 0.5:
+            geomData['woodFloor'].append([f, 3])
+        else:
+            geomData['concreteFloor'].append([f, 3])
+
+    for w in room[1]:
+        rand = random.random() < 0.33333
+        if rand < 0.333:
+            geomData['glassWall'].append([w, 2])
+        elif rand < 0.6666:
+            geomData['woodWall'].append([w, 2])
+        else:
+            geomData['concreteWall'].append([w, 2])
+
+    return geomData
 
 
 def addPlanRandom2(number):
@@ -449,19 +548,7 @@ def addPlanRandom2(number):
         prefix = random.choice(prefixes)
         constellation = random.choice(constellations)
 
-        geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [],
-                    'glassWall': []}
-
-        room = addRoom(2, 5, 3, 6)
-
-        for i in room[0]:
-            geomData['site'].append([i, 0])
-
-        for i in room[1]:
-            if random.random() < 0.5:
-                geomData['glassWall'].append([i, 0])
-            else:
-                geomData['woodWall'].append([i, 0])
+        geomData = makeGeomData(3, 2, 1)
 
         plan = Plan(
             name=prefix + constellation + str(1),
@@ -480,23 +567,10 @@ def addPlanRandom2(number):
         if number < 1: return
 
     for i in range(number):
-        print len(plans)
         prefix = random.choice(prefixes)
         constellation = random.choice(constellations)
 
-        geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [],
-                    'glassWall': []}
-
-        room = addRoom(2, 6, 4, 6)
-
-        for i in room[0]:
-            geomData['site'].append([i, 0])
-
-        for i in room[1]:
-            if random.random() < 0.5:
-                geomData['glassWall'].append([i, 0])
-            else:
-                geomData['woodWall'].append([i, 0])
+        geomData = makeGeomData(3, 2, 1)
 
         model_name = prefix + constellation + str(len(plans) + 2)
 
@@ -509,7 +583,7 @@ def addPlanRandom2(number):
             initial_points=parent.total_points() * sim,
             additional_points=random.randint(1, 100),
             creation_time=random_date_one_week(),
-            geometry=geomData,
+            geometry=json.dumps(geomData),
             image='',
             similarity=sim,
             user=random.choice(users),
