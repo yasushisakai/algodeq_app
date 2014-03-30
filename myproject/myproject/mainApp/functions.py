@@ -548,7 +548,7 @@ def addPlanRandom2(number):
         prefix = random.choice(prefixes)
         constellation = random.choice(constellations)
 
-        geomData = makeGeomData(3, 2, 1)
+        geomData = makeGeomData(2, 1, 0)
 
         plan = Plan(
             name=prefix + constellation + str(1),
@@ -570,7 +570,7 @@ def addPlanRandom2(number):
         prefix = random.choice(prefixes)
         constellation = random.choice(constellations)
 
-        geomData = makeGeomData(3, 2, 1)
+        geomData = makeGeomData(2, 1, 0)
 
         model_name = prefix + constellation + str(len(plans) + 2)
 
