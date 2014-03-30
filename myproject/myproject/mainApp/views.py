@@ -231,10 +231,10 @@ def batchDeleteUser(request):
 
 
 def batchAddPlan(request):
-    from myproject.mainApp.functions import addPlanRandom
+    from myproject.mainApp.functions import addPlanRandom2
 
     number = int(request.GET['number'])
-    addPlanRandom(number)
+    addPlanRandom2(number)
 
     operation = 'add plan(s) (%i)' % number
     operation_messsage = 'added %i plan(s).' % number

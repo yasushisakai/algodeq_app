@@ -37,7 +37,7 @@ var plans = [];
 var geometryData, root;
 
 var density = 1.4;
-var record = true;
+var record = false;
 
 function initialize() {
     document.body.style.backgroundColor = '#cccccc';
@@ -79,7 +79,7 @@ function initialize() {
 
         frameNo++;
 
-        TWEEN.update();
+        //TWEEN.update();
         requestAnimationFrame(animate);
     });
 }
