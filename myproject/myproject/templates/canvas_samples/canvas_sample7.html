@@ -22,7 +22,7 @@
 <form id="my_form" action="" method="post">
     {% csrf_token %}
     <input type="hidden" id="image" name="image" value="--">
-{#    <input type="submit" value="Send">#}
+    {#    <input type="submit" value="Send">#}
 </form>
 
 <div id="result"></div>
@@ -35,6 +35,8 @@
 var frameNo = 0;
 var plans = [];
 var geometryData, root;
+
+var record = false;
 
 function initialize() {
     document.body.style.backgroundColor = '#cccccc';
@@ -50,12 +52,16 @@ function initialize() {
     requestAnimationFrame(function animate() {
         renderer.render(scene, camera);
         controls.update(clock.getDelta());
-        frameNo++;
-        if (frameNo < 100) {
+
+        if (frameNo % 2 == 0 && frameNo/2 < plans.length) {
+            plans[frameNo / 2].toggleVisible();
+        }
+
+        if (frameNo < 100 && record) {
             console.log(frameNo);
             $.post("",
                     {
-                        frame:zeroAdd(frameNo),
+                        frame: zeroAdd(frameNo),
                         image: renderer.domElement.toDataURL().replace("data:image/png;base64,", ""),
                         csrfmiddlewaretoken: '{{ csrf_token}}'},
 
@@ -68,6 +74,8 @@ function initialize() {
                         alert("Error: " + xhr.statusText);
                     });
         }
+
+        frameNo++;
 
         TWEEN.update();
         requestAnimationFrame(animate);
@@ -122,18 +130,38 @@ function setupThreeJS() {
 
 function setupWorld() {
 
-    for (var j = 0; j < Math.pow(root, 2); j++) {
+    //higher density value makes it sporadic
+    var density = 1.4;
 
-        if (j > geometryData.length - 1) break;
+    var order=[];
+    for (var i=0;i<root*root*density*density;i++) order.push(i);
+
+    function shuffle(array) {
+        //shuffles the array
+        var m = array.length, t, i;
+        while (m) {
+            i = Math.floor(Math.random() * m--);
+            t = array[m];
+            array[m] = array[i];
+            array[i] = t;
+        }
+    }
+
+    shuffle(order);
+
+    console.log(order[0]);
+
+    for (var j = 0; j < geometryData.length; j++) {
+
         //console.log(j);
         var plan = new Plan(
                 geometryData[j],
-                j % root * (unitLength + 250),
-                Math.floor(j / root) * (unitLength + 250)
+                order[j] % Math.floor(root*density) * (unitLength + 250),
+                Math.floor(order[j] / (root*density)) * (unitLength + 250)
         );
 
         plan.createEntity();
-
+        plan.toggleVisible();
         plans.push(plan);
     }
 
@@ -230,59 +258,45 @@ function setupTween() {
 
     {#        var target = [];#}
     var position, target;
-    var tweenPosition = [], tweenTarget = [];
+    //var tweenPosition = [], tweenTarget = [];
     var segment = 600;
 
-    for (var i = 0; i < geometryData.length; i++) {
-
-        target = new THREE.Vector3(
-                i % root * (unitLength + 250),
-                0.0,
-                Math.floor(i / root) * (unitLength + 250)
-        );
-
-        position = new THREE.Vector3(
-                target.x + unitLength,
-                unitLength * 2,
-                target.z + unitLength
-        );
-
-        {#        position = new THREE.Vector3(#}
-        {#                Math.floor(Math.random() * root) * unitLength,#}
-        {#                unitLength * 2,#}
-        {#                Math.floor(Math.random() * root) * unitLength#}
-        {#        );#}
-
-        var tempTweenPosition = new TWEEN.Tween(camera.position)
-                .to({
-                    x: position.x,
-                    y: position.y,
-                    z: position.z
-                }, segment)
-                .delay(segment)
-                .easing(TWEEN.Easing.Sinusoidal.InOut);
-
-        var tempTweenTarget = new TWEEN.Tween(controls.target)
-                .to({
-                    x: target.x,
-                    y: target.y,
-                    z: target.z
-                }, segment)
-                .delay(segment)
-                .easing(TWEEN.Easing.Sinusoidal.InOut);
-
-        tweenTarget.push(tempTweenTarget);
-        tweenPosition.push(tempTweenPosition);
-    }
-
-    for (var i = 0; i < geometryData.length - 1; i++) {
-        tweenTarget[i].chain(tweenTarget[i + 1]);
-        tweenPosition[i].chain(tweenPosition[i + 1]);
-    }
+    if(record)segment = segment*100;
 
 
-    tweenTarget[0].start();
-    tweenPosition[0].start();
+    target = new THREE.Vector3(
+            root / 2 * (unitLength + 250),
+            0.0,
+            root / 2 * (unitLength + 250)
+    );
+
+    position = new THREE.Vector3(
+            target.x * 2,
+            500000,
+            target.z * 2
+    );
+
+    var tweenPos = new TWEEN.Tween(camera.position)
+            .to({
+                x: position.x,
+                y: position.y,
+                z: position.z
+            }, segment)
+        //.delay(segment)
+            .easing(TWEEN.Easing.Sinusoidal.InOut);
+
+    var tweenTarget = new TWEEN.Tween(controls.target)
+            .to({
+                x: target.x,
+                y: target.y,
+                z: target.z
+            }, segment)
+        //.delay(segment)
+            .easing(TWEEN.Easing.Sinusoidal.InOut);
+
+
+    tweenTarget.start();
+    tweenPos.start();
 
 }
 
@@ -326,21 +340,6 @@ function setupEvents() {
         //$("#image").value = renderer.domElement.toDataURL().replace("data:image/png;base64,", "");
 
         console.log($("#image").value);
-
-
-        $.post("",
-                {
-                    image: renderer.domElement.toDataURL().replace("data:image/png;base64,", ""),
-                    csrfmiddlewaretoken: '{{ csrf_token}}'},
-
-                function (data, status) {
-                    $("#result").html(data);
-                }
-        )
-                .fail(function (xhr) {
-                    console.log("Error: " + xhr.statusText);
-                    alert("Error: " + xhr.statusText);
-                });
 
         for (var i = 0; i < plans.length; i++) {
             //plans[i].toggleVisible();

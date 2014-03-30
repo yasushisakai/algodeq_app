@@ -163,9 +163,13 @@ def getUser(request, userId):
 
 
 def ajax_test(request):
+
+    print request.is_ajax()
+
     if request.method == 'POST' and request.is_ajax():
+        print request.POST['frame']
         image_data = request.POST['image'].decode("base64")
-        img_name = 'img_' + datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
+        img_name = 'img_'+request.POST['frame']+'_'+ datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
         image_file = open(MEDIA_ROOT + "/plans/" + img_name, "wb")
         image_file.write(image_data)
         image_file.close()
@@ -177,19 +181,22 @@ def ajax_test(request):
 
 
 def canvas_test(request):
-    #geomData = {'site': [], 'woodFloor': [], 'concreteFloor': [], 'woodWall': [], 'concreteWall': [], 'glassWall': []}
-    #
-    #for i in range(64):
-    #    geomData['site'].append([random.randint(0, 64), random.randint(0, 4)])
-    #    geomData['woodFloor'].append([i, 1])
-    #    geomData['concreteFloor'].append([random.randint(0, 64), random.randint(0, 4)])
-    #    geomData['woodWall'].append([random.randint(0, 144), random.randint(0, 3)])
-    #    geomData['concreteWall'].append([random.randint(0, 144), random.randint(0, 3)])
-    #    geomData['glassWall'].append([random.randint(0, 144), random.randint(0, 3)])
+
+    if request.method == 'POST' and request.is_ajax():
+
+        image_data = request.POST['image'].decode("base64")
+        #img_name = 'img_' + datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
+        img_name = 'frame_'+request.POST['frame']+'.png'
+        image_file = open(MEDIA_ROOT + "/frames/" + img_name, "wb")
+        image_file.write(image_data)
+        image_file.close()
+        message = "successfully uploaded " + img_name
+
+        return HttpResponse(json.dumps({'message': message}))
 
     plans = Plan.objects.all();
 
-    return render_to_response('canvas_samples/canvas_sample6.html',
+    return render_to_response('canvas_samples/canvas_sample7.html',
                               {
                                   'geomData': plans,
                               },
