@@ -37,7 +37,7 @@ var plans = [];
 var geometryData, root;
 
 var density = 1.4;
-var record = false;
+var record = true;
 
 function initialize() {
     document.body.style.backgroundColor = '#cccccc';
@@ -79,7 +79,7 @@ function initialize() {
 
         frameNo++;
 
-        //TWEEN.update();
+        TWEEN.update();
         requestAnimationFrame(animate);
     });
 }
@@ -100,6 +100,7 @@ function setupThreeJS() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(20, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 50000000);
 
+<<<<<<< HEAD
 {#    camera.position.x = (root * (unitLength + 250) / 2.0) + unitSize*3;#}
 {#    camera.position.y = unitSize*3;#}
 {#    camera.position.z = (root * (unitLength + 250) / 2.0) + unitSize*3;#}
@@ -107,15 +108,26 @@ function setupThreeJS() {
     camera.position.x = (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0);
     camera.position.y =(root * (unitLength + 250) / 2.0);
     camera.position.z = (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0);
+=======
+    camera.position.x = (root * (unitLength + 250) / 2.0) + unitSize*3;
+    camera.position.y = unitSize*3;
+    camera.position.z = (root * (unitLength + 250) / 2.0) + unitSize*3;
+>>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
 
     //scene.add(camera);
 
     clock = new THREE.Clock();
     controls = new THREE.OrbitControls(camera);
     controls.target = new THREE.Vector3(
+<<<<<<< HEAD
             (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0)+unitSize,
             (root * (unitLength + 250) / 2.0)+unitSize,
             (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0)+unitSize
+=======
+            (root * (unitLength + 250) / 2.0),
+            0,
+            (root * (unitLength + 250) / 2.0)
+>>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
     );
 
     renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
@@ -167,7 +179,11 @@ function setupWorld() {
     bigPlane.position.y = -500;
 
     bigPlane.recieveShadow = true;
+<<<<<<< HEAD
     //scene.add(bigPlane);
+=======
+    scene.add(bigPlane);
+>>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
 
     //////////////////////////////////////////////////////////////////////////////////////
     // light
@@ -223,10 +239,17 @@ function setupWorld() {
 function setupTween() {
 
     var position, target;
+<<<<<<< HEAD
     var segment = 1 * 60 * 1000;
 
     //if (record)segment = segment * 100;
 
+=======
+    var segment = 15 * 60 * 1000;
+
+    //if (record)segment = segment * 100;
+
+>>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
     position = new THREE.Vector3(
             (root * (unitLength + 250) / 2.0) + root * (unitLength + 250)*2 + unitSize*3,
             root * (unitLength + 250)*2 + unitSize*3,
