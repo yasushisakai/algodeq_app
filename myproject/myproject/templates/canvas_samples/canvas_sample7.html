@@ -8,7 +8,6 @@
 
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
-
 <script type="text/javascript" src="{% static "js/three.js" %}"></script>
 <script type="text/javascript" src="{% static "js/tween.min.js" %}"></script>
 <script type="text/javascript" src="{% static "js/OrbitControls.js" %}"></script>
@@ -39,8 +38,9 @@ var geometryData, root;
 var density = 1.4;
 var record = true;
 
+
 function initialize() {
-    document.body.style.backgroundColor = '#cccccc';
+    //document.body.style.backgroundColor = '#cccccc';
 
     setupThreeJS();
     setupWorld();
@@ -54,7 +54,7 @@ function initialize() {
         renderer.render(scene, camera);
         controls.update(clock.getDelta());
 
-        var pace = 1;
+        var pace = 5;
         if (frameNo % pace == 0 && frameNo / pace < plans.length) {
             plans[frameNo / pace].toggleVisible();
         }
@@ -98,42 +98,42 @@ function setupThreeJS() {
     root = Math.ceil(Math.sqrt(geometryData.length));
 
     scene = new THREE.Scene();
-    camera = new THREE.PerspectiveCamera(20, CANVAS_WIDTH / CANVAS_HEIGHT, 1, 50000000);
 
-<<<<<<< HEAD
-{#    camera.position.x = (root * (unitLength + 250) / 2.0) + unitSize*3;#}
-{#    camera.position.y = unitSize*3;#}
-{#    camera.position.z = (root * (unitLength + 250) / 2.0) + unitSize*3;#}
+    camera = new THREE.PerspectiveCamera(20, CANVAS_WIDTH / CANVAS_HEIGHT, unitSize * 3, 50000000);
 
-    camera.position.x = (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0);
-    camera.position.y =(root * (unitLength + 250) / 2.0);
-    camera.position.z = (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0);
-=======
-    camera.position.x = (root * (unitLength + 250) / 2.0) + unitSize*3;
-    camera.position.y = unitSize*3;
-    camera.position.z = (root * (unitLength + 250) / 2.0) + unitSize*3;
->>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
 
-    //scene.add(camera);
+    {#    camera.position = new THREE.Vector3(#}
+    {#            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250) * 2 + unitSize * 3,#}
+    {#            root * (unitLength + 250) * 2 + unitSize * 3,#}
+    {#            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250) * 2 + unitSize * 3#}
+    {#    );#}
+
+    camera.position = new THREE.Vector3(
+            (root * (unitLength + 250) * 0.75)  + unitSize *2.5,
+            unitSize *2.5,
+            (root * (unitLength + 250) * 0.75) + unitSize*2.5
+    );
 
     clock = new THREE.Clock();
     controls = new THREE.OrbitControls(camera);
+    {#    controls.target = new THREE.Vector3(#}
+    {#            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250) * 2,#}
+    {#            root * (unitLength + 250) * 2,#}
+    {#            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250) * 2#}
+    {#    );#}
+
     controls.target = new THREE.Vector3(
-<<<<<<< HEAD
-            (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0)+unitSize,
-            (root * (unitLength + 250) / 2.0)+unitSize,
-            (root * (unitLength + 250) / 2.0) + (root * (unitLength + 250) / 2.0)+unitSize
-=======
-            (root * (unitLength + 250) / 2.0),
-            0,
-            (root * (unitLength + 250) / 2.0)
->>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
-    );
+            (root * (unitLength + 250) * 0.75) ,
+            0.0,
+            (root * (unitLength + 250) * 0.75)
+    )
 
     renderer = new THREE.WebGLRenderer({antialias: true, preserveDrawingBuffer: true});
     renderer.setSize(CANVAS_WIDTH, CANVAS_HEIGHT);
     renderer.shadowMapEnabled = true;
     canvas = document.body.appendChild(renderer.domElement);
+    canvas.style.width = CANVAS_WIDTH
+    canvas.style.height = CANVAS_HEIGHT
 
     projector = new THREE.Projector();
 
@@ -141,6 +141,36 @@ function setupThreeJS() {
 }
 
 function setupWorld() {
+    //console.log(Plan.materialList.length);
+
+    //////////////////////////////////////////////////////////////////////////////////////
+    // light
+    //////////////////////////////////////////////////////////////////////////////////////
+
+    var ambient = new THREE.AmbientLight(0x959F9F);
+    scene.add(ambient);
+
+
+    var light = new THREE.DirectionalLight(0xcccccc, 1);
+    light.position.set(
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250) + unitSize * 2.8,
+            root * (unitLength + 250) + unitSize * 2.8,
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250) + unitSize * 2.8
+    );
+    light.castShadow = true;
+    light.shadowMapWidth = 4096;
+    light.shadowMapHeight = 4096;
+    var d = 1000000;
+    light.shadowCameraLeft = d;
+    light.shadowCameraRight = -d;
+    light.shadowCameraTop = d;
+    light.shadowCameraBottom = -d;
+    light.shadowCameraNear = 100000;
+    light.shadowCameraFar = 2500000;
+    //light.shadowCameraVisible = true;
+    light.shadowBias = 0.000001;
+    light.shadowDarkness = 0.2;
+    scene.add(light);
 
     //higher density value makes it sporadic
 
@@ -158,108 +188,58 @@ function setupWorld() {
                 Math.floor(order[j] / (root * density)) * (unitLength + 250)
         );
 
-
-        //plan.create(entities);
-
-
         plan.createEntity();
         plan.toggleVisible();
         plans.push(plan);
     }
 
-    var bigplaneGeom = new THREE.PlaneGeometry((unitLength + 250) * (root + 2) * density, (unitLength + 250) * (root + 2) * density, 1, 1);
+    var bigplaneGeom = new THREE.CubeGeometry(Math.pow(unitLength + 250, 2), Math.pow(unitLength + 250, 2), 1000);
 
-    var bigmat = new THREE.MeshPhongMaterial({color: "0xEEEEEE"});
+    var bigmat = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
     var bigPlane = new THREE.Mesh(bigplaneGeom, bigmat);
 
 
     bigPlane.rotation.x = -90 * Math.PI / 180;
-    bigPlane.position.x = (unitLength + 250) * root * density / 2.0;
+    bigPlane.position.x = (unitLength + 250) * root * density / 2.0 * 3;
     bigPlane.position.z = (unitLength + 250) * root * density / 2.0;
     bigPlane.position.y = -500;
 
-    bigPlane.recieveShadow = true;
-<<<<<<< HEAD
-    //scene.add(bigPlane);
-=======
+    //bigPlane.recieveShadow = true;
+
+    bigPlane.traverse(function (object) {
+        object.receiveShadow = true;
+    });
     scene.add(bigPlane);
->>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
-
-    //////////////////////////////////////////////////////////////////////////////////////
-    // light
-    //////////////////////////////////////////////////////////////////////////////////////
-
-    var SHADOW_MAP_WIDTH = 2048, SHADOW_MAP_HEIGHT = 1024;
-
-    var ambient = new THREE.AmbientLight(0x474d4f);
-    scene.add(ambient);
-
-    {#    var light = new THREE.SpotLight(0xffffff, 1.1, 0, Math.PI*1.4, 2.0);#}
-    {#    light.position.set(root * (unitLength + 250)*density, 50000, root * (unitLength + 250)*density);#}
-    {#    light.target.position.set(root * (unitLength + 250)*density/2.0, 0, root * (unitLength + 250)*density/2.0);#}
-    {##}
-    {#    light.castShadow = true;#}
-    {##}
-    {#    light.shadowCameraNear = 7000;#}
-    {#    light.shadowCameraFar = camera.far;#}
-    {#    light.shadowCameraFov = 80;#}
-    {##}
-    {#    light.shadowCameraVisible = true;#}
-    {##}
-    {#    light.shadowBias = 0.000001;#}
-    {#    light.shadowDarkness = 0.2;#}
-    {##}
-    {#    light.shadowMapWidth = SHADOW_MAP_WIDTH;#}
-    {#    light.shadowMapHeight = SHADOW_MAP_HEIGHT;#}
-    {##}
-    {#    scene.add(light);#}
-
-    var light = new THREE.DirectionalLight(0xf9f1c2, 1);
-    light.position.set(500, 1500, 1000);
-    light.castShadow = true;
-    light.shadowMapWidth = 2048;
-    light.shadowMapHeight = 2048;
-    var d = 1000;
-    light.shadowCameraLeft = d;
-    light.shadowCameraRight = -d;
-    light.shadowCameraTop = d;
-    light.shadowCameraBottom = -d;
-    light.shadowCameraFar = 2500;
-    scene.add(light);
 
 
     /////////////////////////////////////////////////////////////////////////////////////////
     // axis
     /////////////////////////////////////////////////////////////////////////////////////////
     var axis = new Axis(100000, 10);
-    axis.create();
+    //axis.create();
 
 }
 
 function setupTween() {
 
     var position, target;
-<<<<<<< HEAD
-    var segment = 1 * 60 * 1000;
+{#    var segment = 60 * 60 * 1000;#}
 
-    //if (record)segment = segment * 100;
-
-=======
     var segment = 15 * 60 * 1000;
 
+
     //if (record)segment = segment * 100;
 
->>>>>>> 262439db735951acb0f88b27eb19cf6659893dff
     position = new THREE.Vector3(
-            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250)*2 + unitSize*3,
-            root * (unitLength + 250)*2 + unitSize*3,
-            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250)*2 + unitSize*3
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250)*1.02 + unitSize * 2.8,
+            root * (unitLength + 250)*1.02 + unitSize * 2.8,
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250)*1.02 + unitSize * 2.8
     );
 
     target = new THREE.Vector3(
-            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250)*2,
-            root * (unitLength + 250)*2,
-            (root * (unitLength + 250) / 2.0) + root * (unitLength + 250)*2
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250)*1.02,
+            root * (unitLength + 250)*1.02,
+            (root * (unitLength + 250) * 0.75) + root * (unitLength + 250)*1.02
     );
 
     var tweenPos = new TWEEN.Tween(camera.position)
@@ -306,20 +286,10 @@ function setupEvents() {
 
     renderer.domElement.addEventListener('mousedown', function (event) {
 
-        //event.preventDefault();
-
         console.log(camera.position);
         console.log(controls.target);
-        //console.log(renderer.domElement.toDataURL().replace("data:image/png;base64,", ""));
-
-        //$("#image").value = renderer.domElement.toDataURL().replace("data:image/png;base64,", "");
 
         console.log($("#image").value);
-
-        for (var i = 0; i < plans.length; i++) {
-            //plans[i].toggleVisible();
-            //console.log(plans[i].visible);
-        }
 
     });
 

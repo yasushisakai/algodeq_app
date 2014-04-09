@@ -463,14 +463,24 @@ def makeGeomData(first, second, third):
 
     rand = random.random()
     for f in room[0]:
-        geomData['site'].append([f, 0])
+        geomData['woodFloor'].append([f, 0])
         if rand < 0.5:
             geomData['woodFloor'].append([f, 1])
         else:
             geomData['concreteFloor'].append([f, 1])
 
+    siteArea = makeRooms(1)
+    for s in siteArea[0]:
+        add = True
+        for wf in geomData['woodFloor']:
+            if wf[1]==0 and wf[0]==s:
+                add = False
+                break
+        if add:
+            geomData['site'].append([s, 0])
+
     for w in room[1]:
-        rand = random.random() < 0.33333
+        rand = random.random()
         if rand < 0.333:
             geomData['glassWall'].append([w, 0])
         elif rand < 0.6666:
@@ -489,7 +499,7 @@ def makeGeomData(first, second, third):
             geomData['concreteFloor'].append([f, 2])
 
     for w in room[1]:
-        rand = random.random() < 0.33333
+        rand = random.random()
         if rand < 0.333:
             geomData['glassWall'].append([w, 1])
         elif rand < 0.6666:
@@ -508,7 +518,7 @@ def makeGeomData(first, second, third):
             geomData['concreteFloor'].append([f, 3])
 
     for w in room[1]:
-        rand = random.random() < 0.33333
+        rand = random.random()
         if rand < 0.333:
             geomData['glassWall'].append([w, 2])
         elif rand < 0.6666:

@@ -194,7 +194,7 @@ def canvas_test(request):
 
         return HttpResponse(json.dumps({'message': message}))
 
-    plans = Plan.objects.all();
+    plans = Plan.objects.all()
 
     return render_to_response('canvas_samples/canvas_sample7.html',
                               {
@@ -202,6 +202,16 @@ def canvas_test(request):
                               },
                               context_instance=RequestContext(request)
     )
+
+def signin(request):
+
+    if request.method == 'POST' and request.is_ajax():
+        users = User.objects.all();
+
+        email = request.POST['email']
+        password = request.POST['password']
+
+
 
 
 def batch(request):

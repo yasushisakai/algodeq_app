@@ -41,6 +41,10 @@ urlpatterns = patterns('',
     #canvas-test
     url(r'^canvas/$', 'myproject.mainApp.views.canvas_test'),
 
+    #sign-in
+    url(r'^sign-in/$', 'myproject.mainApp.views.canvas_test'),
+
+
 
     #batch operations
     url(r'^batch/', 'myproject.mainApp.views.batch'),
