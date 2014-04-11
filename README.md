@@ -1,5 +1,7 @@
-algodeq_app
-===========
+
+LMN architecture
+================
+
 
 algodeq application
 -----------
