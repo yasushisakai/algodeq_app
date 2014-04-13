@@ -5,14 +5,27 @@ import random
 from __builtin__ import locals
 from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
-from django.http import Http404, HttpResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from myproject.settings import MEDIA_URL, BASE_DIR, test_path, MEDIA_ROOT
-from django.contrib.syndication.views import Feed
+from django.http import HttpResponse
+from myproject.settings import MEDIA_ROOT
+from django.contrib import auth
 
 from myproject.mainApp.models import User, Plan
 
 # Create your views her
+
+#index
+def index(request):
+
+    return render(request, 'index.html')
+
+def login(request):
+    email = request.POST.get('email','')
+    password = request.POST.get('password','')
+    user = auth.authenticate(email=email,password=password)
+
+    if user not None and user.is_active:
+        auth.login(request,user)
+        return HttpResponseRedirect("../")
 
 def getPlansAll(request):
     '''
@@ -117,15 +130,6 @@ def getRecursiveAllTest(request):
     #print json.dumps(rec_plans)
 
 
-def signin(request):
-    return render_to_response('sign_in.html',
-        {
-
-        },
-                              context_instance=RequestContext(request)
-    )
-
-
 def getPlan(request, id):
     '''
     gets single plan
@@ -163,13 +167,12 @@ def getUser(request, userId):
 
 
 def ajax_test(request):
-
     print request.is_ajax()
 
     if request.method == 'POST' and request.is_ajax():
         print request.POST['frame']
         image_data = request.POST['image'].decode("base64")
-        img_name = 'img_'+request.POST['frame']+'_'+ datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
+        img_name = 'img_' + request.POST['frame'] + '_' + datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
         image_file = open(MEDIA_ROOT + "/plans/" + img_name, "wb")
         image_file.write(image_data)
         image_file.close()
@@ -181,12 +184,10 @@ def ajax_test(request):
 
 
 def canvas_test(request):
-
     if request.method == 'POST' and request.is_ajax():
-
         image_data = request.POST['image'].decode("base64")
         #img_name = 'img_' + datetime.datetime.now().strftime("%y%m%d%H%M%S") + '.png'
-        img_name = 'frame_'+request.POST['frame']+'.png'
+        img_name = 'frame_' + request.POST['frame'] + '.png'
         image_file = open(MEDIA_ROOT + "/frames/" + img_name, "wb")
         image_file.write(image_data)
         image_file.close()
@@ -203,15 +204,13 @@ def canvas_test(request):
                               context_instance=RequestContext(request)
     )
 
-def signin(request):
 
+def signin(request):
     if request.method == 'POST' and request.is_ajax():
         users = User.objects.all();
 
         email = request.POST['email']
         password = request.POST['password']
-
-
 
 
 def batch(request):

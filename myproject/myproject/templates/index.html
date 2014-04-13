@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if user.is_authenticated %}
+        hi! you are logged in, with {{ user.email }}.
+    {% else %}
+        hi, your not logged in.
+        <form class="pure-form">
+            <input type="text" name="email" placeholder="email">
+            <input type="password" name="password" placeholder="password">
+            <button type="submit" class="pure-button pure-button-primary" > Sign-in </button>
+        </form>
+    {% endif %}
+
+{% endblock %}
