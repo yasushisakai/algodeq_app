@@ -14,9 +14,10 @@ urlpatterns = patterns('',
                        # url(r'^$', 'myproject.mainApp.views.getRecursiveAll'),
                        url(r'^$', 'myproject.mainApp.views.index'),
                        url(r'^logout/', 'myproject.mainApp.views.logout'),
+                       url(r'^signup/', 'myproject.mainApp.views.register'),
 
 
-                       url(r'^main2/', 'myproject.mainApp.views.getRecursiveAll2'),
+                       url(r'^main/', 'myproject.mainApp.views.getRecursiveAll'),
 
                        url(r'^obsolete/', 'myproject.mainApp.views.getPlansAll'),
 

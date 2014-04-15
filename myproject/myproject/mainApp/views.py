@@ -3,19 +3,20 @@ import datetime
 import random
 
 from __builtin__ import locals
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from myproject.settings import MEDIA_ROOT
 from django.contrib import auth
 
-from myproject.mainApp.models import User, Plan
+from myproject.mainApp.models import User, Plan, UserManager
 
 # Create your views her
 
 #index
 def index(request):
-
     if 'email' in request.POST:
         email = request.POST.get('email', '')
         password = request.POST.get('password', '')
@@ -25,14 +26,28 @@ def index(request):
             auth.login(request, user)
             return HttpResponseRedirect("../")
         else:
-            return render(request,'index.html')
+            return render(request, 'index.html')
     else:
-        return render(request,'index.html')
+        return render(request, 'index.html')
 
 
 def logout(request):
     auth.logout(request)
     return HttpResponseRedirect("../")
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save()
+            return HttpResponseRedirect('../')
+    else:
+        form = UserCreationForm()
+
+    return render_to_response("signup.html", {
+                'form': form,
+            })
 
 def getPlansAll(request):
     '''
@@ -48,8 +63,7 @@ def getPlansAll(request):
                               context_instance=RequestContext(request)
     )
 
-    #return HttpResponse([p.name for p in plans])
-
+#return HttpResponse([p.name for p in plans])
 
 def treeSearch(_array, _plan):
     for a in _array:
