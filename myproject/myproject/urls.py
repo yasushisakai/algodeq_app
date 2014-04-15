@@ -13,6 +13,8 @@ urlpatterns = patterns('',
                        #index
                        # url(r'^$', 'myproject.mainApp.views.getRecursiveAll'),
                        url(r'^$', 'myproject.mainApp.views.index'),
+                       url(r'^logout/', 'myproject.mainApp.views.logout'),
+
 
                        url(r'^main2/', 'myproject.mainApp.views.getRecursiveAll2'),
 

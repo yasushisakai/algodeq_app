@@ -5,7 +5,7 @@ import random
 from __builtin__ import locals
 from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from myproject.settings import MEDIA_ROOT
 from django.contrib import auth
 
@@ -16,16 +16,23 @@ from myproject.mainApp.models import User, Plan
 #index
 def index(request):
 
-    return render(request, 'index.html')
+    if 'email' in request.POST:
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(email=email, password=password)
 
-def login(request):
-    email = request.POST.get('email','')
-    password = request.POST.get('password','')
-    user = auth.authenticate(email=email,password=password)
+        if (not user is None) and user.is_active:
+            auth.login(request, user)
+            return HttpResponseRedirect("../")
+        else:
+            return render(request,'index.html')
+    else:
+        return render(request,'index.html')
 
-    if user not None and user.is_active:
-        auth.login(request,user)
-        return HttpResponseRedirect("../")
+
+def logout(request):
+    auth.logout(request)
+    return HttpResponseRedirect("../")
 
 def getPlansAll(request):
     '''

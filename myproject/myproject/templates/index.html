@@ -3,10 +3,11 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        hi! you are logged in, with {{ user.email }}.
+        hi! you are logged in, with {{ user.email }}.<a href="./logout/">log out</a>
     {% else %}
         hi, your not logged in.
-        <form class="pure-form">
+        <form class="pure-form" method="post">
+            {% csrf_token %}
             <input type="text" name="email" placeholder="email">
             <input type="password" name="password" placeholder="password">
             <button type="submit" class="pure-button pure-button-primary" > Sign-in </button>
