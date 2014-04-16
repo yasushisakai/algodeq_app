@@ -19,44 +19,71 @@ import myproject.settings
 #     def __unicode__(self):
 #         return u'%s' %self.name
 
+#todo:consider adding a log class to log every activity
+
+
 class UserManager(BaseUserManager):
-    def create_user(self, email, username=None, password=None):
+    def create_user(self, email, username, password, lastCreation=None, lastEval=None):
         if not email:
             raise ValueError('Users must have an email address')
 
-        user = self.model(
-            email=UserManager.normalize_email(email)
-        )
-        if username is not None:
-            user.set_username(username)
+        if lastCreation is None:
+            user = self.model(
+                email=self.normalize_email(email),
+                username=username
+            )
+        else:
+            user = self.model(
+                email=self.normalize_email(email),
+                username=username,
+                lastmodelcreation=lastCreation,
+                lastmodelevaluation=lastEval,
+            )
 
         user.set_password(password)
         user.save(using=self._db)
+        print 'created user %s' %username
 
         return user
 
-    def create_superuser(self, email, password):
-        user = self.create_user(email, password)
+    def create_superuser(self, email, username, password, lastCreation=None, lastEval=None):
+        user = self.create_user(email=email, username=username, password=password, lastCreation=lastCreation,
+                                lastEval=lastEval)
         user.is_admin = True
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser):
-    username = models.CharField(max_length=40, null=True, blank=True)
-    email = models.EmailField(max_length=254, unique=True, db_index=True)
+    email = models.EmailField(
+        verbose_name='email address',
+        max_length=255,
+        unique=True
+    )
+
+    username = models.CharField(
+        verbose_name='user name',
+        max_length=128,
+        unique=True
+    )
+
+    lastmodelcreation = models.DateTimeField(
+        verbose_name='last creation',
+        null=True,
+        blank=True
+    )
+    lastmodelevaluation = models.DateTimeField(
+        verbose_name='last evaluation',
+        null=True,
+        blank=True
+    )
 
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
 
     objects = UserManager()
-
     USERNAME_FIELD = 'email'
-
-    def set_username(self, username):
-        self.username = username
-
-    def get_username(self):
-        return self.username
+    REQUIRED_FIELDS = ['username']
 
     def get_full_name(self):
         return self.email
@@ -73,7 +100,6 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    @property
     def is_staff(self):
         return self.is_admin
 

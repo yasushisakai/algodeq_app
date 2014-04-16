@@ -3,7 +3,7 @@
 {% block content %}
 
     {% if user.is_authenticated %}
-        hi! you are logged in, with {{ user.email }}.<a href="./logout/">log out</a>
+        hi! {{ user.username }}.<a href="./logout/">log out</a>
     {% else %}
         hi, your not logged in.
         <form class="pure-form" method="post">

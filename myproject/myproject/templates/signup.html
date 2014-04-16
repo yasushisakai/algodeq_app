@@ -9,17 +9,18 @@
 
 {% block content %}
 
-    {#    <form class="pure-form" method="post">#}
-    {#        {% csrf_token %}#}
-    {#        <input type="email" name="email" placeholder="email*" required>#}
-    {#        <input type="text" name="username" placeholder="username">#}
-    {#        <input type="password" name="password" placeholder="password*" required>#}
-    {#        <input type="password" name="confirm_password" placeholder="confirm password*" required>#}
-    {#        <button type="submit" class="pure-button pure-button-primary">sign-up</button>#}
-    {#    </form>#}
-    {#    <div id="status"></div>#}
+{#    <form action="" class="pure-form" method="post">#}
+{#        {% csrf_token %}#}
+{#        <input type="email" name="email" placeholder="email*" required>#}
+{#        <input type="text" name="username" placeholder="username" required>#}
+{#        <input type="password" name="password" placeholder="password*" required>#}
+{#        <input type="password" name="confirm_password" placeholder="confirm password*" required>#}
+{#        <button type="submit" class="pure-button pure-button-primary">sign-up</button>#}
+{#    </form>#}
+{#    <div id="status"></div>#}
 
     <form action="" method="post" class="pure-form">
+        {% csrf_token %}
         {{ form.as_p }}
         <button type="submit" class="pure-button pure-button-primary">sign-up</button>
     </form>

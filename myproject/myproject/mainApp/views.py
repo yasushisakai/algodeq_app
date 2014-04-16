@@ -4,7 +4,8 @@ import random
 
 from __builtin__ import locals
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+# from django.contrib.auth.forms import UserCreationForm
+from myproject.mainApp.admin import UserCreationForm
 from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -46,8 +47,9 @@ def register(request):
         form = UserCreationForm()
 
     return render_to_response("signup.html", {
-                'form': form,
-            })
+        'form': form,
+    }, context_instance=RequestContext(request))
+
 
 def getPlansAll(request):
     '''
@@ -62,6 +64,7 @@ def getPlansAll(request):
                               },
                               context_instance=RequestContext(request)
     )
+
 
 #return HttpResponse([p.name for p in plans])
 
@@ -238,6 +241,11 @@ def batch(request):
     return render_to_response('batch.html', context_instance=RequestContext(request))
 
 
+def addAdmin(request):
+    #add admin user
+    admin = User.objects.create_superuser('admin@admin.com', 'admin', 'admin')
+
+
 def batchAddUser(request):
     from myproject.mainApp.functions import addUserRandom
 
@@ -251,13 +259,21 @@ def batchAddUser(request):
 
 
 def batchDeleteUser(request):
-    #delete users
-    User.objects.all().delete()
+    if request.user.is_authenticated() and request.user.is_staff():
 
-    operation = 'delete user'
-    operation_message = 'terminated user'
+        #delete users
+        User.objects.all().delete()
 
-    return render_to_response('batch_operation.html', locals())
+        #add admin user
+        admin = User.objects.create_superuser('admin@admin.com', 'admin', 'admin')
+
+        operation = 'deleted user'
+        operation_message = 'terminated user. Added user \'admin\''
+
+        return render_to_response('batch_operation.html', locals())
+    else:
+        operation = 'delete user failed'
+        operation_message = 'failed to terminate user, please login in a admin account'
 
 
 def batchAddPlan(request):

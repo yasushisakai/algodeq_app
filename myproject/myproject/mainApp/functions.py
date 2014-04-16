@@ -16,7 +16,6 @@ def random_date_one_week():
     randDate = random_date(start, end)
     return randDate
 
-
 def addUserRandom(number):
     '''
     adds random users
@@ -274,25 +273,10 @@ def addUserRandom(number):
         user_name = last_name + familyname
         user_email = user_name + '@randomuser.com'
         user_password = familyname + last_name
-        user_points = -1.0
-        user_avatar = ''
         user_last_creation = random_date_one_week()
         user_last_evaluation = random_date_one_week()
 
-        user = User(
-            name=user_name,
-            email=user_email,
-            password=user_password,
-            points=user_points,
-            avatar=user_avatar,
-            last_creation=user_last_creation,
-            last_evaluation=user_last_evaluation
-        )
-
-        user.save()
-
-        print 'added %s' % user_name
-
+        User.objects.create_user(email=user_email, username=user_name, password=user_password,lastCreation=user_last_creation,lastEval=user_last_evaluation)
 
 def addPlanRandom(number):
     users = User.objects.all()
@@ -369,7 +353,7 @@ def addPlanRandom(number):
         model_name = prefix + constellation + str(len(plans) + 2)
 
         sim = random.uniform(0.001, 0.999)
-        plans = Plan.objects.all() # will this change the parents??
+        plans = Plan.objects.all()  # will this change the parents??
         parent = random.choice(plans)
 
         plan = Plan(
@@ -386,7 +370,6 @@ def addPlanRandom(number):
 
         plan.save()
         print 'added %s' % model_name
-
 
 def addRoom(sx, sz, ex, ez):
     '''
@@ -421,7 +404,6 @@ def addRoom(sx, sz, ex, ez):
 
     return [floorNums, wallNums]
 
-
 def makeRooms(num):
     floors = []
     walls = []
@@ -448,7 +430,6 @@ def makeRooms(num):
 
     return [floors, walls]
 
-
 def makeGeomData(first, second, third):
     '''
     I'm verrry sorry about what i did with this function,
@@ -473,7 +454,7 @@ def makeGeomData(first, second, third):
     for s in siteArea[0]:
         add = True
         for wf in geomData['woodFloor']:
-            if wf[1]==0 and wf[0]==s:
+            if wf[1] == 0 and wf[0] == s:
                 add = False
                 break
         if add:
@@ -527,7 +508,6 @@ def makeGeomData(first, second, third):
             geomData['concreteWall'].append([w, 2])
 
     return geomData
-
 
 def addPlanRandom2(number):
     users = User.objects.all()
@@ -585,7 +565,7 @@ def addPlanRandom2(number):
         model_name = prefix + constellation + str(len(plans) + 2)
 
         sim = random.uniform(0.001, 0.999)
-        plans = Plan.objects.all() # will this change the parents??
+        plans = Plan.objects.all()  # will this change the parents??
         parent = random.choice(plans)
 
         plan = Plan(
