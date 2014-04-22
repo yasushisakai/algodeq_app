@@ -202,23 +202,40 @@
                 .style("fill", "#ffffff")
                 .attr("name", function (d) {
                     ob_pro = d.id;
+                    ch_array = d.children;
                 });
         d3.selectAll("g.node").select("circle")
                 .style("stroke", function (d, i) {
                     if (d.id == ob_pro) {
                         num = i;
-                        ch_array = d.children;
-                        return "#000000";
+                        //ch_array = d.children;
+                        return "red";
+                    }else{
+                        for (var l = 0; l < ch_array.length; l++) {
+                        if (d.id == ch_array[l].id) {
+                            return "#000000";
+                        }
+                        }
+
                     }
                 })
+
+
                 .style("stroke-width", function (d, i) {
                     if (d.id == ob_pro) {
                         num = i;
                         ch_array = d.children;
                         return 10;
+                    }else{
+                         for (var l = 0; l < ch_array.length; l++) {
+                        if (d.id == ch_array[l].id) {
+                            return 10;
+                        }
+                        }
+
                     }
-                }
-        );
+                });
+
         //select children node
         d3.selectAll("path.link")
                 .style("stroke", function (d) {
@@ -240,25 +257,25 @@
         var infoBoxHeight = boxHeight * 4.5;
         var infoBoxWidth = boxWidth * 4.5;
         //var nodeName = node.attr("id");
-        var infoX =00;//infoBoxWidth / 2 * 0.6;
+        var infoX = 00;//infoBoxWidth / 2 * 0.6;
         var infoY = -400;//infoBoxHeight / 2 * 1.05;
         var infoBox = vis.append("svg");
-        var imgOffsetX =200;//-infoBoxWidth / 2// * 0.95
-        var imgOffsetY =30;// -infoBoxHeight / 2 + fontSize + 8 + 2 * lineSpace;
+        var imgOffsetX = 200;//-infoBoxWidth / 2// * 0.95
+        var imgOffsetY = 30;// -infoBoxHeight / 2 + fontSize + 8 + 2 * lineSpace;
         var pass = "media/plans/";
 
         infoBox
                 .attr("class", "popup")
-                .attr("x",imgOffsetX+300)
-                .attr("y",imgOffsetY-200)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("x", imgOffsetX + 300)
+                .attr("y", imgOffsetY - 200)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
                 .attr("transform", function (d) {
                     return "translate(" + infoX + "," + infoY + ")";
                 });
 
         infoBox
                 .append("text")
-                .attr("x",imgOffsetX-100)
-                .attr("y",imgOffsetY)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("x", imgOffsetX - 100)
+                .attr("y", imgOffsetY)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
                 .attr("text-anchor", "left")
                 .text(d.name)
                 .attr("font-size", fontSize + 8 + "px")
@@ -269,8 +286,30 @@
                 .attr("xlink:href", pass + "test" + ".jpg")
                 .attr("width", infoBoxWidth * 0.99)
                 .attr("height", infoBoxHeight * 0.99)
-                .attr("x",imgOffsetX-310)
-                .attr("y",imgOffsetY-20)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("x", imgOffsetX - 310)
+                .attr("y", imgOffsetY - 20)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                .attr("transform", function (d) {
+                    return "translate(" + imgOffsetX + "," + imgOffsetY + ")";
+                })
+        for (var l = 0; l < ch_array.length; l++) {
+            infoBox
+                    .append("svg:image")
+                    .attr("xlink:href", pass + "test" + ".jpg")
+                    .attr("width", infoBoxWidth * 0.99 * 0.5)
+                    .attr("height", infoBoxHeight * 0.99 * 0.5)
+                    .attr("x", imgOffsetX - 310 + 200 * l)
+                    .attr("y", imgOffsetY - 20 + 500)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
+                    .attr("transform", function (d) {
+                        return "translate(" + imgOffsetX + "," + imgOffsetY + ")";
+                    })
+        }
+        infoBox
+                .append("svg:image")
+                .attr("xlink:href", pass + "test" + ".jpg")
+                .attr("width", infoBoxWidth * 0.99 * 0.5)
+                .attr("height", infoBoxHeight * 0.99 * 0.5)
+                .attr("x", imgOffsetX - 310)
+                .attr("y", imgOffsetY - 300)// -infoBoxHeight / 2 + fontSize + 2 * lineSpace)
                 .attr("transform", function (d) {
                     return "translate(" + imgOffsetX + "," + imgOffsetY + ")";
                 })
@@ -287,7 +326,7 @@
         d3.selectAll("path.link")
                 .style("stroke", "#ccc");
         svg.selectAll(".popup")
-			.remove()
+                .remove()
     }
 
 
