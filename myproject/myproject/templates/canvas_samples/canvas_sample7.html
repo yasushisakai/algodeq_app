@@ -36,7 +36,7 @@ var plans = [];
 var geometryData, root;
 
 var density = 1.4;
-var record = true;
+var record = false;
 
 
 function initialize() {
@@ -44,7 +44,7 @@ function initialize() {
 
     setupThreeJS();
     setupWorld();
-    setupTween();
+    //setupTween();
     setupEvents();
 
     //console.log(canvas.toDataURL().replace("data:image/png;base64,", ""));
@@ -79,7 +79,7 @@ function initialize() {
 
         frameNo++;
 
-        TWEEN.update();
+        //TWEEN.update();
         requestAnimationFrame(animate);
     });
 }

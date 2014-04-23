@@ -16,7 +16,6 @@ urlpatterns = patterns('',
                        url(r'^logout/', 'myproject.mainApp.views.logout'),
                        url(r'^signup/', 'myproject.mainApp.views.register'),
 
-
                        url(r'^main/', 'myproject.mainApp.views.getRecursiveAll'),
 
                        url(r'^obsolete/', 'myproject.mainApp.views.getPlansAll'),

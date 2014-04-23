@@ -1,6 +1,6 @@
 import json
 import datetime
-import random
+import math
 
 from __builtin__ import locals
 from django import forms
@@ -41,6 +41,7 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
+
             new_user = form.save()
             return HttpResponseRedirect('../')
     else:
@@ -94,11 +95,18 @@ def getRecursiveAll(request):
         else:
             treeSearch(rec_plans, p)
 
+
+    #time
+    sec_create = request.user.next_creation()
+    sec_eval = request.user.next_evaluation()
+
     return render_to_response('main.html',
                               {
                                   'rawPlans': plans,
                                   'nums': len(plans),
-                                  'plans': json.dumps(rec_plans)
+                                  'plans': json.dumps(rec_plans),
+                                  'sec_create': sec_create,
+                                  'sec_eval': sec_eval
                               },
                               context_instance=RequestContext(request)
     )
@@ -160,10 +168,12 @@ def getPlan(request, id):
     '''
 
     plan = Plan.objects.get(id=id)
+    user = plan.user
 
     return render_to_response('single_plan.html',
                               {
                                   'plan': plan,
+                                  'creator':user,
                                   #'geom': json.dumps(plan.geometry)
                                   'geom': plan.geometry
                               },

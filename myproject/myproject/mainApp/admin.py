@@ -4,6 +4,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
+from datetime import datetime, timedelta
+
 # Register your models here.
 
 from myproject.mainApp.models import Plan, User
@@ -28,6 +30,8 @@ class UserCreationForm(forms.ModelForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
         if commit:
+            user.lastmodelcreation = (datetime.now() - timedelta(minutes=31)).replace(tzinfo=None)
+            user.lastmodelevaluation = (datetime.now() - timedelta(minutes=6)).replace(tzinfo=None)
             user.save()
         return user
 
@@ -41,7 +45,7 @@ class UserChangeForm(forms.ModelForm):
 
 
     def clean_password(self):
-        return self.initial("password")
+        return self.initial["password"]
 
 
 class UserAdmin(UserAdmin):
@@ -53,7 +57,7 @@ class UserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('actions', {'fields': ('lastmodelcreation', 'lastmodelevaluation')}),
+        ('Actions', {'fields': ('lastmodelcreation', 'lastmodelevaluation')}),
         ('Permissions', {'fields': ('is_admin', 'is_active')}),
     )
 
@@ -63,7 +67,7 @@ class UserAdmin(UserAdmin):
             'fields': ('email', 'username', 'password1', 'password2')}),
     )
 
-    search_fields = ('email', 'username ')
+    search_fields = ('email', 'username')
     ordering = ('username',)
     filter_horizontal = ()
 

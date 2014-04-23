@@ -31,12 +31,58 @@
     </style>
 
 {% endblock %}
+{% block inHeadScript %}
+    <script>
+
+        var sec_create = Math.ceil({{ sec_create }});
+        var sec_eval = Math.ceil({{ sec_eval }});
+
+        window.onloadit = function () {
+            while ((sec_create != 0) || (sec_eval != 0)) {
+                sec_create--;
+                sec_eval--;
+                setTimeout("action_timer()", 1000);
+            }
+        }
+
+        function action_timer() {
+            if (sec_create < 0) {
+                $("#is_creation")
+            } else {
+                $("#is_creation").html = "[ready to create model]";
+            }
+
+            if (sec_eval < 0) {
+                $("#is_eval").html = "[you have " + sec_eval + "seconds for the next evaluation.]";
+            } else {
+                $("#is_eval").html = "[ready to evaluate model]";
+            }
+
+        }
+
+
+    </script>
+{% endblock %}
 
 {% block contentHeader %}
-    <div id="wrapper">
-    <header>
-        main
-    </header>
+    <div id="login-info">
+        {% if user.is_authenticated %}
+            <div style="padding-top: 8px">
+                hi! you are logged in as {{ user.username }}.
+                <span id="is_creation">[ready to create model]</span> <span id="is_eval">[ready to evaluate model]</span> <a href="javascript:history.go(0)"><i class="fa fa-repeat"></i> reload status. </a>
+                or just <a href="/logout/"><i class="fa fa-sign-out"></i>log out and leave.</a>
+            </div>
+        {% else %}
+            <form class="pure-form " method="post">
+                {% csrf_token %}
+                <input type="text" name="email" placeholder="email">
+                <input type="password" name="password" placeholder="password">
+                <button type="submit" class="pure-button pure-button-primary"><i class="fa fa-sign-in"></i> sign-in
+                </button>
+                or <a href="./signup/"> sign-up</a> now !
+            </form>
+        {% endif %}
+    </div>
 {% endblock %}
 
 {% block content %}
@@ -210,11 +256,11 @@
                         num = i;
                         //ch_array = d.children;
                         return "red";
-                    }else{
+                    } else {
                         for (var l = 0; l < ch_array.length; l++) {
-                        if (d.id == ch_array[l].id) {
-                            return "#000000";
-                        }
+                            if (d.id == ch_array[l].id) {
+                                return "#000000";
+                            }
                         }
 
                     }
@@ -226,11 +272,11 @@
                         num = i;
                         ch_array = d.children;
                         return 10;
-                    }else{
-                         for (var l = 0; l < ch_array.length; l++) {
-                        if (d.id == ch_array[l].id) {
-                            return 10;
-                        }
+                    } else {
+                        for (var l = 0; l < ch_array.length; l++) {
+                            if (d.id == ch_array[l].id) {
+                                return 10;
+                            }
                         }
 
                     }

@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import myproject.settings
 
+from datetime import datetime, timedelta
+
 # Create your models here.
 # class User(models.Model):
 #     name = models.CharField(max_length=128)
@@ -30,7 +32,9 @@ class UserManager(BaseUserManager):
         if lastCreation is None:
             user = self.model(
                 email=self.normalize_email(email),
-                username=username
+                username=username,
+                lastmodelcreation=datetime.now() - timedelta(minutes=31),
+                lastmodelevaluation=datetime.now() - timedelta(minutes=6)
             )
         else:
             user = self.model(
@@ -42,7 +46,7 @@ class UserManager(BaseUserManager):
 
         user.set_password(password)
         user.save(using=self._db)
-        print 'created user %s' %username
+        print 'created user %s' % username
 
         return user
 
@@ -69,13 +73,9 @@ class User(AbstractBaseUser):
 
     lastmodelcreation = models.DateTimeField(
         verbose_name='last creation',
-        null=True,
-        blank=True
     )
     lastmodelevaluation = models.DateTimeField(
         verbose_name='last evaluation',
-        null=True,
-        blank=True
     )
 
     is_active = models.BooleanField(default=True)
@@ -102,6 +102,29 @@ class User(AbstractBaseUser):
 
     def is_staff(self):
         return self.is_admin
+
+    def next_creation(self):
+        threshold = 30  #mintues
+        seconds_past = (datetime.utcnow() - self.lastmodelcreation.replace(tzinfo=None)).total_seconds()
+
+        seconds_untill = threshold * 60 - seconds_past
+
+        if seconds_untill < 0:
+            return 0
+        else:
+            return seconds_untill
+
+
+    def next_evaluation(self):
+        threshold = 5  # minutes
+
+        seconds_past = (datetime.utcnow() - self.lastmodelevaluation.replace(tzinfo=None)).total_seconds()
+
+        seconds_untill = threshold * 60 - seconds_past
+        if seconds_untill < 0:
+            return 0
+        else:
+            return seconds_untill
 
 
 class Plan(models.Model):
