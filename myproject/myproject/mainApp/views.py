@@ -1,10 +1,7 @@
 import json
 import datetime
-import math
 
 from __builtin__ import locals
-from django import forms
-# from django.contrib.auth.forms import UserCreationForm
 from myproject.mainApp.admin import UserCreationForm
 from django.shortcuts import render_to_response, render
 from django.template.context import RequestContext
@@ -12,11 +9,13 @@ from django.http import HttpResponse, HttpResponseRedirect
 from myproject.settings import MEDIA_ROOT
 from django.contrib import auth
 
-from myproject.mainApp.models import User, Plan, UserManager
+from myproject.mainApp.models import User, Plan
 
 # Create your views her
 
-#index
+# index
+
+
 def index(request):
     if 'email' in request.POST:
         email = request.POST.get('email', '')
@@ -41,7 +40,6 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-
             new_user = form.save()
             return HttpResponseRedirect('../')
     else:
@@ -173,7 +171,7 @@ def getPlan(request, id):
     return render_to_response('single_plan.html',
                               {
                                   'plan': plan,
-                                  'creator':user,
+                                  'creator': user,
                                   #'geom': json.dumps(plan.geometry)
                                   'geom': plan.geometry
                               },
@@ -239,36 +237,24 @@ def canvas_test(request):
     )
 
 
-def signin(request):
-    if request.method == 'POST' and request.is_ajax():
-        users = User.objects.all();
-
-        email = request.POST['email']
-        password = request.POST['password']
+####################################################
+## BATCH operations
+####################################################
 
 
-def batch(request):
-    return render_to_response('batch.html', context_instance=RequestContext(request))
-
-
-def addAdmin(request):
-    #add admin user
-    admin = User.objects.create_superuser('admin@admin.com', 'admin', 'admin')
-
-
-def batchAddUser(request):
+def batch_add_user(request):
     from myproject.mainApp.functions import addUserRandom
 
     number = int(request.GET['number'])
     addUserRandom(number)
 
     operation = 'add user (%i)' % number
-    operation_messsage = 'added %i users.' % number
+    operation_message = 'added %i users.' % number
 
     return render_to_response('batch_operation.html', locals())
 
 
-def batchDeleteUser(request):
+def batch_delete_user(request):
     if request.user.is_authenticated() and request.user.is_staff():
 
         #delete users
@@ -286,7 +272,7 @@ def batchDeleteUser(request):
         operation_message = 'failed to terminate user, please login in a admin account'
 
 
-def batchAddPlan(request):
+def batch_add_plan(request):
     from myproject.mainApp.functions import addPlanRandom2
 
     number = int(request.GET['number'])
@@ -298,7 +284,7 @@ def batchAddPlan(request):
     return render_to_response('batch_operation.html', locals())
 
 
-def batchDeletePlan(request):
+def batch_delete_plan(request):
     #delete users
     Plan.objects.all().delete()
 
@@ -308,8 +294,9 @@ def batchDeletePlan(request):
     return render_to_response('batch_operation.html', locals())
 
 
-def diffTest(request):
-    return render_to_response('testing.html', context_instance=RequestContext(request))
+#####################################################
+## miscellaneous
+#####################################################
 
 
 def saveImage(request):
@@ -317,4 +304,4 @@ def saveImage(request):
     image_file = open(MEDIA_ROOT + "/plans/test.png", "wb")
     image_file.write(image_data)
     image_file.close()
-    return render_to_response('testing.html', context_instance=RequestContext(request))
+    return render_to_response('diffTest.html', context_instance=RequestContext(request))
