@@ -1,14 +1,15 @@
+from datetime import datetime, timedelta
+
 from django import forms
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from datetime import datetime, timedelta
 
 # Register your models here.
 
-from myproject.mainApp.models import Plan, User
+from myproject.mainApp.models import Plan, User, Log
 
 
 class UserCreationForm(forms.ModelForm):
@@ -29,9 +30,9 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
+        user.model_creation_time = datetime.now
+        user.model_evaluation_time = datetime.now
         if commit:
-            user.lastmodelcreation = (datetime.now() - timedelta(minutes=31)).replace(tzinfo=None)
-            user.lastmodelevaluation = (datetime.now() - timedelta(minutes=6)).replace(tzinfo=None)
             user.save()
         return user
 
@@ -57,7 +58,7 @@ class UserAdmin(UserAdmin):
 
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
-        ('Actions', {'fields': ('lastmodelcreation', 'lastmodelevaluation')}),
+        ('Actions', {'fields': ('model_creation_time', 'model_evaluation_time')}),
         ('Permissions', {'fields': ('is_admin', 'is_active')}),
     )
 
@@ -73,6 +74,7 @@ class UserAdmin(UserAdmin):
 
 
 admin.site.register(Plan)
+admin.site.register(Log)
 admin.site.register(User, UserAdmin)
 
 #we are not using django's built-in permissions,

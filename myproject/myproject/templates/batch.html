@@ -1,41 +1,62 @@
 {% extends "base.html" %}
 
-{% block title %} batch operations{% endblock %}
-{% block contentHeader %} <h1>batch operations</h1>{% endblock %}
+{% block title %}{% endblock %}
 
-{% block content %}
+
+{% block head %}{% endblock %}
+
+
+{% block header %}
+
+{% endblock %}
+
+{% block contents %}
+
+    {% if prev_operation %}
+    <h2> 0.previous operation </h2>
+        <h3>{{ operation }}</h3>
+        <p>{{ operation_message }}</p>
+    {% endif %}
 
     <h2> 1. Users </h2>
 
     <div>
-    <h3>1-1. Adding Users </h3>
-    <form class="pure-form" action="/batch-addUser/" method="get">
-        <input type="text" name="number" placeholder="number">
-        <input class="pure-button" type="submit" value="Add Random Users">
-    </form>
+        <h3>1-1. Adding Users </h3>
+
+        <form class="pure-form" action="/batch-addUser/" method="get">
+            <input type="text" name="number" placeholder="number">
+            <input class="pure-button" type="submit" value="Add Random Users">
+        </form>
     </div>
 
     <div>
-    <h3>1-2. Delete Users </h3>
-    <form class="pure-form" action="/batch-deleteUser/" method="get">
-        <input class="pure-button" type="submit" value="Delete Users">
-    </form>
+        <h3>1-2. Delete Users </h3>
+
+        <form class="pure-form" action="/batch-deleteUser/" method="get">
+            <input class="pure-button" type="submit" value="Delete Users">
+        </form>
     </div>
 
     <h2>2. Plans</h2>
     <div>
-    <h3>2-1. Adding Plans </h3>
-    <form class="pure-form" action="/batch-addPlan/" method="get">
-        <input type="text" name="number" placeholder="number">
-        <input class="pure-button" type="submit" value="Add Random Plans">
-    </form>
+        <h3>2-1. Adding Plans </h3>
+
+        <form class="pure-form" action="/batch-addPlan/" method="get">
+            <input type="text" name="number" placeholder="number">
+            <input class="pure-button" type="submit" value="Add Random Plans">
+        </form>
     </div>
 
     <div>
-    <h3>2-2. Delete Plans </h3>
-    <form class="pure-form" action="/batch-deletePlan/" method="get">
-        <input class="pure-button" type="submit" value="Delete Plans">
-    </form>
+        <h3>2-2. Delete Plans </h3>
+
+        <form class="pure-form" action="/batch-deletePlan/" method="get">
+            <input class="pure-button" type="submit" value="Delete Plans">
+        </form>
     </div>
+
+{% endblock %}
+
+{% block footer %}
 
 {% endblock %}

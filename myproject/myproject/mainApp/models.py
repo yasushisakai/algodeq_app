@@ -2,149 +2,171 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import myproject.settings
 
-from datetime import datetime, timedelta
-
-# Create your models here.
-# class User(models.Model):
-#     name = models.CharField(max_length=128)
-#     email = models.EmailField()
-#     password = models.CharField(max_length=50)
-#     points = models.FloatField()
-#     avatar = models.ImageField(upload_to='avatar',blank=True)
-#     last_creation = models.DateTimeField()
-#     last_evaluation = models.DateTimeField()
-#
-#
-#     def get_absolute_url(self):
-#         return '/user/%i' %self.id
-#
-#     def __unicode__(self):
-#         return u'%s' %self.name
-
-#todo:consider adding a log class to log every activity
+from datetime import datetime
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, username, password, lastCreation=None, lastEval=None):
+    """
+    manager class that manipulates Users
+    """
+
+    def create_user(self, email, username, password):
         if not email:
             raise ValueError('Users must have an email address')
 
-        if lastCreation is None:
-            user = self.model(
-                email=self.normalize_email(email),
-                username=username,
-                lastmodelcreation=datetime.now() - timedelta(minutes=31),
-                lastmodelevaluation=datetime.now() - timedelta(minutes=6)
-            )
-        else:
-            user = self.model(
-                email=self.normalize_email(email),
-                username=username,
-                lastmodelcreation=lastCreation,
-                lastmodelevaluation=lastEval,
-            )
+        user = self.model(
+            email=self.normalize_email(email),
+            username=username,
+            model_creation_time=datetime.now(),
+            model_evaluation_time=datetime.now()
+        )
 
         user.set_password(password)
         user.save(using=self._db)
-        print 'created user %s' % username
+
+        print '***added user %s.***' % username
 
         return user
 
-    def create_superuser(self, email, username, password, lastCreation=None, lastEval=None):
-        user = self.create_user(email=email, username=username, password=password, lastCreation=lastCreation,
-                                lastEval=lastEval)
+    def create_superuser(self, email, username, password):
+        user = self.create_user(email, username, password)
         user.is_admin = True
         user.save(using=self._db)
+
         return user
 
 
 class User(AbstractBaseUser):
+    """
+    user class that participates making, evaluate models.
+    """
+
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,
         unique=True
     )
-
     username = models.CharField(
         verbose_name='user name',
-        max_length=128,
+        max_length=255,
         unique=True
     )
-
-    lastmodelcreation = models.DateTimeField(
-        verbose_name='last creation',
+    model_creation_time = models.DateTimeField(
+        verbose_name='last model creation time',
     )
-    lastmodelevaluation = models.DateTimeField(
-        verbose_name='last evaluation',
+    model_evaluation_time = models.DateTimeField(
+        verbose_name='last model evaluation time',
     )
-
     is_active = models.BooleanField(default=True)
-    is_admin = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)  # weather its accessible to the admin site.
 
-    objects = UserManager()
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    objects = UserManager()  # meta class for creating users or get as a whole
+
+    USERNAME_FIELD = 'email'  # email works as the id to login
+    REQUIRED_FIELDS = ['username']  # mandatory fields to create
+
+    #------------------------------------------------------------------------------------------
+
+    def __unicode__(self):
+        return str(self.id)+'_'+self.username
 
     def get_full_name(self):
         return self.email
 
     def get_short_name(self):
-        return self.email
-
-    def __unicode__(self):
-        return self.email
-
-    def has_perm(self, perm, obj=None):
-        return True
-
-    def has_module_perms(self, app_label):
-        return True
+        return self.get_full_name()
 
     def is_staff(self):
         return self.is_admin
 
-    def next_creation(self):
-        threshold = 30  #mintues
-        seconds_past = (datetime.utcnow() - self.lastmodelcreation.replace(tzinfo=None)).total_seconds()
+    @staticmethod
+    def has_perm(perm, obj=None):
+        return True
 
-        seconds_untill = threshold * 60 - seconds_past
-
-        if seconds_untill < 0:
-            return 0
-        else:
-            return seconds_untill
-
-
-    def next_evaluation(self):
-        threshold = 5  # minutes
-
-        seconds_past = (datetime.utcnow() - self.lastmodelevaluation.replace(tzinfo=None)).total_seconds()
-
-        seconds_untill = threshold * 60 - seconds_past
-        if seconds_untill < 0:
-            return 0
-        else:
-            return seconds_untill
+    @staticmethod
+    def has_module_perms(app_label):
+        return True
 
 
 class Plan(models.Model):
-    name = models.CharField(max_length=128)
-    initial_points = models.FloatField()
-    additional_points = models.FloatField()
+    """
+    single plan data
+    """
+
+    # general info
+    name = models.CharField(max_length=128, unique=True)
     creation_time = models.DateTimeField()
+    image_file = models.ImageField(upload_to='plans', blank=True)
     geometry = models.CharField(max_length=5000)
-    image = models.ImageField(upload_to='plans', blank=True)
     similarity = models.FloatField()
-    #fields with relations
-    user = models.ForeignKey(myproject.settings.AUTH_USER_MODEL)
-    relation = models.ForeignKey('self', related_name='parent', null=True, blank=True)
 
+    # points
+    points_inborn = models.FloatField()  # points inherited by parent Plan
+    points_acquired = models.FloatField()  # points acquired by voting
 
-    def total_points(self):
-        return self.additional_points + self.initial_points
+    # foreign keys
+    architect = models.ForeignKey(myproject.settings.AUTH_USER_MODEL)
+    parent_plan = models.ForeignKey('self', related_name='parent model', null=True, blank=True)
 
-    def get_absolute_url(self):
-        return '/plan/%i' % self.id
+    #------------------------------------------------------------------------------------------
 
     def __unicode__(self):
-        return u'%s:%s' % (self.name, str(self.total_points()))
+        return self.name
+
+    def get_total_points(self):
+        return self.points_inborn + self.points_acquired
+
+    def get_absolute_url(self):
+        return '/plan/%s' % self.name
+
+    @classmethod
+    def tree_search(cls, _array, _plan):
+        for a in _array:
+            if a['id'] == _plan.parent_plan.id:
+                a['children'].append(
+                    {'id': _plan.id,
+                     'name': _plan.name,
+                     'parent': _plan.parent_plan.id,
+                     'geometry': _plan.geometry,
+                     'img_file': _plan.image_file,
+                     'children': []
+                     }
+                )
+            else:
+                Plan.tree_search(a['children'], _plan)
+
+
+class Log(models.Model):
+    """
+    simple activity log throughout process
+    """
+
+    is_creation = models.BooleanField()
+    # True if the activity is creating(adding models),
+    # False if its a evaluation
+    when = models.DateTimeField(auto_now=True)
+
+    #foreign keys
+    who = models.ForeignKey(myproject.settings.AUTH_USER_MODEL)
+    what = models.ForeignKey(Plan)
+
+    #------------------------------------------------------------------------------------------
+
+    def __unicode__(self):
+        activity = 'Ev'
+        if self.is_creation:
+            activity = 'Mk'
+
+        return '[%s: %i -> %i]' % (activity, self.who.id, self.what.id)
+
+
+
+
+
+
+
+
+
+
+
+

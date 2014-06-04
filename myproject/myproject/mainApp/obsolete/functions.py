@@ -1,8 +1,8 @@
 import random
-import uuid
 from datetime import datetime, timedelta
-from myproject.mainApp.models import User, Plan
 import json;
+
+from myproject.mainApp.models import User, Plan
 
 
 def random_date(start, end):
