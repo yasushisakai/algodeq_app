@@ -6,13 +6,19 @@
 
 {% block head %}
 
-
-     <script src="{% static "js/three.min.js" %}"></script>
+    <script src="{% static "js/three.min.js" %}"></script>
 
     <script>
-        var plan_json = {{ plan_json }};
+        {% if user.is_authenticated %}
+            var is_authenticated = true;
+            var csrf_token = '{{ csrf_token }}';
+        {% else %}
+            var is_authenticated = false;
+        {% endif %}
+        var plan_json = {{ plan_json | safe}};
     </script>
 
+    <script src="{% static "js/3d_basics.js" %}"></script>
     <script src="{% static "js/single_plan.js" %}"></script>
 
 {% endblock %}
@@ -29,11 +35,29 @@
         not logged in
     {% endif %}
 
+    <div class="go_back" onclick="history.back()">go back</div>
 
+    <div id="model_info">
+        {{ plan.id }}<br>
+        {{ plan.name }}<br>
+        {{ plan.creation_time }}<br>
+        {{ plan.image_file }}<br>
+        {{ plan.similarity }}<br>
+        <span id="plan_total_points">{{ plan.get_total_points }}</span><br>
+        {{ plan.architect.username }}<br>
+        {% if plan.parent_plan %}
+            {{ plan.parent_plan.name }}
+        {% endif %}
+    </div>
 
-    <p>
-    {{ plan_json }}
-    </p>
+    <div id="model_action">
+        {% if user.is_authenticated %}
+            <div id="model_add_points" onclick="add_points({{ plan.id }})">add points</div>
+        {% else %}
+            you can add points by logging in.
+        {% endif %}
+        <div id="model_make_plan" onclick="make_plan({{ plan.id }})">make plan</div>
+    </div>
 
 {% endblock %}
 

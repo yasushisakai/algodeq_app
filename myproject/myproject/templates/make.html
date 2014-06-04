@@ -1,10 +1,27 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
 {% block title %}{% endblock %}
 
 
-{% block head %}{% endblock %}
+{% block head %}
 
+    <script src="{% static "js/three.min.js" %}"></script>
+
+    <script>
+        {% if user.is_authenticated %}
+            var is_authenticated = true;
+            var csrf_token = '{{ csrf_token }}';
+        {% else %}
+            var is_authenticated = false;
+        {% endif %}
+        var plan_json = {{ plan_json | safe}};
+    </script>
+
+    <script src="{% static "js/3d_basics.js" %}"></script>
+    <script src="{% static "js/make.js" %}"></script>
+
+{% endblock %}
 
 {% block header %}
 
@@ -12,8 +29,43 @@
 
 {% block contents %}
 
+    {% if user.is_authenticated %}
+        {{ user.id }}: {{ user.username }}
+    {% else %}
+        not logged in
+    {% endif %}
+
+    <div class="go_back" onclick="history.back()">go back</div>
+
+    <div id="model_info">
+        parent plan info
+        {{ plan.id }}<br>
+        {{ plan.name }}<br>
+        {{ plan.creation_time }}<br>
+        {{ plan.image_file }}<br>
+        {{ plan.similarity }}<br>
+        <span id="plan_total_points">{{ plan.get_total_points }}</span><br>
+        {{ plan.architect.username }}<br>
+        {% if plan.parent_plan %}
+            {{ plan.parent_plan.name }}
+        {% endif %}
+    </div>
+
+    <div id="action">
+        {% if user.is_authenticated %}
+            <div id="save_plan" onclick="save_plan({{ plan.id }})">save plan</div>
+        {% else %}
+            you can add create plans if you are logged in.
+        {% endif %}
+        <div class="error"></div>
+    </div>
+
 {% endblock %}
 
 {% block footer %}
 
+{% endblock %}
+
+{% block canvas %}
+    <div id="webgl_canvas"></div>
 {% endblock %}

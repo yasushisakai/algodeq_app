@@ -66,10 +66,10 @@ class User(AbstractBaseUser):
     USERNAME_FIELD = 'email'  # email works as the id to login
     REQUIRED_FIELDS = ['username']  # mandatory fields to create
 
-    #------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
 
     def __unicode__(self):
-        return str(self.id)+'_'+self.username
+        return str(self.id) + '_' + self.username
 
     def get_full_name(self):
         return self.email
@@ -79,6 +79,14 @@ class User(AbstractBaseUser):
 
     def is_staff(self):
         return self.is_admin
+
+    def update_evaluation_time(self):
+        self.model_evaluation_time = datetime.now()
+        self.save()
+
+    def update_creation_time(self):
+        self.model_creation_time = datetime.now()
+        self.save()
 
     @staticmethod
     def has_perm(perm, obj=None):
@@ -109,7 +117,7 @@ class Plan(models.Model):
     architect = models.ForeignKey(myproject.settings.AUTH_USER_MODEL)
     parent_plan = models.ForeignKey('self', related_name='parent model', null=True, blank=True)
 
-    #------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------
 
     def __unicode__(self):
         return self.name
@@ -121,21 +129,62 @@ class Plan(models.Model):
         return '/plan/%s' % self.name
 
     def get_dict(self):
+
+        parent_plan = self.parent_plan
+
+        if self.parent_plan is None:
+            parent_plan_name = ''
+        else:
+            parent_plan_name = parent_plan.name
+
         dict_format = {
             'id': self.id,
             'name': self.name,
-            'creation_time': self.creation_time,
-            'image_file': self.image_file,
+            'creation_time': self.creation_time.strftime('%Y-%m-%dT%H:%M:%S'),
+            'image_file': self.image_file.name,
             'geometry': self.geometry,
             'similarity': self.similarity,
             'points_inborn': self.points_inborn,
-            'points_acq': None
+            'points_acquired': self.points_acquired,
+            'architect': self.architect.username,
+            'parent_plan': parent_plan_name
         }
 
+        return dict_format
 
     def get_json(self):
-        pass
+        dict_format = self.get_dict()
 
+        if dict_format['image_file'] is None:
+            dict_format['image_file'] = ''
+
+        return json.dumps(dict_format)
+
+    def add_points(self):
+        self.points_acquired += 10.0
+        # todo: add points to parent model
+
+        self.save()
+
+    def validate_new_plan(
+            self,
+            new_plan_name,
+            new_plan_geometry,
+            new_plan_similarity):
+
+        if self.geometry is new_plan_geometry:
+            return {'is_validation': False, 'message': 'geometry same as parent'}
+
+        if new_plan_similarity >= 1.0:
+            return {'is_validation': False, 'message': 'similarity is 1.0'}
+
+        is_unique = False
+        try:
+            Plan.objects.get(name=new_plan_name)
+        except:
+            return {'is_validation': True, 'message': ''}
+
+        return {'is_validation': False, 'message': 'model name not unique'}
 
     @classmethod
     def tree_search(cls, _array, _plan):
@@ -149,7 +198,7 @@ class Plan(models.Model):
                      'parent': _plan.parent_plan.id,
                      'geometry': _plan.geometry,
                      'children': []
-                     }
+                    }
                 )
             else:
                 Plan.tree_search(a['children'], _plan)
@@ -165,7 +214,7 @@ class Log(models.Model):
     # False if its a evaluation
     when = models.DateTimeField(auto_now=True)
 
-    #foreign keys
+    # foreign keys
     who = models.ForeignKey(myproject.settings.AUTH_USER_MODEL)
     what = models.ForeignKey(Plan)
 

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
                        url(r'^$', 'myproject.mainApp.views.index'),
                        url(r'^sign_up/', TemplateView.as_view(template_name='sign_up.html')),
-                       url(r'^make/', TemplateView.as_view(template_name='make.html')),
+                       url(r'^make/(?P<plan_id>[-0-9]+)/?$', 'myproject.mainApp.views.make'),
                        url(r'^plan/(?P<name>[-a-zA-Z0-9]+)/?$', 'myproject.mainApp.views.single_plan'),
 
                        # admin
