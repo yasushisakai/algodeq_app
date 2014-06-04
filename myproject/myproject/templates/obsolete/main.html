@@ -190,7 +190,8 @@
                 .attr("d", step)
                 .style("stroke-width", function (d) {
                     return Math.round(d.target.id / 400);
-                });
+                })
+                .style("stroke","red");
 
         var node = vis.selectAll("g.node")
                 .data(nodes.filter(function (n) {
