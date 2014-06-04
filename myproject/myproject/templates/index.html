@@ -6,13 +6,20 @@
 
 {% block head %}
 
+
     <!-- <script src="{% static "js/three.min.js" %}"></script> -->
     <script src="{% static "js/d3.min.js" %}"></script>
+
+    <script>
+        var plans_json = {{ plans_json }};
+    </script>
+
+    <script src="{% static "js/index.js" %}"></script>
 
 {% endblock %}
 
 {% block header %}
-
+    <!-- todo: make header -->
 {% endblock %}
 
 {% block contents %}
@@ -42,11 +49,5 @@
 {% endblock %}
 
 {% block footer %}
-
-{% endblock %}
-
-{% block canvas%}
-    <div id="canvas_container">
-
-    </div>
+    <!-- todo: make footer -->
 {% endblock %}

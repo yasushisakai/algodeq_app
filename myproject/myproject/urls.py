@@ -14,10 +14,9 @@ urlpatterns = patterns('',
                        ###################################
 
                        url(r'^$', 'myproject.mainApp.views.index'),
-                       #url(r'^$', TemplateView.as_view(template_name='index.html')),
                        url(r'^sign_up/', TemplateView.as_view(template_name='sign_up.html')),
                        url(r'^make/', TemplateView.as_view(template_name='make.html')),
-                       url(r'^single/(?P<id>[-a-zA-Z0-9]+)/?$', TemplateView.as_view(template_name='single.html')),
+                       url(r'^plan/(?P<name>[-a-zA-Z0-9]+)/?$', TemplateView.as_view(template_name='single.html')),
 
                        # admin
                        url(r'^admin/',include(admin.site.urls)),
