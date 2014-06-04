@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+
+{% block head %}
+
+
+     <script src="{% static "js/three.min.js" %}"></script>
+
+    <script>
+        var plan_json = {{ plan_json }};
+    </script>
+
+    <script src="{% static "js/single_plan.js" %}"></script>
+
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+
+{% block contents %}
+
+    {% if user.is_authenticated %}
+        {{ user.id }}: {{ user.username }}
+    {% else %}
+        not logged in
+    {% endif %}
+
+
+
+    <p>
+    {{ plan_json }}
+    </p>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block canvas %}
+    <div id="webgl_canvas"></div>
+{% endblock %}

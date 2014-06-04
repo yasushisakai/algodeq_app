@@ -18,13 +18,13 @@ def index(request):
 
     for p in plans:
         if len(plans_json) < 1:
+
             plans_json.append({
                 'id': p.id,
                 'name': p.name,
                 'url': p.get_absolute_url(),
                 'parent': None,
                 'geometry': p.geometry,
-                'img_file': p.image_file,
                 'children': []})
         else:
             Plan.tree_search(plans_json, p)
@@ -32,7 +32,15 @@ def index(request):
     return render_to_response('index.html', {
         'plans': plans,
         'plans_num': len(plans),
-        'plans_json': plans_json
+        'plans_json': json.dumps(plans_json)
     }, context_instance=RequestContext(request))
 
 
+def single_plan(request, name):
+    plan = Plan.objects.get(name=name)
+
+    return render_to_response('single_plan.html', {
+        'plan': plan,
+        'plan_json': plan.get_json()
+    }, context_instance=RequestContext(request)
+    )

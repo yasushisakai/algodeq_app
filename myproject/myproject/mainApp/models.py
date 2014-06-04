@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
 import myproject.settings
+import json
 
 from datetime import datetime
 
@@ -119,17 +120,34 @@ class Plan(models.Model):
     def get_absolute_url(self):
         return '/plan/%s' % self.name
 
+    def get_dict(self):
+        dict_format = {
+            'id': self.id,
+            'name': self.name,
+            'creation_time': self.creation_time,
+            'image_file': self.image_file,
+            'geometry': self.geometry,
+            'similarity': self.similarity,
+            'points_inborn': self.points_inborn,
+            'points_acq': None
+        }
+
+
+    def get_json(self):
+        pass
+
+
     @classmethod
     def tree_search(cls, _array, _plan):
         for a in _array:
             if a['id'] == _plan.parent_plan.id:
+
                 a['children'].append(
                     {'id': _plan.id,
                      'name': _plan.name,
                      'url': _plan.get_absolute_url(),
                      'parent': _plan.parent_plan.id,
                      'geometry': _plan.geometry,
-                     'img_file': _plan.image_file,
                      'children': []
                      }
                 )
