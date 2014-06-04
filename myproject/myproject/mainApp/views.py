@@ -21,6 +21,7 @@ def index(request):
             plans_json.append({
                 'id': p.id,
                 'name': p.name,
+                'url': p.get_absolute_url(),
                 'parent': None,
                 'geometry': p.geometry,
                 'img_file': p.image_file,
