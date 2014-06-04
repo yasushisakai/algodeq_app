@@ -126,7 +126,7 @@ class Plan(models.Model):
                 a['children'].append(
                     {'id': _plan.id,
                      'name': _plan.name,
-                     'url': p.get_absolute_url(),
+                     'url': _plan.get_absolute_url(),
                      'parent': _plan.parent_plan.id,
                      'geometry': _plan.geometry,
                      'img_file': _plan.image_file,
