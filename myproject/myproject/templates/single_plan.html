@@ -39,7 +39,7 @@
         not logged in
     {% endif %}
 
-    <div class="go_back" onclick="history.back()">go back</div>
+    <div class="go_back" onclick="document.location.href='../../'">go back</div>
 
     <div id="model_info">
         {{ plan.id }}<br>
@@ -47,6 +47,7 @@
         {{ plan.creation_time }}<br>
         {{ plan.image_file }}<br>
         {{ plan.similarity }}<br>
+        {{ plan.geometry }}<br>
         <span id="plan_total_points">{{ plan.get_total_points }}</span><br>
         {{ plan.architect.username }}<br>
         {% if plan.parent_plan %}

@@ -11,6 +11,8 @@
 
     <script>
 
+        var path_to_static = {% static "" %};
+
         {% if user.is_authenticated %}
             var is_authenticated = true;
             var csrf_token = '{{ csrf_token }}';
@@ -23,14 +25,22 @@
     </script>
 
     <script src="{% static "js/helper_functions.js" %}"></script>
-    <script src="{% static "model/class/Axis.js" %}"></script>
+
     <script src="{% static "js/make.js" %}"></script>
 
+    <script src="{% static "js/random_stations.js" %}"></script>
+
+    <script src="{% static "model/class/Axis.js" %}"></script>
+    <script src="{% static "model/class/Plan.js" %}"></script>
+    <script src="{% static "model/class/Ground.js" %}"></script>
+    <script src="{% static "model/class/Cursor.js" %}"></script>
+    <script src="{% static "model/class/Cube.js" %}"></script>
+
     <script>
-    $(document).ready(function(){
-        initialize();
-        // 'initialize' written in make.js
-    });
+        $(document).ready(function () {
+            initialize();
+            // 'initialize' written in make.js
+        });
     </script>
 
 {% endblock %}
@@ -49,6 +59,8 @@
 
     <div class="go_back" onclick="history.back()">go back</div>
 
+    <div id="navigation">
+
     <div id="model_info">
         parent plan info
         {{ plan.id }}<br>
@@ -63,6 +75,10 @@
         {% endif %}
     </div>
 
+    <div id="new_model_info">
+        <p id="new_model_geometry"></p>
+    </div>
+
     <div id="model_action">
         {% if user.is_authenticated %}
             <div id="save_plan" onclick="save_plan({{ plan.id }})">save plan</div>
@@ -70,7 +86,20 @@
             you can add create plans if you are logged in.
         {% endif %}
         <div class="error"></div>
+
+        <div id="make_creation" onclick="change_room_type(0);">room type 1 (living)</div>
+        <div id="make_creation" onclick="change_room_type(1);">room type 2 (dining)</div>
+        <div id="make_creation" onclick="change_room_type(2);">room type 3 (kitchen)</div>
+        <div id="make_creation" onclick="change_room_type(3);">room type 4 (bedroom)</div>
+        <div id="make_creation" onclick="change_room_type(4);">room type 5 (wc/bath)</div>
+        <div id="make_creation" onclick="change_room_type(5);">room type 6 (staircase)</div>
+        <div id="make_creation" onclick="change_floor(0);">change floor grid to 1f.</div>
+        <div id="make_creation" onclick="change_floor(1);">change floor grid to 2f.</div>
+        <div id="make_creation" onclick="change_floor(2);">change floor grid to 3f.</div>
+
     </div>
+    </div>
+
 
 {% endblock %}
 

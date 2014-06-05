@@ -84,6 +84,7 @@ def make(request, plan_id):
             return HttpResponse(json.dumps(validation))
         else:
             #save and add plan
+            print new_plan_geometry
             new_plan = Plan(
                 name=new_plan_name,
                 creation_time=datetime.datetime.now(),
