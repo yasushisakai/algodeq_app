@@ -13,9 +13,29 @@
     <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
 {#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
 {#    <style>#}
+    <style>
+
+.node circle {
+  fill: #fff;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+.node {
+  font: 10px sans-serif;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1.5px;
+}
+
+</style>
 
     <script>
-        //var plans_json = {{ plans_json }};
+{#        var plans_json = JSON.parse({{ plans_json|safe}});#}
+
     </script>
 
     <script src="{% static "js/index.js" %}">
@@ -28,6 +48,7 @@
 {% endblock %}
 
 {% block contents %}
+
 
     {{ user }}
 
@@ -48,17 +69,19 @@
     {% endfor %}
     </p>
 
-    <p>
+
     {{ plans_json }}
-            <script>
-        var impData = {{ plans }};
-        var count = {{ plans_num }};
-                    treediagram();
-        </script>
-    </p>
+
+
 
 {% endblock %}
 
 {% block footer %}
     <!-- todo: make footer -->
+     <script>
+        var impData =  {{ plans_json | safe }};
+        var count = {{ plans_num }};
+                    treeDiagram();
+        </script>
 {% endblock %}
+
