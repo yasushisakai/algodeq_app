@@ -7,20 +7,31 @@
 {% block head %}
 
     <script src="{% static "js/three.min.js" %}"></script>
+    <script src="{% static "js/OrbitControls.js" %}"></script>  // class for mouse control
 
     <script>
+
         {% if user.is_authenticated %}
             var is_authenticated = true;
             var csrf_token = '{{ csrf_token }}';
         {% else %}
             var is_authenticated = false;
         {% endif %}
-        var plan_json = {{ plan_json | safe}};
+
+        var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
+
     </script>
 
-    <script src="{% static "js/3d_basics.js" %}"></script>
+    <script src="{% static "js/helper_functions.js" %}"></script>
     <script src="{% static "model/class/Axis.js" %}"></script>
     <script src="{% static "js/make.js" %}"></script>
+
+    <script>
+    $(document).ready(function(){
+        initialize();
+        // 'initialize' written in make.js
+    });
+    </script>
 
 {% endblock %}
 
@@ -52,7 +63,7 @@
         {% endif %}
     </div>
 
-    <div id="action">
+    <div id="model_action">
         {% if user.is_authenticated %}
             <div id="save_plan" onclick="save_plan({{ plan.id }})">save plan</div>
         {% else %}

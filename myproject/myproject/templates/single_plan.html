@@ -7,6 +7,10 @@
 {% block head %}
 
     <script src="{% static "js/three.min.js" %}"></script>
+    <!-- todo: decide weather you need it in single_plan.js -->
+    <script src="{% static "js/OrbitControls.js" %}"></script>
+
+
 
     <script>
         {% if user.is_authenticated %}
@@ -18,7 +22,7 @@
         var plan_json = {{ plan_json | safe}};
     </script>
 
-    <script src="{% static "js/3d_basics.js" %}"></script>
+    <script src="{% static "js/helper_functions.js" %}"></script>
     <script src="{% static "js/single_plan.js" %}"></script>
 
 {% endblock %}
