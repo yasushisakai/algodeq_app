@@ -203,6 +203,27 @@ class Plan(models.Model):
             else:
                 Plan.tree_search(a['children'], _plan)
 
+    @classmethod
+    def init_plan(cls):
+
+        usr = User.objects.get(id=1)
+
+        new_plan = Plan(
+            name='tokyo_0',
+            creation_time=datetime.now(),
+            image_file='',  # todo fetch image file
+            geometry="{\"living\":[],\"dining\":[],\"kitchen\":[],\"bedroom\":[],\"wc\":[],\"staircase\":[]}",
+            similarity=0.0,
+            points_inborn=100.0,
+            points_acquired=0.0,
+            architect=usr,
+            parent_plan=None
+        )
+
+        new_plan.save()
+
+        print '** added first plan tokyo **'
+
 
 class Log(models.Model):
     """

@@ -16,6 +16,12 @@ def index(request):
     """
     view funtion for 'index.html'
     """
+
+    # add one plan (tokyo) if there is nothing
+    if len(Plan.objects.all()) < 1:
+        Plan.init_plan()
+
+
     plans = Plan.objects.all()
     plans_json = []
 
@@ -83,7 +89,7 @@ def make(request, plan_id):
             )
             return HttpResponse(json.dumps(validation))
         else:
-            #save and add plan
+            # save and add plan
             print new_plan_geometry
             new_plan = Plan(
                 name=new_plan_name,
@@ -91,7 +97,7 @@ def make(request, plan_id):
                 image_file='',  # todo fetch image file
                 geometry=new_plan_geometry,
                 similarity=new_plan_similarity,
-                points_inborn=new_plan_similarity*plan.get_total_points(),
+                points_inborn=new_plan_similarity * plan.get_total_points(),
                 points_acquired=0.0,
                 architect=request.user,
                 parent_plan=plan
@@ -108,4 +114,7 @@ def make(request, plan_id):
         'plan_json': plan_json
     }, context_instance=RequestContext(request)
     )
+
+
+
 

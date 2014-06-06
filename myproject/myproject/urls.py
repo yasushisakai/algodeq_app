@@ -32,6 +32,5 @@ urlpatterns = patterns('',
                        # batch operation
                        ###################################
 
-                       url(r'^batch/', TemplateView.as_view(template_name='batch.html')),
 
                        ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
