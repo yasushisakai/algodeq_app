@@ -89,12 +89,23 @@ def make(request, plan_id):
             )
             return HttpResponse(json.dumps(validation))
         else:
+
+            # get the image data from server and decode it.
+            new_plan_image_data = request.POST['image']   # image is only sent in phase 1
+            new_plan_image_data = new_plan_image_data.decode("base64")
+            image_name = 'img_' + new_plan_name + '.png'
+
+            # save image to server.
+            image_file = open(MEDIA_ROOT + "/plans/" + image_name, "wb")
+            image_file.write(new_plan_image_data)
+            image_file.close()
+
             # save and add plan
             print new_plan_geometry
             new_plan = Plan(
                 name=new_plan_name,
                 creation_time=datetime.datetime.now(),
-                image_file='',  # todo fetch image file
+                image_file=MEDIA_ROOT + '/plans/' + image_name,
                 geometry=new_plan_geometry,
                 similarity=new_plan_similarity,
                 points_inborn=new_plan_similarity * plan.get_total_points(),
