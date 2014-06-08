@@ -160,11 +160,29 @@ class Plan(models.Model):
 
         return json.dumps(dict_format)
 
-    def add_points(self):
-        self.points_acquired += 10.0
-        # todo: add points to parent model
+    def add_points(self, _points):
+        # points giving to the parent model
+        points_to_me = (1.0-self.similarity*0.5)*_points
 
+        # points going to the child (this)
+        self.points_acquired += points_to_me
         self.save()
+
+        print self.name+': +'+str(points_to_me)+'pts.'
+
+        points_to_parent = _points - points_to_me
+
+        #
+        # recursive !!
+        #
+        if points_to_parent > 1.0:
+            try:
+                self.parent_plan.add_points(_points - points_to_me)
+            except:
+                pass
+
+        return points_to_me
+
 
     def validate_new_plan(
             self,

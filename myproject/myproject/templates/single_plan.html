@@ -57,7 +57,7 @@
 
     <div id="model_action">
         {% if user.is_authenticated %}
-            <div id="model_add_points" onclick="add_points({{ plan.id }})">add points</div>
+            <div id="model_add_points" onclick="add_points({{ plan.id }},10.0)">add points</div>
         {% else %}
             you can add points by logging in.
         {% endif %}

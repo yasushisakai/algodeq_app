@@ -5,7 +5,6 @@ import myproject.settings
 from datetime import datetime, timedelta
 
 # Create your models here.
-#todo:consider adding a log class to log every activity
 
 
 class UserManager(BaseUserManager):

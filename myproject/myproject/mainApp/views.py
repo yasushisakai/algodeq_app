@@ -54,9 +54,10 @@ def single_plan(request, name):
     plan = Plan.objects.get(name=name)  # plan is needed in both situations
 
     if request.method == 'POST' and request.is_ajax():
-        plan.add_points()
+        points = float(request.POST['points'])
+        added_points = plan.add_points(points)
         plan.architect.update_evaluation_time()  # update model evaluation time of user
-        return HttpResponse(json.dumps({'message': 'added points'}))
+        return HttpResponse(json.dumps({'points_added': added_points}))
 
     # below happens when there is neither post nor ajax
     plan_json = plan.get_json()
