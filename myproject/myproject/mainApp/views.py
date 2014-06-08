@@ -21,7 +21,6 @@ def index(request):
     if len(Plan.objects.all()) < 1:
         Plan.init_plan()
 
-
     plans = Plan.objects.all()
     plans_json = []
 
@@ -43,7 +42,6 @@ def index(request):
         'plans_num': len(plans),
         'plans_json': json.dumps(plans_json)
     }, context_instance=RequestContext(request))
-
 
 def single_plan(request, name):
     """
