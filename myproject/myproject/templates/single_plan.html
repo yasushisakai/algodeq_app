@@ -10,20 +10,48 @@
     <!-- todo: decide weather you need it in single_plan.js -->
     <script src="{% static "js/OrbitControls.js" %}"></script>
 
-
+    <script src="{% static "js/diff_match_patch.js" %}"></script>  // diff
 
     <script>
+
+        var path_to_static = {% static "" %};
+
         {% if user.is_authenticated %}
             var is_authenticated = true;
             var csrf_token = '{{ csrf_token }}';
         {% else %}
             var is_authenticated = false;
         {% endif %}
-        var plan_json = {{ plan_json | safe}};
+
+        var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
+        var is_make = false;
+
     </script>
 
     <script src="{% static "js/helper_functions.js" %}"></script>
-    <script src="{% static "js/single_plan.js" %}"></script>
+    {#    <script src="{% static "js/single_plan.js" %}"></script>#}
+
+    <script src="{% static "js/helper_functions.js" %}"></script>
+
+    <script src="{% static "js/model_manipulation.js" %}"></script>
+    <script src="{% static "js/events.js" %}"></script>  // events will be assigned inside make.js, setup_events
+
+    <script src="{% static "model/class/Axis.js" %}"></script>
+    <script src="{% static "model/class/Ground.js" %}"></script>
+    <script src="{% static "model/class/Cursor.js" %}"></script>
+    <script src="{% static "model/class/Light.js" %}"></script>
+    <script src="{% static "model/class/Cube.js" %}"></script>
+    <script src="{% static "model/class/Wall.js" %}"></script>
+    <script src="{% static "model/class/Floor.js" %}"></script>
+    <script src="{% static "model/class/Plan.js" %}"></script>
+
+    <script>
+        $(document).ready(function () {
+            initialize();
+            // 'initialize' written in make.js
+        });
+    </script>
+
 
 {% endblock %}
 
