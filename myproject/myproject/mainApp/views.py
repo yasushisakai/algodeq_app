@@ -33,6 +33,7 @@ def index(request):
                 'url': p.get_absolute_url(),
                 'parent': None,
                 'geometry': p.geometry,
+                'similarity':p.similarity,
                 'children': []})
         else:
             Plan.tree_search(plans_json, p)

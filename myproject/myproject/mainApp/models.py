@@ -215,6 +215,7 @@ class Plan(models.Model):
                      'url': _plan.get_absolute_url(),
                      'parent': _plan.parent_plan.id,
                      'geometry': _plan.geometry,
+                     'similarity': _plan.similarity,
                      'children': []
                     }
                 )
