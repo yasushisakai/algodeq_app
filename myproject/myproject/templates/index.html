@@ -11,30 +11,30 @@
     <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
     <script type="text/javascript" src="{% static "js/d3.layout.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
-{#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
-{#    <style>#}
+    {#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
+    {#    <style>#}
     <style>
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
 
-.node {
-  font: 10px sans-serif;
-}
+        .node {
+            font: 10px sans-serif;
+        }
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
 
-</style>
+    </style>
 
     <script>
-{#        var plans_json = JSON.parse({{ plans_json|safe}});#}
+        {#        var plans_json = JSON.parse({{ plans_json|safe}});#}
 
     </script>
 
@@ -45,28 +45,60 @@
 
 {% block header %}
     <!-- todo: make header -->
+
+    <div class="pure-g">
+        <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+            <h2>the decentralized version controlled building system</h2>
+        </div>
+        <div class="pure-u-2-5">
+
+
+                <button class="pure-button">
+                    <i class="fa-sign-out"></i>
+                    {{ user }}
+                    {% if user.is_authenticated %}
+                        {{ user.name }}
+                    {% else %}
+                        not logged in
+                    {% endif %}
+
+                </button>
+
+
+        </div>
+    </div>
+
+
 {% endblock %}
 
 {% block contents %}
 
 
-    {{ user }}
 
-    {% if user.is_authenticated %}
-        {{ user.id }}: {{ user.name }}
-    {% else %}
-        not logged in
-    {% endif %}
+
+
+    <div class="pure-g">
+        <div class="pure-u-4-5">
+            <script>
+                var impData =  {{ plans_json | safe }};
+                var count = {{ plans_num }};
+                treeDiagram();
+            </script>
+            <p>Thirds</p></div>
+        <div class="pure-u-1-5">
+            <p>{{ plans_num }} plan(s).
+                {% for p in plans %}
+                    <li>
+                        <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
+                    </li>
+                {% endfor %}
+            </p></div>
+
+    </div>
+
 
     <p>
-    {{ plans_num }} plan(s).
-    </p>
 
-    <p>
-    {% for p in plans %}
-        <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
-
-    {% endfor %}
     </p>
 
 
@@ -78,10 +110,6 @@
 
 {% block footer %}
     <!-- todo: make footer -->
-     <script>
-        var impData =  {{ plans_json | safe }};
-        var count = {{ plans_num }};
-                    treeDiagram();
-        </script>
+
 {% endblock %}
 
