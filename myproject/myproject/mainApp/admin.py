@@ -30,8 +30,8 @@ class UserCreationForm(forms.ModelForm):
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data['password1'])
-        user.model_creation_time = datetime.now
-        user.model_evaluation_time = datetime.now
+        user.model_creation_time = datetime.now()
+        user.model_evaluation_time = datetime.now()
         if commit:
             user.save()
         return user

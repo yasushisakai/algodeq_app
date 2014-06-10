@@ -11,31 +11,34 @@
     <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
     <script type="text/javascript" src="{% static "js/d3.layout.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
-{#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
-{#    <style>#}
+
+    <script type="text/javascript" src="{% static "js/helper_functions.js" %}"></script>
+
+    {#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
+    {#    <style>#}
     <style>
 
-.node circle {
-  fill: #fff;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1.5px;
+        }
 
-.node {
-  font: 10px sans-serif;
-}
+        .node {
+            font: 10px sans-serif;
+        }
 
-.link {
-  fill: none;
-  stroke: #ccc;
-  stroke-width: 1.5px;
-}
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
 
-</style>
+    </style>
 
     <script>
-{#        var plans_json = JSON.parse({{ plans_json|safe}});#}
-
+        {#        var plans_json = JSON.parse({{ plans_json|safe}});#}
+        var csrf_token ='{{ csrf_token }}';
     </script>
 
     <script src="{% static "js/index.js" %}">
@@ -49,6 +52,19 @@
 
 {% block contents %}
 
+    {% if user.is_authenticated %}
+
+        Hi, {{ user.username }}. <a href="/logout/">log out</a>.
+
+    {% else %}
+
+        email: <input type="email" id="e-mail">
+        password: <input type="password" id="password">
+            <button onclick="log_in()">log-in</button>or
+        <a href="/sign-up/">sign-up</a>
+
+    {% endif %}
+
 
     {{ user }}
 
@@ -59,14 +75,14 @@
     {% endif %}
 
     <p>
-    {{ plans_num }} plan(s).
+        {{ plans_num }} plan(s).
     </p>
 
     <p>
-    {% for p in plans %}
-        <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
+        {% for p in plans %}
+            <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
 
-    {% endfor %}
+        {% endfor %}
     </p>
 
 
@@ -78,10 +94,10 @@
 
 {% block footer %}
     <!-- todo: make footer -->
-     <script>
+    <script>
         var impData =  {{ plans_json | safe }};
         var count = {{ plans_num }};
-                    treeDiagram();
-        </script>
+        treeDiagram();
+    </script>
 {% endblock %}
 

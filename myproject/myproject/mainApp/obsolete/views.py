@@ -38,9 +38,13 @@ def logout(request):
 
 def register(request):
     if request.method == 'POST':
+        print 'post'
         form = UserCreationForm(request.POST)
+        print 'verifications'
         if form.is_valid():
+            print 'was valid'
             new_user = form.save()
+            print 'redirect'
             return HttpResponseRedirect('../')
     else:
         form = UserCreationForm()

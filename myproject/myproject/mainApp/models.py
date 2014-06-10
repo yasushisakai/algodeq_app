@@ -3,7 +3,7 @@ from django.db import models
 import myproject.settings
 import json
 
-from datetime import datetime
+from datetime import datetime,timedelta
 
 
 class UserManager(BaseUserManager):
@@ -108,6 +108,7 @@ class Plan(models.Model):
     image_file = models.ImageField(upload_to='plans', blank=True)
     geometry = models.CharField(max_length=5000)
     similarity = models.FloatField()
+    cost = models.FloatField()
 
     # points
     points_inborn = models.FloatField()  # points inherited by parent Plan
@@ -144,6 +145,7 @@ class Plan(models.Model):
             'image_file': self.image_file.name,
             'geometry': self.geometry,
             'similarity': self.similarity,
+            'cost': self.cost,
             'points_inborn': self.points_inborn,
             'points_acquired': self.points_acquired,
             'architect': self.architect.username,
@@ -212,10 +214,14 @@ class Plan(models.Model):
                 a['children'].append(
                     {'id': _plan.id,
                      'name': _plan.name,
+                     'architect': _plan.architect.username,
                      'url': _plan.get_absolute_url(),
                      'parent': _plan.parent_plan.id,
-                     'geometry': _plan.geometry,
+                     # 'geometry': _plan.geometry,
                      'similarity': _plan.similarity,
+                      'creation_time': _plan.creation_time.strftime('%Y/%m/%d_%H:%M:%S'),
+                     'total_points': _plan.get_total_points(),
+                     'cost': _plan.cost,
                      'children': []
                     }
                 )
@@ -236,6 +242,7 @@ class Plan(models.Model):
             points_inborn=100.0,
             points_acquired=0.0,
             architect=usr,
+            cost=0.0,
             parent_plan=None
         )
 
