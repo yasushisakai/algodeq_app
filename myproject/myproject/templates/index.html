@@ -47,32 +47,11 @@
 {% endblock %}
 
 {% block header %}
-    <!-- todo: make header -->
+    <!-- authentication process -->
+    {% include "header_with_login.html" %}
 {% endblock %}
 
 {% block contents %}
-
-    {% if user.is_authenticated %}
-
-        Hi, {{ user.username }}. <a href="/logout/">log out</a>.
-
-    {% else %}
-
-        email: <input type="email" id="e-mail">
-        password: <input type="password" id="password">
-            <button onclick="log_in()">log-in</button>or
-        <a href="/sign-up/">sign-up</a>
-
-    {% endif %}
-
-
-    {{ user }}
-
-    {% if user.is_authenticated %}
-        {{ user.id }}: {{ user.name }}
-    {% else %}
-        not logged in
-    {% endif %}
 
     <p>
         {{ plans_num }} plan(s).

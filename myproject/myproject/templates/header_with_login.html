@@ -1,0 +1,13 @@
+    {% if user.is_authenticated %}
+
+        Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+
+    {% else %}
+
+        you are not logged in, you can either login (
+        email: <input type="email" id="e-mail">
+        password: <input type="password" id="password">
+            <button onclick="log_in()">log-in</button>) or
+        <a href="/sign_up/">sign-up</a>.
+
+    {% endif %}

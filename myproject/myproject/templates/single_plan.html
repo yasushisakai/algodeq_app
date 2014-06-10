@@ -15,10 +15,10 @@
     <script>
 
         var path_to_static = {% static "" %};
+        var csrf_token = '{{ csrf_token }}';
 
         {% if user.is_authenticated %}
             var is_authenticated = true;
-            var csrf_token = '{{ csrf_token }}';
         {% else %}
             var is_authenticated = false;
         {% endif %}
@@ -30,8 +30,6 @@
 
     <script src="{% static "js/helper_functions.js" %}"></script>
     {#    <script src="{% static "js/single_plan.js" %}"></script>#}
-
-    <script src="{% static "js/helper_functions.js" %}"></script>
 
     <script src="{% static "js/model_manipulation.js" %}"></script>
     <script src="{% static "js/events.js" %}"></script>  // events will be assigned inside make.js, setup_events
@@ -56,16 +54,11 @@
 {% endblock %}
 
 {% block header %}
-
+    <!-- authentication process -->
+    {% include "header_with_login.html" %}
 {% endblock %}
 
 {% block contents %}
-
-    {% if user.is_authenticated %}
-        {{ user.id }}: {{ user.username }}
-    {% else %}
-        not logged in
-    {% endif %}
 
     <div class="go_back" onclick="document.location.href='../../'">go back</div>
 

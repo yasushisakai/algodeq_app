@@ -17,7 +17,8 @@ def index(request):
     view funtion for 'index.html'
     """
 
-    log_in(request)  # authentication process.
+    if log_in(request):  # authentication process
+        return HttpResponse("logged in!")
 
     # add one plan (tokyo) if there is nothing
     if len(Plan.objects.all()) < 1:
@@ -79,7 +80,8 @@ def single_plan(request, name):
     single_plan.html is used as template
     """
 
-    log_in(request)  # autheication process
+    if log_in(request):  # autheication process
+        return HttpResponse("logged in!")
 
     plan = Plan.objects.get(name=name)  # plan is needed in both situations
 
@@ -106,7 +108,8 @@ def make(request, plan_id):
     make.html is used as template
     """
 
-    log_in(request)  # authentication process
+    if log_in(request):  # autheication process
+        return HttpResponse("logged in!")
 
     plan = Plan.objects.get(id=plan_id)
 
@@ -120,7 +123,7 @@ def make(request, plan_id):
             validation = plan.validate_new_plan(
                 new_plan_name,
                 new_plan_geometry,
-                new_plan_similarity
+                new_plan_similarity,
             )
             return HttpResponse(json.dumps(validation))
         else:
@@ -137,6 +140,9 @@ def make(request, plan_id):
 
             new_plan_cost = request.POST['new_plan_cost']
 
+            # update the users creation_time
+            request.user.update_creation_time()
+
             # save and add plan
             new_plan = Plan(
                 name=new_plan_name,
@@ -151,8 +157,6 @@ def make(request, plan_id):
                 parent_plan=plan
             )
             new_plan.save()
-
-            print request.POST['phase']
 
     # below happens there is neither post nor ajax
     plan_json = plan.get_json()
@@ -170,16 +174,25 @@ def log_in(request):
     will be used in all views except finalize and sign-up
     """
 
-    if 'email' in request.POST:
-        email = request.POST.get('email','')
-        password = request.POST.get('password','')
-        user = auth.authenticate(email=email,password=password)
+    if 'email' in request.POST and request.is_ajax():
+        print 'hi'
+        email = request.POST.get('email', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(email=email, password=password)
+
+        print 'auth.authenticate'
 
         if user is not None and user.is_active:
             auth.login(request, user)
-            print 'logged in'
-            return HttpResponse('logged in as ' + user.username)
+            print 'auth.login'
+            return True
 
+    return False
+
+
+def log_out(request):
+    auth.logout(request)
+    return HttpResponseRedirect("/")
 
 
 

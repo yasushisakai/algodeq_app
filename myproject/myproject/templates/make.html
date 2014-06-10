@@ -14,10 +14,10 @@
     <script>
 
         var path_to_static = {% static "" %};
+        var csrf_token = '{{ csrf_token }}';
 
         {% if user.is_authenticated %}
             var is_authenticated = true;
-            var csrf_token = '{{ csrf_token }}';
         {% else %}
             var is_authenticated = false;
         {% endif %}
@@ -52,23 +52,11 @@
 {% endblock %}
 
 {% block header %}
-
+    <!-- authentication process -->
+    {% include "header_with_login.html" %}
 {% endblock %}
 
 {% block contents %}
-
-    {% if user.is_authenticated %}
-
-        Hi, {{ user.username }}. <a href="/logout/">log out</a>.
-
-    {% else %}
-
-        email: <input type="email" id="e-mail">
-        password: <input type="password" id="password">
-        <button onclick="log_in()">log-in</button>or
-        <a href="/sign-up/">sign-up</a>
-
-    {% endif %}
 
     <div class="go_back" onclick="history.back()">go back</div>
 
@@ -92,6 +80,7 @@
             <p id="new_model_name"><input type="text" name="new_name" size="100"></p>
             <!-- <p id="new_model_geometry"></p> -->
             <p id="new_model_similarity"></p>
+
             <p id="new_model_cost"></p>
         </div>
 

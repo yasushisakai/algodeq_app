@@ -1,7 +1,9 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils.timesince import timesince
 from django.db import models
 import myproject.settings
 import json
+import sys
 
 from datetime import datetime,timedelta
 
@@ -87,6 +89,9 @@ class User(AbstractBaseUser):
     def update_creation_time(self):
         self.model_creation_time = datetime.now()
         self.save()
+
+    def time_since_model_creation(self):
+        return timesince(self.model_creation_time)
 
     @staticmethod
     def has_perm(perm, obj=None):
@@ -190,7 +195,10 @@ class Plan(models.Model):
             self,
             new_plan_name,
             new_plan_geometry,
-            new_plan_similarity):
+            new_plan_similarity,
+    ):
+
+
 
         if self.geometry is new_plan_geometry:
             return {'is_validation': False, 'message': 'geometry same as parent'}
