@@ -14,6 +14,21 @@
 
 {% block contents %}
 
+        <form action="" method="post">
+        {% csrf_token %}
+        email:<input type="email" name="email" id="id_email"><br>
+        username:<input type="text" name="username" id="id_username"><br>
+        password:<input type="password" name="password1" id="password1"><br>
+        password(confirm):<input type="password" name="password2" id="password2"><br>
+        <button type="submit" >submit</button>
+        </form>
+
+{#    <form action="" method="post">#}
+{#        {% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <button type="submit">submit</button>#}
+{#    </form>#}
+
 {% endblock %}
 
 {% block footer %}

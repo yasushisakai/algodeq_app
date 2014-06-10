@@ -58,9 +58,16 @@
 {% block contents %}
 
     {% if user.is_authenticated %}
-        {{ user.id }}: {{ user.username }}
+
+        Hi, {{ user.username }}. <a href="/logout/">log out</a>.
+
     {% else %}
-        not logged in
+
+        email: <input type="email" id="e-mail">
+        password: <input type="password" id="password">
+        <button onclick="log_in()">log-in</button>or
+        <a href="/sign-up/">sign-up</a>
+
     {% endif %}
 
     <div class="go_back" onclick="history.back()">go back</div>
