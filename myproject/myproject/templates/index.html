@@ -7,10 +7,13 @@
 {% block head %}
 
 
+
     <script type="text/javascript" src="{% static "js/three.js" %}"></script>
     <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
     <script type="text/javascript" src="{% static "js/d3.layout.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
+
+
     {#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
     {#    <style>#}
     <style>
@@ -48,21 +51,35 @@
 
     <div class="pure-g">
         <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+
             <h2>the decentralized version controlled building system</h2>
         </div>
         <div class="pure-u-2-5">
 
 
-                <button class="pure-button">
-                    <i class="fa-sign-out"></i>
-                    {{ user }}
-                    {% if user.is_authenticated %}
-                        {{ user.name }}
-                    {% else %}
-                        not logged in
-                    {% endif %}
+            <button class="pure-button">
+                <i class="fa-sign-out"></i>
+                {{ user }}
+                {% if user.is_authenticated %}
+                    {{ user.name }}
+                {% else %}
+                    not logged in
+                {% endif %}
 
-                </button>
+            </button>
+            <form class="pure-form">
+                <fieldset>
+
+                    <input type="email" placeholder="Email">
+                    <input type="password" placeholder="Password">
+
+                    <label for="remember">
+                        <input id="remember" type="checkbox"> Remember me
+                    </label>
+
+                    <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+                </fieldset>
+            </form>
 
 
         </div>
@@ -84,15 +101,54 @@
                 var count = {{ plans_num }};
                 treeDiagram();
             </script>
-            <p>Thirds</p></div>
+        </div>
         <div class="pure-u-1-5">
-            <p>{{ plans_num }} plan(s).
-                {% for p in plans %}
+            <div id="demo-horizontal-menu">
+                <ul id="std-menu-items">
                     <li>
-                        <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
+                        <a href="#">sort by</a>
+                        <ul>
+                            <li class="pure-menu-heading">architect</li>
+                            <li><a href="#">high score</a></li>
+                            <li><a href="#">*****</a></li>
+                            <li><a href="#">*****</a></li>
+
+                        </ul>
                     </li>
-                {% endfor %}
-            </p></div>
+                </ul>
+            </div>
+
+            <script>
+                YUI({
+                    classNamePrefix: 'pure'
+                }).use('gallery-sm-menu', function (Y) {
+
+                            var horizontalMenu = new Y.Menu({
+                                container: '#demo-horizontal-menu',
+                                sourceNode: '#std-menu-items',
+                                orientation: 'horizontal',
+                                hideOnOutsideClick: false,
+                                hideOnClick: false
+                            });
+
+                            horizontalMenu.render();
+                            horizontalMenu.show();
+
+                        });
+                var Lst = Lst_sort();
+                for (var i in Lst) {
+                    document.write("<li>");
+                    document.write("<a href="+Lst[i].url+">")
+                    document.write(Lst[i].id);
+                    document.write(Lst[i].name);
+                    document.write("</a>");
+                    document.write("<br/>");
+                    document.write("</li>");
+                }
+            </script>
+
+
+        </div>
 
     </div>
 
