@@ -14,30 +14,30 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="//yui.yahooapis.com/combo?3.17.2/yui/yui-min.js"></script>
 
-
+<!-- block head -->
     {% block head %}
         <!-- head -->
-    {% endblock %}
+    {% endblock %}<!-- block head -->
 </head>
 <body>
 <div id="wrapper">
 
-    <div id="header">
+    <div id="header"><!-- header head -->
         {% block header %}
             <!-- header -->
-        {% endblock %}
+        {% endblock %}<!-- header head -->
     </div>
 
-    <div id="contents">
+    <div id="contents"><!-- contents head -->
         {% block contents %}
             <!-- body -->
-        {% endblock %}
+        {% endblock %}<!-- contents head -->
     </div>
 
-    <div id="footer">
+    <div id="footer"><!-- footer head -->
         {% block footer %}
             <!-- footer -->
-        {% endblock %}
+        {% endblock %}<!-- footer head -->
     </div>
 
     {% block canvas %}

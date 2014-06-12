@@ -1,0 +1,46 @@
+{% load staticfiles %}
+
+<script src="{% static "js/three.min.js" %}"></script>
+<script src="{% static "js/OrbitControls.js" %}"></script>
+<script src="{% static "js/diff_match_patch.js" %}"></script>
+
+<script>
+    var path_to_static = {% static "" %};
+    var csrf_token = '{{ csrf_token }}';
+
+    var creation_threshold = 180;
+    var evaluation_threshold = 10;
+    var creation_timer = Number.MIN_VALUE;
+    var evaluation_timer = Number.MIN_VALUE;
+
+    {% if user.is_authenticated %}
+        var is_authenticated = true;
+        creation_timer = {{ user.time_diff_creation}};
+        evaluation_timer = {{ user.time_diff_evaluation}};
+        {% if user.is_staff %}
+            creation_threshold = 0;
+            evaluation_threshold = 0;
+        {% endif %}
+    {% else %}
+        var is_authenticated = false;
+    {% endif %}
+
+    var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
+
+</script>
+
+<script src="{% static "js/helper_functions.js" %}"></script>
+
+<!-- main -->
+<script src="{% static "js/model_manipulation.js" %}"></script>
+<script src="{% static "js/events.js" %}"></script>
+
+<!-- classes  -->
+<script src="{% static "model/class/Axis.js" %}"></script>
+<script src="{% static "model/class/Ground.js" %}"></script>
+<script src="{% static "model/class/Cursor.js" %}"></script>
+<script src="{% static "model/class/Light.js" %}"></script>
+<script src="{% static "model/class/Cube.js" %}"></script>
+<script src="{% static "model/class/Wall.js" %}"></script>
+<script src="{% static "model/class/Floor.js" %}"></script>
+<script src="{% static "model/class/Plan.js" %}"></script>
