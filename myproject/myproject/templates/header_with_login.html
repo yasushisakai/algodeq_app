@@ -4,10 +4,34 @@
 
     {% else %}
 
-        you are not logged in, you can either login (
-        email: <input type="email" id="e-mail">
-        password: <input type="password" id="password">
-            <button onclick="log_in()">log-in</button>) or
-        <a href="/sign_up/">sign-up</a>.
+
+
+
+        <div class="pure-control-group">
+        <style scoped>
+
+        .button-xsmall {
+            font-size: 70%;
+        }
+
+        .button-small {
+            font-size: 85%;
+        }
+
+        .button-large {
+            font-size: 110%;
+        }
+
+        .button-xlarge {
+            font-size: 125%;
+        }
+
+    </style>
+
+        <input type="email" id="e-mail" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+            <button class="button-small pure-button" onclick="log_in()">log-in</button>
+        </div>
+
 
     {% endif %}

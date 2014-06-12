@@ -58,30 +58,17 @@
         </div>
         <div class="pure-u-2-5">
 
+            <div class="login">
+                <br/>
 
-            <button class="pure-button">
-                <i class="fa-sign-out"></i>
-                {{ user }}
-                {% if user.is_authenticated %}
-                    {{ user.name }}
-                {% else %}
-                    not logged in
-                {% endif %}
+                <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
+                </div>
+                　　　　　<br/>
 
-            </button>
-            <form class="pure-form">
-                <fieldset>
 
-                    <input type="email" placeholder="Email">
-                    <input type="password" placeholder="Password">
+                {% include "header_with_login.html" %}
 
-                    <label for="remember">
-                        <input id="remember" type="checkbox"> Remember me
-                    </label>
-
-                    <button type="submit" class="pure-button pure-button-primary">Sign in</button>
-                </fieldset>
-            </form>
+            </div>
 
 
         </div>
@@ -107,13 +94,14 @@
                         <a href="#">sort by</a>
                         <ul>
                             <li class="pure-menu-heading">architect</li>
-                            <li><a href="#">high score</a></li>
+                            <li><a href="javascript:void(0);" onclick="reWrite();">high score</a></li>
                             <li><a href="#">*****</a></li>
                             <li><a href="#">*****</a></li>
 
                         </ul>
                     </li>
                 </ul>
+                <a href="javascript:void(0);" onclick="reWrite(Lst);">high score</a>
             </div>
 
             <script>
@@ -121,42 +109,74 @@
                     classNamePrefix: 'pure'
                 }).use('gallery-sm-menu', function (Y) {
 
-                    var horizontalMenu = new Y.Menu({
-                        container: '#demo-horizontal-menu',
-                        sourceNode: '#std-menu-items',
-                        orientation: 'horizontal',
-                        hideOnOutsideClick: false,
-                        hideOnClick: false
-                    });
+                            var horizontalMenu = new Y.Menu({
+                                container: '#demo-horizontal-menu',
+                                sourceNode: '#std-menu-items',
+                                orientation: 'horizontal',
+                                hideOnOutsideClick: false,
+                                hideOnClick: false
+                            });
 
-                    horizontalMenu.render();
-                    horizontalMenu.show();
+                            horizontalMenu.render();
+                            horizontalMenu.show();
 
-                });
+                        });
+
                 var Lst = Lst_sort();
-                for (var i in Lst) {
-                    document.write("<li>");
-                    document.write("<a href=" + Lst[i].url + ">")
-                    document.write(Lst[i].id);
-                    document.write(Lst[i].name);
-                    document.write("</a>");
-                    document.write("<br/>");
-                    document.write("</li>");
+                //SortScore(Lst);
+                //console.log(LstS);
+
+                document.write('<div id="make-list">');
+                domMaker(Lst);
+
+                function domMaker(array) {
+
+
+                    for (var i in array) {
+                        document.write("<li>");
+                        document.write("<a href=" + array[i].url + ">");
+                        document.write(array[i].id);
+                        document.write(array[i].name);
+                        document.write("</a>");
+                        document.write("<br/>");
+                        document.write("</li>");
+
+                    }
+                    console.log("test");
+
                 }
+                document.write("</div>");
+
+                function reWrite(array) {
+                    SortScore(array);
+                    var txt = domRewrite(array);
+                    console.log(txt);
+
+                    document.getElementById("make-list").innerHTML = txt;
+
+                    function domRewrite (array) {
+                        var ttt;
+
+                        for (var i in array){
+                            ttt +="<li><a href=" + array[i].url + ">";
+                            ttt +=array[i].id;
+                            ttt +=array[i].name;
+                            ttt +="</a><br/></li>";
+                        }
+
+                        return ttt;
+                    }// domMaker(Lst);
+
+
+                }
+
+
             </script>
 
 
         </div>
 
     </div>
-
-    <p>
-        {% for p in plans %}
-            <a href="{{ p.get_absolute_url }}">{{ p.name }}</a>
-
-        {% endfor %}
-    </p>
-
 
     {{ plans_json }}
 
@@ -166,10 +186,6 @@
 
 {% block footer %}
     <!-- todo: make footer -->
-    <script>
-        var impData = {{ plans_json|safe}};
-        var count = {{ plans_num }};
-        treeDiagram();
-    </script>
+
 {% endblock %}
 
