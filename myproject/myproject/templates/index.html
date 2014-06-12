@@ -87,58 +87,37 @@
             </script>
         </div>
         <div class="pure-u-1-5">
-            <div id="demo-horizontal-menu">
-                <ul id="std-menu-items">
-                    <li>
-                        <a href="#">sort by</a>
-                        <ul>
-                            <li class="pure-menu-heading">architect</li>
-                            <li><a href="javascript:void(0);" onclick="reWrite(Lst);">high score</a></li>
-                            <li><a href="#">*****</a></li>
-                            <li><a href="#">*****</a></li>
 
-                        </ul>
-                    </li>
-                </ul>
-                <a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>high score</a>
+
+            <div id="make-list">
+                <table class="pure-table pure-table-horizontal">
+                    <thead>
+                    <tr>
+                        <th>
+                            <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
+                        </th>
+                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
+                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
+                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
+                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
+                    </tr>
+                    </thead>
+                    <tbody id="table_list">
+                    <script>
+                        var Lst = Lst_sort();
+                        domMaker(Lst);
+                    </script>
+                    <tbody>
+
+                </table>
+
+
             </div>
 
-            <script>
-                YUI({
-                    classNamePrefix: 'pure'
-                }).use('gallery-sm-menu', function (Y) {
-
-                            var horizontalMenu = new Y.Menu({
-                                container: '#demo-horizontal-menu',
-                                sourceNode: '#std-menu-items',
-                                orientation: 'horizontal',
-                                hideOnOutsideClick: false,
-                                hideOnClick: false
-                            });
-
-                            horizontalMenu.render();
-                            horizontalMenu.show();
-
-                        });
-
-                var Lst = Lst_sort();
-
-                //Listのタグを生成
-                document.write('<div id="make-list">');
-                domMaker(Lst);
-
-                document.write("</div>");
-
-
-
-            </script>
-
-
         </div>
-
     </div>
 
-    {{ plans_json }}
+
 
 
 
@@ -146,6 +125,7 @@
 
 {% block footer %}
     <!-- todo: make footer -->
+    {{ plans_json }}
 
 {% endblock %}
 
