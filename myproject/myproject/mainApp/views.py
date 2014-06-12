@@ -96,7 +96,7 @@ def single_plan(request, name):
 
     return render_to_response('single_plan.html', {
         'plan': plan,
-        'plan_json': plan_json
+        'plan_json': plan_json,
     }, context_instance=RequestContext(request)
     )
 

@@ -1,5 +1,5 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.utils.timesince import timesince
+from django.utils.timezone import utc
 from django.db import models
 import myproject.settings
 import json
@@ -86,12 +86,16 @@ class User(AbstractBaseUser):
         self.model_evaluation_time = datetime.now()
         self.save()
 
+    def time_diff_creation(self):
+        return User.time_diff(self.model_creation_time)
+
     def update_creation_time(self):
         self.model_creation_time = datetime.now()
         self.save()
 
-    def time_since_model_creation(self):
-        return timesince(self.model_creation_time)
+    def time_diff_evaluation(self):
+        return User.time_diff(self.model_evaluation_time)
+
 
     @staticmethod
     def has_perm(perm, obj=None):
@@ -100,6 +104,11 @@ class User(AbstractBaseUser):
     @staticmethod
     def has_module_perms(app_label):
         return True
+
+    @staticmethod
+    def time_diff(_time):
+        now = datetime.utcnow().replace(tzinfo=utc)
+        return (now-_time).total_seconds()
 
 
 class Plan(models.Model):

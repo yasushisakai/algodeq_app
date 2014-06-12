@@ -15,6 +15,8 @@
 
         var path_to_static = {% static "" %};
         var csrf_token = '{{ csrf_token }}';
+        var creation_timer = {{ user.time_diff_creation}};
+        var evaluation_timer = {{ user.time_diff_evaluation}};
 
         {% if user.is_authenticated %}
             var is_authenticated = true;
@@ -59,6 +61,11 @@
 {% block contents %}
 
     <div class="go_back" onclick="history.back()">go back</div>
+
+    <div id="timers">
+        <div id="timers_creation"></div>
+        <div id="timers_evaluation"></div>
+    </div>
 
     <div id="navigation">
 
