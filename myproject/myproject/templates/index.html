@@ -93,6 +93,7 @@
                 <table class="pure-table pure-table-horizontal">
                     <thead>
                     <tr>
+                        <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"rank");' OnMouseOver='MouseIn(Lst[1].id);' OnMouseOut='MouseOut(Lst[1].id);'>rank</a></th>
                         <th>
                             <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
                         </th>
@@ -105,6 +106,7 @@
                     <tbody id="table_list">
                     <script>
                         var Lst = Lst_sort();
+                        SortScore(Lst,"total_points");
                         domMaker(Lst);
                     </script>
                     <tbody>
