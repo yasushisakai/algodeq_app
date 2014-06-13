@@ -14,7 +14,7 @@ from myproject.mainApp.models import User, Plan
 
 def index(request):
     """
-    view funtion for 'index.html'
+    view function for 'index.html'
     """
 
     if log_in(request):  # authentication process
@@ -80,7 +80,7 @@ def single_plan(request, name):
     single_plan.html is used as template
     """
 
-    if log_in(request):  # autheication process
+    if log_in(request):  # authentication process
         return HttpResponse("logged in!")
 
     plan = Plan.objects.get(name=name)  # plan is needed in both situations
@@ -108,7 +108,7 @@ def make(request, plan_id):
     make.html is used as template
     """
 
-    if log_in(request):  # autheication process
+    if log_in(request):  # authentication process
         return HttpResponse("logged in!")
 
     plan = Plan.objects.get(id=plan_id)
