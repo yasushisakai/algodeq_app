@@ -2,7 +2,7 @@
 body{
 	color: #898989;
 	background-color: #DFCE3A;
-	font-color:#6B6A70;
+	color:#6B6A70;
 }
 #header{
 	border-bottom: 1px solid #eee;
@@ -23,15 +23,10 @@ body{
 	padding-top: 1em;
 }
 
-.login {
-	text-align: right;
-	vertical-align: -100px;
-	padding:0 15px 0 0;
-
+.exText{
+	padding-left: 1em; 
+	padding-right: 1em;
 }
-
-
-
 
 .webfont{
 	font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 100%;
@@ -40,7 +35,7 @@ body{
 h1 { font-family: 'Dosis', sans-serif; font-weight: 400;line-height: 50%;padding: 10px 0px 0px 10px; }
 h2 { font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 0%;padding:0 0 5px 10px; }
 h3{font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 0%;padding:20px 0 5px 10px;
-font-color:#514F5A; 
+color:#514F5A; 
 	-webkit-margin-before: 0.83em;
 	-webkit-margin-after: 0.83em;
 	-webkit-margin-start: 0px;
