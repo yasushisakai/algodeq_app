@@ -1,52 +1,48 @@
 
 body{
-    color: #898989;
-    background-color: #DFCE3A;
+	color: #898989;
+	background-color: #DFCE3A;
 }
 #header{
-    
+	border-bottom: 1px solid #eee;
+
 }
 
-#navigation {
-    width: 200px;
-}
 
 #wrapper {
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1em;
-    padding-right: 1em;
-    max-width: 768px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 1em;
+	padding-right: 1em;
+	max-width: 768px;
 }
 
 
-#webgl_canvas {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    z-index: -10;
+.explain{
+	padding-top: 1em;
 }
 
 .login {
-    text-align: right;
-    vertical-align: -100px;
-    padding:0 15px 0 0;
+	text-align: right;
+	vertical-align: -100px;
+	padding:0 15px 0 0;
 
 }
 
-.pure-u-4-5{
-    padding:50px 0 0 0;
-}
 
-#make-list{
-    font-size: 10px;
-    padding:20px 0 0 0;
-}
+
 
 .webfont{
-    font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 100%;
+	font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 100%;
 }
 
 h1 { font-family: 'Dosis', sans-serif; font-weight: 400;line-height: 50%;padding: 10px 0px 0px 10px; }
 h2 { font-family: 'Dosis', sans-serif; font-weight: 100;line-height: 0%;padding:0 0 5px 10px; }
+h3{
+	font-family: 'Dosis', sans-serif;display: block;
+	font-size: 1.5em;
+	-webkit-margin-before: 0.83em;
+	-webkit-margin-after: 0.83em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;}
 
