@@ -1,6 +1,8 @@
 import json
 import datetime
 
+import Image
+
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
@@ -109,11 +111,16 @@ def make(request, plan_id):
             new_plan_image_data = request.POST['image']  # image is only sent in phase 1
             new_plan_image_data = new_plan_image_data.decode("base64")
             image_name = 'img_' + new_plan_name + '.png'
+            image_name_large = 'img_' + new_plan_name + '_large.png'
 
             # save image to server.
-            image_file = open(MEDIA_ROOT + "/plans/" + image_name, "wb")
+            image_path = MEDIA_ROOT + "/plans/" + image_name_large
+            image_file = open(MEDIA_ROOT + image_path, "wb")
             image_file.write(new_plan_image_data)
             image_file.close()
+
+            image_path_small = MEDIA_ROOT + "/plans/small/" + image_name
+            Image.open(image_path).resize((100, 200)).save(image_path_small)
 
             new_plan_cost = request.POST['new_plan_cost']
 
@@ -146,19 +153,57 @@ def make(request, plan_id):
 
 
 def finalize(request):
-    if request.method == 'POST' and request.is_ajax() and "name" in request.POST:
-        test_name = request.POST["name"]
+    if request.method == 'POST' and request.is_ajax():
+        if "name" in request.POST:
 
-        print test_name
+            test_name = request.POST["name"]
+            flag = False
+            try:
+                plan = Plan.objects.get(name=test_name)
+            except:
+                flag = True
+            print flag
+            return HttpResponse(json.dumps({"flag": flag}))
 
-        flag = False
-        try:
-            plan = Plan.objects.get(name=test_name)
-        except:
-            flag = True
+        elif "save_name" in request.POST:
 
-        print flag
-        return HttpResponse(json.dumps({"flag": flag}))
+            new_plan_name = request.POST['save_name']
+
+            # get the image data from server and decode it.
+            new_plan_image_data = request.POST['save_image']  # image is only sent in phase 1
+            new_plan_image_data = new_plan_image_data.decode("base64")
+            image_name = 'img_' + new_plan_name + '.png'
+
+            # save image to server.
+            image_path = MEDIA_ROOT + "/plans/" + image_name
+            image_file = open(image_path, "wb")
+            image_file.write(new_plan_image_data)
+            image_file.close()
+
+            image_path_small = MEDIA_ROOT + "/plans/small/" + image_name
+            Image.open(image_path).resize((128, 72)).save(image_path_small)
+
+            new_plan_cost = request.POST['save_cost']
+
+            # update the users creation_time
+            request.user.update_creation_time()
+
+
+            # save and add plan
+            new_plan = Plan(
+                name=new_plan_name,
+                creation_time=datetime.datetime.now(),
+                image_file=MEDIA_ROOT + '/plans/' + image_name,
+                geometry=request.POST['save_geometry'],
+                similarity=request.POST['save_similarity'],
+                points_inborn=request.POST['save_points'],
+                points_acquired=0.0,
+                architect=request.user,
+                cost=request.POST['save_cost'],
+                parent_plan=Plan.objects.get(id=request.POST['save_parent_id'])
+            )
+            new_plan.save()
+            return HttpResponse()
 
     geometry = request.POST['new_geometry']
     similarity = float(request.POST['new_similarity'])
