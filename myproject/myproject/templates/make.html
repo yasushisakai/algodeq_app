@@ -6,9 +6,17 @@
 
 {% block head %}
 
+    <!-- main -->
+    <script src="{% static "js/model_manipulation.js" %}"></script>
+    <script src="{% static "js/events.js" %}"></script>
+
+
     {% include "inhead_declaration.html" %}
 
+
     <script>
+        console.log(path_to_static);
+        var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
         var is_make = true;
         $(document).ready(function () {
             initialize();
@@ -53,9 +61,10 @@
 
         <div id="model_action">
             {% if user.is_authenticated %}
-                <div id="save_plan" onclick="save_plan({{ plan.id }})">save plan</div>
+                {#                <div id="save_plan" onclick="save_plan()">save plan</div>#}
+                <div id="finalize" onclick="to_finalize()">finalize</div>
             {% else %}
-                you can add create plans if you are logged in.
+                you can create plans if you are logged in.
             {% endif %}
             <div class="error"></div>
 
@@ -72,6 +81,15 @@
 
         </div>
     </div>
+
+    <form name="finalization" action="/finalize/" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="new_geometry" id="new_geometry" value="">
+        <input type="hidden" name="new_similarity" id="new_similarity" value="">
+        <input type="hidden" name="parent_id" id="parent_id" value="{{ plan.id }}">
+        <input type="hidden" name="parent_name" id="parent_name" value="{{ plan.name }}">
+        <input type="hidden" name="parent_points" id="parent_points" value="{{ plan.get_total_points }}">
+    </form>
 
 
 {% endblock %}

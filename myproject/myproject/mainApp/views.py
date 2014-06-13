@@ -51,28 +51,6 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
-def sign_up(request):
-    """
-    view for signing up(register)
-    """
-
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            print form
-            form.save()
-            print 'redirect'
-            return HttpResponseRedirect('../')
-    else:
-        form = UserCreationForm()
-
-    return render_to_response("sign_up.html",
-                              {
-                                  'form': form,
-                              },
-                              context_instance=RequestContext(request))
-
-
 def single_plan(request, name):
     """
     gives the information of a single_plan
@@ -165,6 +143,60 @@ def make(request, plan_id):
         'plan_json': plan_json
     }, context_instance=RequestContext(request)
     )
+
+
+def finalize(request):
+    if request.method == 'POST' and request.is_ajax() and "name" in request.POST:
+        test_name = request.POST["name"]
+
+        print test_name
+
+        flag = False
+        try:
+            plan = Plan.objects.get(name=test_name)
+        except:
+            flag = True
+
+        print flag
+        return HttpResponse(json.dumps({"flag": flag}))
+
+    geometry = request.POST['new_geometry']
+    similarity = float(request.POST['new_similarity'])
+
+    parent_id = int(request.POST['parent_id'])
+    parent_name = request.POST['parent_name']
+    parent_points = float(request.POST['parent_points'])
+
+    return render_to_response('finalize.html', {
+        'geometry': geometry,
+        'similarity': similarity,
+        'parent_id': parent_id,
+        'parent_name': parent_name,
+        'parent_points': parent_points,
+    }, context_instance=RequestContext(request)
+    )
+
+
+def sign_up(request):
+    """
+    view for signing up(register)
+    """
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            print form
+            form.save()
+            print 'redirect'
+            return HttpResponseRedirect('../')
+    else:
+        form = UserCreationForm()
+
+    return render_to_response("sign_up.html",
+                              {
+                                  'form': form,
+                              },
+                              context_instance=RequestContext(request))
 
 
 def log_in(request):

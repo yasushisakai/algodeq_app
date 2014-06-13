@@ -13,11 +13,14 @@ urlpatterns = patterns('',
                        # basics
                        ###################################
 
-                       url(r'^$', 'myproject.mainApp.views.index'),
+                       url(r'^$', 'myproject.mainApp.views.index'),  # 0.index tree diagram
+                       url(r'^make/(?P<plan_id>[-0-9]+)/?$', 'myproject.mainApp.views.make'),  # 1.create plan
+                       url(r'^plan/(?P<name>[-a-zA-Z0-9_]+)/?$', 'myproject.mainApp.views.single_plan'),  # 2.view plan
+                       url(r'finalize/', 'myproject.mainApp.views.finalize'),  # 3.save image and add plan to DB
+
+                       # authentication
                        url(r'log_out/', 'myproject.mainApp.views.log_out'),
                        url(r'^sign_up/', 'myproject.mainApp.views.sign_up'),
-                       url(r'^make/(?P<plan_id>[-0-9]+)/?$', 'myproject.mainApp.views.make'),
-                       url(r'^plan/(?P<name>[-a-zA-Z0-9_]+)/?$', 'myproject.mainApp.views.single_plan'),
 
                        # admin
                        url(r'^admin/',include(admin.site.urls)),

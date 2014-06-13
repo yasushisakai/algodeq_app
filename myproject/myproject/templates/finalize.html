@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+{% block head %}
+
+    <!-- main -->
+    <script src="{% static "js/finalize.js" %}"></script>
+    <script src="{% static "js/events.js" %}"></script>
+
+    {% include "inhead_declaration.html" %}
+
+    <script>
+
+        var geometry_data = {{ geometry|safe }};
+        var similarity = {{ similarity }};
+        var parent_id = {{ parent_id }};
+        var parent_points = {{ parent_points }};
+        var points_inborn, cost;
+        var valid = false;
+
+
+        $(document).ready(function () {
+            initialize();
+            // 'initialize' written in finalize.js
+        });
+    </script>
+
+{% endblock %}
+
+{% block header %}
+
+    Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+
+{% endblock %}
+
+{% block contents %}
+    <div class="go_back" onclick="history.back()">go back</div>
+
+    <div id="model_info">
+        <input type="text" id="name" name="name" size="100"><p id="status"></p>
+
+        <p id="cost"></p>
+
+        <p id="points_inborn"></p>
+
+        <p id="architect">architect: {{ user.username }}</p>
+
+        <div id="parent_info">
+            <p id="similarity">similarity: {{ similarity }}</p>
+
+            <p id="parent_name">parent name: {{ parent_name }}</p>
+
+            <p id="parent_points">parent points: {{ parent_points }}</p>
+        </div>
+    </div>
+
+    <p id="save_plan" onclick="save_plan()">save plan</p>
+
+{% endblock %}
+
+{% block footer %}
+
+{% endblock %}
+
+{% block canvas %}
+    <div id="webgl_canvas"></div>
+{% endblock %}
+

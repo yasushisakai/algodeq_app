@@ -6,9 +6,14 @@
 
 {% block head %}
 
+    <!-- main -->
+    <script src="{% static "js/model_manipulation.js" %}"></script>
+    <script src="{% static "js/events.js" %}"></script>
+
     {% include "inhead_declaration.html" %}
 
     <script>
+        var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
         var is_make = false;
         $(document).ready(function () {
 

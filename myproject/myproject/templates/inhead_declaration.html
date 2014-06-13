@@ -25,15 +25,9 @@
         var is_authenticated = false;
     {% endif %}
 
-    var plan_json = {{ plan_json | safe}};  // plan will be render in any occasion.
-
 </script>
 
 <script src="{% static "js/helper_functions.js" %}"></script>
-
-<!-- main -->
-<script src="{% static "js/model_manipulation.js" %}"></script>
-<script src="{% static "js/events.js" %}"></script>
 
 <!-- classes  -->
 <script src="{% static "model/class/Axis.js" %}"></script>
