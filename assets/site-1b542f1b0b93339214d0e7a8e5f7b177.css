@@ -1,14 +1,24 @@
 
 body{
     color: #898989;
+    background-color: #DFCE3A;
 }
 #header{
-    background-color: #DFCE3A;
+    
 }
 
 #navigation {
     width: 200px;
 }
+
+.contents {
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1em;
+    padding-right: 1em;
+    max-width: 768px;
+}
+
 
 #webgl_canvas {
     position: absolute;
