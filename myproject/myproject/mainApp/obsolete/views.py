@@ -11,6 +11,8 @@ from myproject.mainApp.admin import UserCreationForm
 from myproject.settings import MEDIA_ROOT
 from myproject.mainApp.models import User, Plan
 
+
+
 # Create your views here
 
 # index

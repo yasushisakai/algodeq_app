@@ -1,8 +1,10 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.db import models
+
 import myproject.settings
 
-from datetime import datetime, timedelta
 
 # Create your models here.
 

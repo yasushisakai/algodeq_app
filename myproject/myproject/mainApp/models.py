@@ -1,11 +1,11 @@
+import json
+from datetime import datetime
+
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils.timezone import utc
 from django.db import models
-import myproject.settings
-import json
-import sys
 
-from datetime import datetime,timedelta
+import myproject.settings
 
 
 class UserManager(BaseUserManager):

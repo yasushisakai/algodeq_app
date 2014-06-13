@@ -1,15 +1,14 @@
 import json
 import datetime
-from __builtin__ import locals
 
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 
 from myproject.mainApp.admin import UserCreationForm
 from myproject.settings import MEDIA_ROOT
-from myproject.mainApp.models import User, Plan
+from myproject.mainApp.models import Plan
 
 
 def index(request):
