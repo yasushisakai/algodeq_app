@@ -1,45 +1,63 @@
-    {% if user.is_authenticated %}
+{% if user.is_authenticated %}
 
-        Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+    Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
 
-        <div id="timers">
+    <div id="timers">
         <div id="timers_creation"></div>
         <div id="timers_evaluation"></div>
     </div>
 
-    {% else %}
+{% else %}
 
-
-
-
-        <div class="pure-control-group">
+    <div class="pure-control-group">
         <style scoped>
 
-        .button-xsmall {
-            font-size: 70%;
-        }
+            .button-xsmall {
+                font-size: 70%;
+            }
 
-        .button-small {
-            font-size: 85%;
-        }
+            .button-small {
+                font-size: 85%;
+            }
 
-        .button-large {
-            font-size: 110%;
-        }
+            .button-large {
+                font-size: 110%;
+            }
 
-        .button-xlarge {
-            font-size: 125%;
-        }
+            .button-xlarge {
+                font-size: 125%;
+            }
 
-    </style>
-            <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
-                </div>
+        </style>
+        <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
+        </div>
 
         <input type="email" id="e-mail" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-            <button class="button-small pure-button" onclick="log_in()">log-in</button>
-        </div>
-        <div >
+        <button class="button-small pure-button" onclick="log_in()">log-in</button>
+    </div>
+    <div>
+
+    <script type="text/javascript">
+
+        var impData = {{ plans_json|safe}};
+        var count= 0;
+        var Lst = Lst_sort();
+
+        $(document).ready(function () {
+            //Examples of how to assign the Colorbox event to elements
+            console.log(count);
+            if (count == Lst.length) {
+
+                $(".iframe").colorbox({iframe: true, width: "760px", height: "80%", open: true,opacity:0.5});
+                count += 1;
+            }
+
+        });
+    </script>
 
 
-    {% endif %}
+
+
+
+{% endif %}
