@@ -41,88 +41,124 @@
 
           <h2>the decentralized version controlled building system</h2></div>
 
-        <div class="pure-u-1-8">jp | en</div>
+          <div class="pure-u-1-8">jp | en</div>
 
+        </div>
+        <!-- header head -->
       </div>
-      <!-- header head -->
-    </div>
 
-    <div id="contents"><!-- contents head -->
+      <div id="contents"><!-- contents head -->
 
 
-      <div class="pure-g">
-        <div class="pure-u-5-5">
-          <!-- -->
+        <div class="pure-g">
+          <div class="pure-u-5-5">
+            <!-- -->
 
-          <div class="explain">
-            <h3>What? LMN ARCHITECTUREとはなにか？</h3>
-            <div class="exText">
-              我々はAlgodeQにたいする回答を考えるにあたり、lmnarchitecture.comに主にプログラミングの業界で使われている、分散ヴァージョン管理システムを応用した設計ツール(Decentralized Version Controlled Building System)を構築した。
-              この中では、評価と継承の仕組みが連動し、先の設計競技審査期間中に提示されたシステムのなかで多主体に対して評価されるものがシステムと人間の協働によって探索される。
-              ユーザーは参加登録をし、3Dモデルを構築する。その際必ず既に他のユーザーによって制作されたモデルを継承しなければならず、作り上げたモデルと継承先の親モデルとの相同率によって親の現在の評価のある割合を初期評価として得る。
-              また評価は投票によって行われ、自モデルを継承されたモデルに票が入ると、相同率によって追加でポイントを得る。
-              このシステムには、プログラム開発の際に使われるテキストベースでの変更点や差分を割り出す「diff」というアルゴリズムが使われており、この仕組を転用することによって、汎用CADで使われているDXFという形式や、IFCというBIMソフトウェア統合データ形式にも対応できるとおもわれる。
+            <div class="explain">
+              <h3>What's LMN ARCHITECTURE？</h3>
+              <div class="exText">
+                <p>
+                  lmnarchitecture.comに主にプログラミングの業界で使われている、分散ヴァージョン管理システムを応用した設計ツール(Decentralized Version Controlled Building System)を構築した。
+                </p>
+                <p>
+                  この中では、評価と継承の仕組みが連動し、先の設計競技審査期間中に提示されたシステムのなかで多主体に対して評価されるものがシステムと人間の協働によって探索される。
+                  ユーザーは参加登録をし、3Dモデルを構築する。その際必ず既に他のユーザーによって制作されたモデルを継承しなければならず、作り上げたモデルと継承先の親モデルとの相同率によって親の現在の評価のある割合を初期評価として得る。</p>
+                  <p>
+                    また評価は投票によって行われ、自モデルを継承されたモデルに票が入ると、相同率によって追加でポイントを得る。
+                  </p>
+                  <p>
+                    このシステムには、プログラム開発の際に使われるテキストベースでの変更点や差分を割り出す「diff」というアルゴリズムが使われており、この仕組を転用することによって、汎用CADで使われているDXFという形式や、IFCというBIMソフトウェア統合データ形式にも対応できるとおもわれる。
+                  </p>
+
+
+                </div>
+
+
+              </div>
+              <div class="explain">
+                <h3>00. 建築における問題意識</h3>
+                <div class="exText">
+
+
+                  <p>
+                    これまでの設計行為は、各個人が経験を記憶し、設計の経験とそこから生み出された知は個人に委ねられてきた。したがって設計行為は瞬間的なものであり、継承されていくことはほとんどない。しかし実際には、過去のデザインの模倣が暗に行われており、相似したものは様々な場所に見受けられる。
+
+                  </p>
+                  そこで常に問題になるのは、それに対する評価の問題である。模倣したことに対する是非は常に付きまとう問題である。
+                  しかし、実際には模倣した事の是非ではなく、模倣されたことに対する正しき評価が必要であると考える。模倣されたという事実は、社会におけるニーズの表れであり、そのデザインが社会において評価されたこと考えるべきである。
+                  <p>
+
+                  </p>
+                  コンピューターを自由にコントロールすることが可能となった現代において、コンピューターを利用する最大の要因の一つは記憶容量であり、これまで不可能だった記憶量を人間が手にすることを可能にした。
+                  <p>
+                    これは、１主体のそれぞれの中に記憶されてきた各々の知を記録することが可能となることを意味する。
+                    この記憶量を利用することによって、デザインの継承、デザインの評価を有するシステムの実現をlmn architectureを目指した。
+
+                  </p>
+
+
+              
+                </div>
+              </div>
+              <div class="explain">
+                <h3>01. デザインを継承していくこと</h3>
+                <div class="exText">
+
+
+                  <p>
+                    模倣に対する是非が常に付きまとうのはそのオリジナルの所在の不明確さにあると考える。本システムでは、継承を前提としたシステムとすることでそのデザインの源流を系統的に常に把握できることを可能とした。またビット化したシステム上でのデザインを可能とすることで、継承元とのデザインの相同率を把握することも可能とした。
+                  </p>
+
+                  <p>
+                    ここでは模倣の是非を論じることは無意味なこととなり、積極的な模倣を促し、過去の知を共有を可能としている。また継承の系統を可視化することにより、その時代でのデザインのニーズ、流行なども把握も可能である。
+                  </p>
+
+
+                </div>
+              </div>
+              <div class="explain">
+                <h3>02. 評価を可視化すること</h3>
+                <div class="exText">
+                  <p>
+                    継承元、相同率を明確にしたことにより、一意的に限らない評価システムを構築することが可能となる。このシステムの中で生み出された一つのデザインは、一人の知や経験から生み出されたものではなく、継承元の知や経験によるものでもある。
+                  </p>
+                  したがって、本システムでは、継承元へ、相同率に応じた評価がいきわたるようなシステムを構築した。いかに多くのものに継承されるかが大事なことである。
+                  <p>
+                    これにより、その時その時に応じたデザインを作ることではなく、後世にいかに継承されていくかを考える必要がある。いわば、未来を想定しながら考えていくことが重要となる。 これは、建築に時間軸を呼び戻し、より継続されていく建築という問いに向き合っていく必要がある。
+
+                  </p>
+
+                </div>
+              </div>
+              <div class="explain">
+                <h3>03. デザインの著作権を共有すること</h3>
+                <div class="exText">
+
+                  <p>
+                    継承と評価をともに可能とするシステムを構築した。この中で生成されたデザインはこのシステムの参加主体の集合によって生み出されたものである。
+                  </p>
+                  <p>
+                    したがって各々のデザインに対する権利は、一意に一人の参加主体のみに発生するものではない。このシステムの中で生み出された報酬は継承元と相同率、また評価の数値に応じて等しく分配されるものであると考える
+                  </p>
+                  
+
+                </div>
+              </div>
+
+
+
+
             </div>
-
-
+            <!-- contents head -->
           </div>
-          <div class="explain">
-            <h3>00. 建築における問題意識</h3>
-            <div class="exText">
 
-              The rise of digital design enhanced individuals to create more and more proposals at a given time. This is only the beginning of the rising era of digital design, pregnant with the potential to multiply the number of participants in the design process. The invention of a control system is urgently needed to confront the immersive wave of creativity. While the issues like the relation of architecture and the evaluation from the society will still persist, new questions will arise such as the reinterpretation of “originality” when the world is so inexpensive to copy and paste. Both new and old queries will be illuminated from the explosion of subjects participating in the process.
-
-
-            </div>
+          <div id="footer">
           </div>
-          <div class="explain">
-            <h3>01. デザインを継承していくこと</h3>
-            <div class="exText">
 
-              Few attempts in atchitecture has made to tackle similar approaches: such as licensing the drawings and the documents with new methods invented from the field of software architecture.  C.C House from Yasutaka Yoshimura declares the project to be maintained by the creative commons license, making it possible to sell and propagate successive designs. The GPL House from LEVI ARCHITECTURE exposes not only the drawings but the computer simulation tool that was subsequently developed for the project. Yet neither of the projects have observed what happened after the attempt, and how the inheritance worked within the publication. The methodology is yet to be invented.
 
-              cf) C.C. HOUSE　: yasutaka yoshimura
-              GPL House: LEVI ARCHITECTURE
-
-            </div>
-          </div>
-          <div class="explain">
-            <h3>02. 評価を可視化すること</h3>
-            <div class="exText">
-
-              Few attempts in atchitecture has made to tackle similar approaches: such as licensing the drawings and the documents with new methods invented from the field of software architecture.  C.C House from Yasutaka Yoshimura declares the project to be maintained by the creative commons license, making it possible to sell and propagate successive designs. The GPL House from LEVI ARCHITECTURE exposes not only the drawings but the computer simulation tool that was subsequently developed for the project. Yet neither of the projects have observed what happened after the attempt, and how the inheritance worked within the publication. The methodology is yet to be invented.
-
-              cf) C.C. HOUSE　: yasutaka yoshimura
-              GPL House: LEVI ARCHITECTURE
-
-            </div>
-          </div>
-          <div class="explain">
-            <h3>03. 報酬を分配すること</h3>
-            <div class="exText">
-
-              Few attempts in atchitecture has made to tackle similar approaches: such as licensing the drawings and the documents with new methods invented from the field of software architecture.  C.C House from Yasutaka Yoshimura declares the project to be maintained by the creative commons license, making it possible to sell and propagate successive designs. The GPL House from LEVI ARCHITECTURE exposes not only the drawings but the computer simulation tool that was subsequently developed for the project. Yet neither of the projects have observed what happened after the attempt, and how the inheritance worked within the publication. The methodology is yet to be invented.
-
-              cf) C.C. HOUSE　: yasutaka yoshimura
-              GPL House: LEVI ARCHITECTURE
-
-            </div>
-          </div>
-          
-
+          <!-- canvas -->
 
 
         </div>
-        <!-- contents head -->
-      </div>
-
-      <div id="footer">
-      </div>
-
-
-      <!-- canvas -->
-
-
-    </div>
-  </body>
-  </html>
+      </body>
+      </html>
