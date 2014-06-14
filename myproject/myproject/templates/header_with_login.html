@@ -1,11 +1,29 @@
 {% if user.is_authenticated %}
 
+
     Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
 
     <div id="timers">
         <div id="timers_creation"></div>
         <div id="timers_evaluation"></div>
     </div>
+    <script type="text/javascript">
+
+        var impData = {{ plans_json|safe}};
+        var count= 0;
+        var Lst = Lst_sort();
+
+        $(document).ready(function () {
+            //Examples of how to assign the Colorbox event to elements
+            console.log(count);
+            if (count == Lst.length) {
+
+                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: false,opacity:0.5});
+                count += 1;
+            }
+
+        });
+    </script>
 
 {% else %}
 
@@ -49,7 +67,7 @@
             console.log(count);
             if (count == Lst.length) {
 
-                $(".iframe").colorbox({iframe: true, width: "760px", height: "80%", open: true,opacity:0.5});
+                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: true,opacity:0.5});
                 count += 1;
             }
 
