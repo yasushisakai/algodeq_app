@@ -40,8 +40,6 @@
         }
 
 
-
-
     </style>
 
     <script>
@@ -70,13 +68,9 @@
         </div>
         <div class="pure-u-2-5">
 
+            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">about this site</a></div>
+
             <div class="login">
-                <br/>
-
-
-                　　　　　<a class='iframe' href="{% static "html/information.html" %}">about this site</a>
-
-
                 {% include "header_with_login.html" %}
 
             </div>
@@ -93,18 +87,18 @@
 
     <div class="pure-g">
 
-        <div class="pure-u-4-5">
+        <div class="pure-u-19-24">
             <script>
                 var impData = {{ plans_json|safe}};
                 var count = {{ plans_num }};
                 treeDiagram();
             </script>
         </div>
-        <div class="pure-u-1-5">
+        <div class="pure-u-5-24">
 
 
             <div id="make-list">
-                <table class="pure-table pure-table-horizontal">
+                <table class="pure-table2 pure-table-horizontal">
                     <thead>
                     <tr>
                         <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");'
