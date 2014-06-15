@@ -31,30 +31,34 @@
 
 {% block contents %}
 
-    <div class="go_back" onclick="document.location.href='../../'">go back</div>
-
     <div id="model_info">
-        {{ plan.id }}<br>
-        {{ plan.name }}<br>
-        {{ plan.creation_time }}<br>
-        {{ plan.image_file }}<br>
-        {{ plan.similarity }}<br>
-        {{ plan.geometry }}<br>
-        <span id="plan_total_points">{{ plan.get_total_points }}</span><br>
-        {{ plan.architect.username }}<br>
-        {% if plan.parent_plan %}
-            {{ plan.parent_plan.name }}
-        {% endif %}
+        <div id="parent_model_info">
+            <p id="parent_name">{{ plan.name }}</p>
+
+            <p id="parent_time">{{ plan.creation_time }}</p>
+
+            <p id="parent_similarity">{{ plan.similarity }}</p>
+
+            <p id="parent_points">{{ plan.get_total_points }}</p>
+
+            <p id="parent_user">{{ plan.architect.username }}</p>
+            {% if plan.parent_plan %}
+                <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a></p>
+            {% endif %}
+        </div>
+
+        <div id="model_action">
+            {% if user.is_authenticated %}
+                <div id="model_add_points" onclick="add_points({{ plan.id }},10.0)">add points</div>
+            {% else %}
+                you can add points by logging in.
+            {% endif %}
+            <div id="model_make_plan" onclick="make_plan({{ plan.id }})">make plan</div>
+        </div>
     </div>
 
-    <div id="model_action">
-        {% if user.is_authenticated %}
-            <div id="model_add_points" onclick="add_points({{ plan.id }},10.0)">add points</div>
-        {% else %}
-            you can add points by logging in.
-        {% endif %}
-        <div id="model_make_plan" onclick="make_plan({{ plan.id }})">make plan</div>
-    </div>
+    <div class="go_back" onclick="document.location.href='../../'">back to tree diagram</div>
+
 
 {% endblock %}
 
