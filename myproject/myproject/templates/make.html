@@ -10,9 +10,7 @@
     <script src="{% static "js/model_manipulation.js" %}"></script>
     <script src="{% static "js/events.js" %}"></script>
 
-
     {% include "inhead_declaration.html" %}
-
 
     <script>
         console.log(path_to_static);
@@ -34,6 +32,7 @@
 {% block contents %}
 
     <div id="model_info">
+        <h1>parent model</h1>
         <div id="parent_model_info">
             <p id="parent_name">{{ plan.name }}</p>
 
@@ -53,39 +52,47 @@
             <p id="new_model_similarity"></p>
 
             <p id="new_model_cost"></p>
+            <p class="error"></p>
         </div>
     </div>
 
     <div id="actions">
         <div id="make">
-            <button class="make_creation" onclick="change_room_type(0);">living</button>
+            <div id="program_navigation">
+                <button class="make_creation button-living" onclick="change_room_type(0);">living</button>
 
-            <button class="make_creation" onclick="change_room_type(1);">dining</button>
+                <button class="make_creation button-dining" onclick="change_room_type(1);">dining</button>
 
-            <button class="make_creation" onclick="change_room_type(2);">kitchen</button>
+                <button class="make_creation button-kitchen" onclick="change_room_type(2);">kitchen</button><br>
 
-            <button class="make_creation" onclick="change_room_type(3);">bedroom</button>
+                <button class="make_creation button-bedroom" onclick="change_room_type(3);">bedroom</button>
 
-            <button class="make_creation" onclick="change_room_type(4);">wc/bath</button>
+                <button class="make_creation button-wc" onclick="change_room_type(4);">wc/bath</button>
 
-            <button class="make_creation" onclick="change_room_type(5);">staircase</button>
+                <button class="make_creation button-staircase" onclick="change_room_type(5);">staircase</button><br>
 
-            <button class="make_creation" onclick="change_room_type(6);">delete</button>
+                <button class="make_creation button-delete" onclick="change_room_type(6);">delete</button>
 
-            <button class="make_creation" onclick="change_floor(0);">1f</button>
+            </div>
+            <div id="level_navigation">
+                <br>
+                <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
 
-            <button class="make_creation" onclick="change_floor(1);">2f</button>
+                <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
 
-            <button class="make_creation" onclick="change_floor(2);">3f</button>
+                <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
+            </div>
         </div>
+        <button class="go_back button-default" onclick="history.back()">go back</button>
+        <br>
         {% if user.is_authenticated %}
-            <button id="finalize" onclick="to_finalize()">finalize</button>
+            <button id="finalize" class="button-large" onclick="to_finalize()">finalize</button>
         {% else %}
             <p class="error">you can create plans if you are logged in.</p>
         {% endif %}
-        <button class="go_back" onclick="history.back()">go back</button>
 
-        <p class="error"></p>
+
+
     </div>
 
     <!-- submit info for finalize  -->

@@ -1,23 +1,26 @@
 {% if user.is_authenticated %}
 
 
-    Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+    <div class="webfont header_text">
+        Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+</div>
 
-    <div id="timers">
-        <div id="timers_creation"></div>
-        <div id="timers_evaluation"></div>
-    </div>
+        <div class="timers">
+            <div id="timers_creation"></div>
+            <div id="timers_evaluation"></div>
+        </div>
+
     <script type="text/javascript">
 
         var impData = {{ plans_json|safe}};
-        var count= 0;
+        var count = 0;
         var Lst = Lst_sort();
 
         $(document).ready(function () {
             //Examples of how to assign the Colorbox event to elements
             if (count == Lst.length) {
 
-                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: false,opacity:0.5});
+                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: false, opacity: 0.5});
                 count += 1;
             }
 
@@ -27,7 +30,7 @@
 {% else %}
 
     <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
-        </div>
+    </div>
 
     <div class="pure-control-group">
         <style scoped>
@@ -60,14 +63,14 @@
     <script type="text/javascript">
 
         var impData = {{ plans_json|safe}};
-        var count= 0;
+        var count = 0;
         var Lst = Lst_sort();
 
         $(document).ready(function () {
             //Examples of how to assign the Colorbox event to elements
             if (count == Lst.length) {
 
-                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: true,opacity:0.5});
+                $(".iframe").colorbox({iframe: true, width: "880px", height: "100%", open: true, opacity: 0.5});
                 count += 1;
             }
 

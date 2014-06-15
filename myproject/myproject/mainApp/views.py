@@ -181,7 +181,7 @@ def finalize(request):
             image_file.close()
 
             image_path_small = MEDIA_ROOT + "/plans/small/" + image_name
-            Image.open(image_path).resize((128, 72)).save(image_path_small)
+            Image.open(image_path).resize((128, 144)).save(image_path_small)
 
             new_plan_cost = request.POST['save_cost']
 

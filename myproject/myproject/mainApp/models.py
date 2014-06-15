@@ -251,11 +251,11 @@ class Plan(models.Model):
         usr = User.objects.get(id=1)
 
         new_plan = Plan(
-            name='tokyo_0',
+            name='origin_00',
             creation_time=datetime.now(),
             image_file='',  # todo fetch image file
             geometry="{\"living\":[],\"dining\":[],\"kitchen\":[],\"bedroom\":[],\"wc\":[],\"staircase\":[]}",
-            similarity=0.0,
+            similarity=0.01,
             points_inborn=100.0,
             points_acquired=0.0,
             architect=usr,

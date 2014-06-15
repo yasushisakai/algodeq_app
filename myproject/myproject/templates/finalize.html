@@ -37,36 +37,44 @@
 
 {% block contents %}
 
-    <div id="model_info">
-    <div id="parent_model_info">
-        <img src="../../media/plans/small/img_{{ parent_name }}.png">
+    <div class="pure-g">
 
-        <p id="parent_name">{{ parent_name }}</p>
+        <div id="parent_model_info" class="pure-u-1-2">
+            <img class="model_img" src="../../media/plans/img_{{ parent_name }}.png">
 
-        <p id="parent_points">{{ parent_points }}</p>
-    </div>
+            <h1>parent model</h1>
 
-    <div id="new_model_info">
-        <div id="name_box">
-            <input type="text" id="name_input" name="name" size="100" onblur="validate_name()">
+            <p id="parent_name">name: {{ parent_name }}</p>
 
-            <p id="status"></p>
+            <p id="parent_points">{{ parent_points }}</p>
         </div>
-        <p id="similarity">{{ similarity }}</p>
+        <div class="pure-u-1-2">
+            <div id="webgl_canvas_finalize" class="model_img"></div>
+            <div id="new_model_info" class="pure-u-3-5">
+                <div id="name_box">
+                    <span id="status"></span><br>
+                    <input type="text" id="name_input" class="input-default" name="name" size="30" onblur="validate_name()">
+                </div>
+                <p id="similarity">similarity: {{ similarity }}</p>
 
-        <p id="cost"></p>
+                <p id="cost"></p>
 
-        <p id="architect">{{ user.username }}</p>
+                <p id="architect">architect: {{ user.username }}</p>
 
-        <p id="points_inborn"></p>
+                <p id="points_inborn"></p>
+
+                <div id="actions">
+                    <button class="go_back button-default" onclick="history.back()">go back</button>
+                </div>
+                <button id="save_plan" class="button-large" onclick="save_plan()">send plan!!</button>
+            </div>
+        </div>
+
+        <div id="model_info" class="pure-u-1-1">
+
+        </div>
     </div>
-    </div>
 
-    <div id="actions">
-        <button id="save_plan" onclick="save_plan()">save plan</button>
-
-        <button class="go_back" onclick="history.back()">go back</button>
-    </div>
 {% endblock %}
 
 {% block footer %}
@@ -74,6 +82,6 @@
 {% endblock %}
 
 {% block canvas %}
-    <div id="webgl_canvas"></div>
+
 {% endblock %}
 
