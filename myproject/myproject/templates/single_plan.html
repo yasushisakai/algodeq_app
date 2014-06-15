@@ -49,15 +49,15 @@
 
         <div id="model_action">
             {% if user.is_authenticated %}
-                <div id="model_add_points" onclick="add_points({{ plan.id }},10.0)">add points</div>
+                <button id="model_add_points" onclick="add_points({{ plan.id }},10.0)">add points</button>
             {% else %}
                 you can add points by logging in.
             {% endif %}
-            <div id="model_make_plan" onclick="make_plan({{ plan.id }})">make plan</div>
+            <button id="model_make_plan" onclick="make_plan({{ plan.id }})">make plan</button>
         </div>
     </div>
 
-    <div class="go_back" onclick="document.location.href='../../'">back to tree diagram</div>
+    <button class="go_back" onclick="document.location.href='../../'">back to tree diagram</button>
 
 
 {% endblock %}

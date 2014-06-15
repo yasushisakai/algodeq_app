@@ -45,7 +45,7 @@
 
             <p id="parent_user">{{ plan.architect.username }}</p>
             {% if plan.parent_plan %}
-                 <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a></p>
+                <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a></p>
             {% endif %}
         </div>
 
@@ -58,32 +58,32 @@
 
     <div id="actions">
         <div id="make">
-            <p class="make_creation" onclick="change_room_type(0);">living</p>
+            <button class="make_creation" onclick="change_room_type(0);">living</button>
 
-            <p class="make_creation" onclick="change_room_type(1);">dining</p>
+            <button class="make_creation" onclick="change_room_type(1);">dining</button>
 
-            <p class="make_creation" onclick="change_room_type(2);">kitchen</p>
+            <button class="make_creation" onclick="change_room_type(2);">kitchen</button>
 
-            <p class="make_creation" onclick="change_room_type(3);">bedroom</p>
+            <button class="make_creation" onclick="change_room_type(3);">bedroom</button>
 
-            <p class="make_creation" onclick="change_room_type(4);">wc/bath</p>
+            <button class="make_creation" onclick="change_room_type(4);">wc/bath</button>
 
-            <p class="make_creation" onclick="change_room_type(5);">staircase</p>
+            <button class="make_creation" onclick="change_room_type(5);">staircase</button>
 
-            <p class="make_creation" onclick="change_room_type(6);">delete</p>
+            <button class="make_creation" onclick="change_room_type(6);">delete</button>
 
-            <p class="make_creation" onclick="change_floor(0);">1f</p>
+            <button class="make_creation" onclick="change_floor(0);">1f</button>
 
-            <p class="make_creation" onclick="change_floor(1);">2f</p>
+            <button class="make_creation" onclick="change_floor(1);">2f</button>
 
-            <p class="make_creation" onclick="change_floor(2);">3f</p>
+            <button class="make_creation" onclick="change_floor(2);">3f</button>
         </div>
         {% if user.is_authenticated %}
-            <p id="finalize" onclick="to_finalize()">finalize</p>
+            <button id="finalize" onclick="to_finalize()">finalize</button>
         {% else %}
             <p class="error">you can create plans if you are logged in.</p>
         {% endif %}
-        <p class="go_back" onclick="history.back()">go back</p>
+        <button class="go_back" onclick="history.back()">go back</button>
 
         <p class="error"></p>
     </div>
