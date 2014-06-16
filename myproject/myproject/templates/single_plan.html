@@ -26,7 +26,7 @@
 
 {% block header %}
     <!-- authentication process -->
-        <div class="pure-g">
+    <div class="pure-g">
 
 
         <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
@@ -35,8 +35,10 @@
         </div>
         <div class="pure-u-2-5">
 
-            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">
-            <button class="button-xsmall pure-button">about this site</button></a></div>
+            　　　　　
+            <div class="info"><a class='iframe' href="{% static "html/information.html" %}">
+                <button class="button-xsmall pure-button">about this site</button>
+            </a></div>
 
             <div class="login">
                 {% include "header_with_login.html" %}
@@ -56,33 +58,80 @@
     <div id="navigation">
         <div id="model_info">
             <div id="parent_model_info">
-                <p id="parent_name">{{ plan.name }}</p>
+            &nbsp;<i class="fa fa-cube"></i>Model Information
+                <table class="pure-table2 pure-table-horizontal">
+                    <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>time</td>
+                        <td>
 
-                <p id="parent_time">{{ plan.creation_time }}</p>
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.creation_time }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>similarity</td>
+                        <td>
 
-                <p id="parent_similarity">{{ plan.similarity }}</p>
+                           <i class="fa fa-angle-right"></i>&nbsp; {{ plan.similarity }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>total points</td>
+                        <td>
 
-                <p id="parent_points">{{ plan.get_total_points }}</p>
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>cost</td>
+                        <td>
 
-                <p id="parent_user">{{ plan.architect.username }}</p>
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.cost }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>architect</td>
+                        <td>
+
+                           <i class="fa fa-angle-right"></i>&nbsp;  {{ plan.architect.username }}
+                        </td>
+                    </tr>
+                     <tr>
+                        <td>parent</td>
+                        <td>
+
                 {% if plan.parent_plan %}
-                    <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
-                    </p>
+                    <i class="fa fa-angle-right"></i>&nbsp;<a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
+
+                    </tbody>
+                </table>
                 {% endif %}
             </div>
 
             <div id="model_action">
-                <button class="go_back button-default" onclick="document.location.href='../../'">back to tree diagram
-                </button>
-                <br>
+            <p>
+                <button class="button-xsmall pure-button" onclick="document.location.href='../../'"><i class="fa fa-undo"></i>&nbsp;back to tree diagram
+                </button></p>
+                <p>
                 {% if user.is_authenticated %}
-                    <button id="model_add_points" class="button-large" onclick="add_points({{ plan.id }},10.0)">add
+                    <button id="model_add_points" class="button-xsmall pure-button" onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
                         points
                     </button>
                 {% else %}
                     you can add points by logging in.
                 {% endif %}
-                <button id="model_make_plan" class="button-large" onclick="make_plan({{ plan.id }})">make plan</button>
+                <button id="model_make_plan" class="button-xsmall pure-button" onclick="make_plan({{ plan.id }})"><i class="fa fa-cubes"></i>&nbsp;make plan</button>
+            </p>
             </div>
         </div>
     </div>

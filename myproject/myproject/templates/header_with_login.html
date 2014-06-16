@@ -2,7 +2,7 @@
 
 
     <div class="webfont header_text">
-        Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+        <i class="fa fa-male fa-1"></i> Hi, {{ user.username }}. <i class="fa fa-sign-out fa-1"></i><a href="/log_out/">log out</a>.
 </div>
 
         <div class="timers">
@@ -33,30 +33,12 @@
     </div>
 
     <div class="pure-control-group">
-        <style scoped>
 
-            .button-xsmall {
-                font-size: 70%;
-            }
-
-            .button-small {
-                font-size: 85%;
-            }
-
-            .button-large {
-                font-size: 110%;
-            }
-
-            .button-xlarge {
-                font-size: 125%;
-            }
-
-        </style>
 
 
         <input type="email" id="e-mail" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button class="button-small pure-button" onclick="log_in()">log-in</button>
+        <button class="button-xsmall pure-button" onclick="log_in()"><i class="fa fa-sign-in fa-1"></i>   log-in</button>
     </div>
     <div>
 
