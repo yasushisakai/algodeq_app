@@ -30,34 +30,37 @@
 {% endblock %}
 
 {% block contents %}
+    <div id="navigation">
+        <div id="model_info">
+            <div id="parent_model_info">
+                <p id="parent_name">{{ plan.name }}</p>
 
-    <div id="model_info">
-        <div id="parent_model_info">
-            <p id="parent_name">{{ plan.name }}</p>
+                <p id="parent_time">{{ plan.creation_time }}</p>
 
-            <p id="parent_time">{{ plan.creation_time }}</p>
+                <p id="parent_similarity">{{ plan.similarity }}</p>
 
-            <p id="parent_similarity">{{ plan.similarity }}</p>
+                <p id="parent_points">{{ plan.get_total_points }}</p>
 
-            <p id="parent_points">{{ plan.get_total_points }}</p>
+                <p id="parent_user">{{ plan.architect.username }}</p>
+                {% if plan.parent_plan %}
+                    <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
+                    </p>
+                {% endif %}
+            </div>
 
-            <p id="parent_user">{{ plan.architect.username }}</p>
-            {% if plan.parent_plan %}
-                <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a></p>
-            {% endif %}
-        </div>
-
-        <div id="model_action">
-            <button class="go_back button-default" onclick="document.location.href='../../'">back to tree diagram </button>
-            <br>
-            {% if user.is_authenticated %}
-                <button id="model_add_points" class="button-large" onclick="add_points({{ plan.id }},10.0)">add
-                    points
+            <div id="model_action">
+                <button class="go_back button-default" onclick="document.location.href='../../'">back to tree diagram
                 </button>
-            {% else %}
-                you can add points by logging in.
-            {% endif %}
-            <button id="model_make_plan" class="button-large" onclick="make_plan({{ plan.id }})">make plan</button>
+                <br>
+                {% if user.is_authenticated %}
+                    <button id="model_add_points" class="button-large" onclick="add_points({{ plan.id }},10.0)">add
+                        points
+                    </button>
+                {% else %}
+                    you can add points by logging in.
+                {% endif %}
+                <button id="model_make_plan" class="button-large" onclick="make_plan({{ plan.id }})">make plan</button>
+            </div>
         </div>
     </div>
 

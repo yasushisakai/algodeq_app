@@ -30,67 +30,72 @@
 {% endblock %}
 
 {% block contents %}
+    <div id="side_bar">
+        <div id="model_info">
+            <h1>parent model</h1>
 
-    <div id="model_info">
-        <h1>parent model</h1>
-        <div id="parent_model_info">
-            <p id="parent_name">{{ plan.name }}</p>
+            <div id="parent_model_info">
+                <p id="parent_name">{{ plan.name }}</p>
 
-            <p id="parent_time">{{ plan.creation_time }}</p>
+                <p id="parent_time">{{ plan.creation_time }}</p>
 
-            <p id="parent_similarty">{{ plan.similarity }}(to grandparent plan)</p>
+                <p id="parent_similarty">{{ plan.similarity }}(to grandparent plan)</p>
 
-            <p id="parent_points">{{ plan.get_total_points }}</p>
+                <p id="parent_points">{{ plan.get_total_points }}</p>
 
-            <p id="parent_user">{{ plan.architect.username }}</p>
-            {% if plan.parent_plan %}
-                <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a></p>
+                <p id="parent_user">{{ plan.architect.username }}</p>
+                {% if plan.parent_plan %}
+                    <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
+                    </p>
+                {% endif %}
+            </div>
+
+            <div id="new_model_info">
+                <p id="new_model_similarity"></p>
+
+                <p id="new_model_cost"></p>
+
+                <p class="error"></p>
+            </div>
+        </div>
+
+        <div id="actions">
+            <div id="make">
+                <div id="program_navigation">
+                    <button class="make_creation button-living" onclick="change_room_type(0);">living</button>
+
+                    <button class="make_creation button-dining" onclick="change_room_type(1);">dining</button>
+
+                    <button class="make_creation button-kitchen" onclick="change_room_type(2);">kitchen</button>
+                    <br>
+
+                    <button class="make_creation button-bedroom" onclick="change_room_type(3);">bedroom</button>
+
+                    <button class="make_creation button-wc" onclick="change_room_type(4);">wc/bath</button>
+
+                    <button class="make_creation button-staircase" onclick="change_room_type(5);">staircase</button>
+                    <br>
+
+                    <button class="make_creation button-delete" onclick="change_room_type(6);">delete</button>
+
+                </div>
+                <div id="level_navigation">
+                    <br>
+                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
+
+                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
+
+                    <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
+                </div>
+            </div>
+            <button class="go_back button-default" onclick="history.back()">go back</button>
+            <br>
+            {% if user.is_authenticated %}
+                <button id="finalize" class="button-large" onclick="to_finalize()">finalize</button>
+            {% else %}
+                <p class="error">you can create plans if you are logged in.</p>
             {% endif %}
         </div>
-
-        <div id="new_model_info">
-            <p id="new_model_similarity"></p>
-
-            <p id="new_model_cost"></p>
-            <p class="error"></p>
-        </div>
-    </div>
-
-    <div id="actions">
-        <div id="make">
-            <div id="program_navigation">
-                <button class="make_creation button-living" onclick="change_room_type(0);">living</button>
-
-                <button class="make_creation button-dining" onclick="change_room_type(1);">dining</button>
-
-                <button class="make_creation button-kitchen" onclick="change_room_type(2);">kitchen</button><br>
-
-                <button class="make_creation button-bedroom" onclick="change_room_type(3);">bedroom</button>
-
-                <button class="make_creation button-wc" onclick="change_room_type(4);">wc/bath</button>
-
-                <button class="make_creation button-staircase" onclick="change_room_type(5);">staircase</button><br>
-
-                <button class="make_creation button-delete" onclick="change_room_type(6);">delete</button>
-
-            </div>
-            <div id="level_navigation">
-                <br>
-                <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
-
-                <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
-
-                <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
-            </div>
-        </div>
-        <button class="go_back button-default" onclick="history.back()">go back</button>
-        <br>
-        {% if user.is_authenticated %}
-            <button id="finalize" class="button-large" onclick="to_finalize()">finalize</button>
-        {% else %}
-            <p class="error">you can create plans if you are logged in.</p>
-        {% endif %}
-
 
 
     </div>
