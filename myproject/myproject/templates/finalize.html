@@ -53,7 +53,9 @@
             <div id="new_model_info" class="pure-u-3-5">
                 <div id="name_box">
                     <span id="status"></span><br>
-                    <input type="text" id="name_input" class="input-default" name="name" size="30" onblur="validate_name()">
+                    <input type="text" id="name_input" class="input-default" name="name" size="30">
+                    <button id="check_name" class="button-large" onclick="validate_name()">check name</button>
+                    <button id="save_plan" class="button-large" onclick="save_plan()">send plan!!</button>
                 </div>
                 <p id="similarity">similarity: {{ similarity }}</p>
 
@@ -66,7 +68,7 @@
                 <div id="actions">
                     <button class="go_back button-default" onclick="history.back()">go back</button>
                 </div>
-                <button id="save_plan" class="button-large" onclick="save_plan()">send plan!!</button>
+
             </div>
         </div>
 
