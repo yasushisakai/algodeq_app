@@ -27,7 +27,7 @@
 {% block header %}
     <!-- authentication process -->
 
-        <div class="pure-g">
+    <div class="pure-g">
 
 
         <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
@@ -36,8 +36,10 @@
         </div>
         <div class="pure-u-2-5">
 
-            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">
-            <button class="button-xsmall pure-button">about this site</button></a></div>
+            　　　　　
+            <div class="info"><a class='iframe' href="{% static "html/information.html" %}">
+                <button class="button-xsmall pure-button">about this site</button>
+            </a></div>
 
             <div class="login">
                 {% include "header_with_login.html" %}
@@ -54,22 +56,92 @@
 {% block contents %}
     <div id="side_bar">
         <div id="model_info">
-            <h1>parent model</h1>
-
             <div id="parent_model_info">
-                <p id="parent_name">{{ plan.name }}</p>
+                &nbsp;<i class="fa fa-cube"></i>&nbsp;Parent Model Information
+                <table class="pure-table2 pure-table-horizontal">
+                    <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.id }}</td>
+                    </tr>
+                    <tr>
+                        <td>name</td>
+                        <td>
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.name }}</td>
+                    </tr>
+                    <tr>
+                        <td>time</td>
+                        <td>
 
-                <p id="parent_time">{{ plan.creation_time }}</p>
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.creation_time }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>similarity</td>
+                        <td>
 
-                <p id="parent_similarty">{{ plan.similarity }}(to grandparent plan)</p>
+                            <i class="fa fa-angle-right"></i>&nbsp; {{ plan.similarity }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>total points</td>
+                        <td>
 
-                <p id="parent_points">{{ plan.get_total_points }}</p>
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>cost</td>
+                        <td>
 
-                <p id="parent_user">{{ plan.architect.username }}</p>
-                {% if plan.parent_plan %}
-                    <p id="parent_parent_name"><a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
-                    </p>
-                {% endif %}
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.cost }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>architect</td>
+                        <td>
+
+                            <i class="fa fa-angle-right"></i>&nbsp; {{ plan.architect.username }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>parent</td>
+                        <td>
+
+                            {% if plan.parent_plan %}
+                                <i class="fa fa-angle-right"></i>&nbsp;
+                                <a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
+
+
+                            {% endif %}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="parent_model_info">
+                &nbsp;<i class="fa fa-cube"></i>&nbsp;Current Model Information
+                <table class="pure-table2 pure-table-horizontal">
+                    <tbody>
+                    <tr>
+                        <td>similarity</td>
+                        <td>
+                            <i class="fa fa-angle-right"></i>&nbsp; <i id="new_model_similarity"></i></td>
+                    </tr>
+                    <tr>
+                        <td>cost</td>
+                        <td>
+                            <i class="fa fa-angle-right"></i>&nbsp;<i id="new_model_cost"></i></td>
+                    </tr>
+
+
+
+                    </tbody>
+                </table>
+                &nbsp;<i class="error"></i>
+
             </div>
 
             <div id="new_model_info">
@@ -102,18 +174,18 @@
 
                 </div>
                 <div id="level_navigation">
-                    <br>
-                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
 
-                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
+                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button><br>
+
+                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button><br>
 
                     <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
                 </div>
             </div>
-            <button class="go_back button-default" onclick="history.back()">go back</button>
+            <button class="go_back button-default" onclick="history.back()"><i class="fa fa-undo"></i>&nbsp;go back</button>
             <br>
             {% if user.is_authenticated %}
-                <button id="finalize" class="button-large" onclick="to_finalize()">finalize</button>
+                <button id="finalize" class="button-large" onclick="to_finalize()"><i class="fa fa-check-square-o"></i>&nbsp;finalize&nbsp;</button>
             {% else %}
                 <p class="error">you can create plans if you are logged in.</p>
             {% endif %}

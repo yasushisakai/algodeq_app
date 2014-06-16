@@ -58,7 +58,7 @@
     <div id="navigation">
         <div id="model_info">
             <div id="parent_model_info">
-            &nbsp;<i class="fa fa-cube"></i>Model Information
+            &nbsp;<i class="fa fa-cube"></i>&nbsp;Model Information
                 <table class="pure-table2 pure-table-horizontal">
                     <tbody>
                     <tr>
@@ -113,9 +113,11 @@
                 {% if plan.parent_plan %}
                     <i class="fa fa-angle-right"></i>&nbsp;<a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
 
-                    </tbody>
-                </table>
+
                 {% endif %}
+                    </td></tr>
+                </tbody>
+                </table>
             </div>
 
             <div id="model_action">
