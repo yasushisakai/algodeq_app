@@ -30,8 +30,30 @@
 {% endblock %}
 
 {% block header %}
+        <div class="pure-g">
 
-    Hi, {{ user.username }}. <a href="/log_out/">log out</a>.
+
+        <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+
+            <h2>the decentralized version controlled building system</h2>
+        </div>
+        <div class="pure-u-2-5">
+
+            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">
+            <button class="button-xsmall pure-button">about this site</button></a></div>
+
+            <div class="login">
+                {% include "header_with_login.html" %}
+
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+    <!--Hi, {{ user.username }}. <a href="/log_out/">log out</a>.-->
 
 {% endblock %}
 
