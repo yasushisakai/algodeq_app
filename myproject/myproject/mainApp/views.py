@@ -274,5 +274,12 @@ def log_out(request):
     return HttpResponseRedirect("/")
 
 
+def information(request):
+    return render_to_response("information.html",
+                          {
+                          },
+                          context_instance=RequestContext(request))
+
+
 
 

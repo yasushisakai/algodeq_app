@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}lmn architecture information {% endblock %}
+{% block head %}
+
+    <link href='http://yasushisakai.github.io/algodeq_app//assets/site-1b542f1b0b93339214d0e7a8e5f7b177.css'
+          rel='stylesheet' type='text/css'/>
+
+    <script>
+
+        $.ready=function(){
+            $(".explain_jp").hide();
+        }
+
+        function toggle_lang() {
+
+            if ($(".explain_jp").is(":visible")) {
+                $(".explain_jp").hide();
+                $(".explain_en").show();
+            } else {
+                $(".explain_jp").show();
+                $(".explain_en").hide();
+            }
+
+        }
+
+    </script>
+
+{% endblock %}
+
+{% block header %}
+
+    <div class="pure-g">
+        <div class="pure-u-5-5"><h1>LMN ARCHITECTURE.COM　?</h1></div>
+        <div class="pure-u-7-8">
+
+            <h2>the decentralized version controlled building system</h2></div>
+
+        <div class="pure-u-1-8" onclick="toggle_lang()">jp | en</div>
+
+    </div>
+{% endblock %}
+
+{% block contents %}
+
+    <div class="pure-g">
+        <div class="pure-u-5-5">
+            <!-- -->
+
+            <img src="{% static "img/provoke.png" %}">
+
+
+            <h3>lmnarchitecture competition</h3>
+
+            <div class="explain_en">
+                <p>
+                *1: This system was developed for the <a href="http://algodeq.org/?page=about">ALGODEQ competition</a>(so called the "Parent Competition") which is held this year.
+                According to the <a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf">guidelines</a>,
+                the competition has a prize money for the Grand Prix.
+                </p>
+                <p>
+                *2: The Parent Competition has announced that the Grand Prix will include 1,000,000- Yen of prize money (this will change within currency rate).
+                Payment will go along with the Parent Competition. <a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf"> See pdf section "32. Payment of prize money" </a>
+                </p>
+                <p>
+                *3 Money division will follow the process below.<br>
+                    <ol>
+                    <li>All points will be accumulated.</li>
+                    <li>Prize money will be divided by the points from 1. (1pt = n yen)</li>
+                    <li>Users will gain money corresponding to the total points within the created models.</li>
+                    </ol>
+                This method may change without announce.
+                *4 refund process will be
+                </p>
+
+
+            </div>
+            <div class="explain_jp">
+                <p>
+                    本システム(The Decentralized Version Controlled Building)の中で、建築をつくり最高得点を目指せ！！
+                </p>
+
+                <p>
+                    このシステムでは、一意に単一のモデルが評価されることが正しいわけではありません。より多くの人へ継承されることと、そして継承されたものが評価されていくことが、
+                    高得点を生み出すポイントです。いわば、未来を想定しながら考えていくことが重要です。 これは、建築に時間軸を呼び戻し、より継続されていく建築とは？という問いに対する挑戦です。
+                </p>
+
+                <p>3seconds,30seconds,3minutes,30minutes,3hours, 30hours,3days,30days, 3months,
+                    30months,3years,3decades,...
+                </p>
+
+                <p>
+                    この仕組みは、ALGODeQ（以下:親コンペ）に際して提案・作成されたシステムです。
+                    期間：6月14日～7月中旬(予定)　※締め切りは親コンペの審査日程公表後、決定します。</br>
+                    　
+                    賞金：本システムが親コンペにおいて入賞した場合、得られた賞金を分配します。(最大総額100万円)</br>
+                    ※親コンペにおいて入賞することができなかった場合、賞金はなしとします。
+
+                </p>
+            </div>
+
+            <h3>the redistribution method</h3>
+
+            <div class="explain_en">
+            </div>
+            <div class="explain_jp">
+                <p>
+                    1.　モデルの集計
+                    1ユーザーにつき最も評価ポイントが高かったモデルが選ばれ、そのモデル群の合計ポイントを計算します。これを総ポイントとします。
+
+                </p>
+
+                <p>
+                    2.　賞金/総ポイント
+                    ここで、得られた賞金と総ポイントで割り算し、1ポイントあたりの金額を算出します。これをポイント換算レートとします。
+
+                </p>
+
+                <p>
+                    3.　ポイント換算レート*ポイントで1000円以上となったら賞金対象です!
+                    得られた換算レートを下に、ユーザー毎最高得点を獲得したモデルが1000円以上となった場合には、賞金対象となります!
+
+                </p>
+
+                <p>
+                    賞金の案内時に登録メールアドレスが送れなかった場合。
+                    賞金の案内時にご返信いただけなかった場合。
+                    その他運営側として不正行為と判断した場合。
+
+                </p>
+
+                <img src="{% static "img/redistribution.png" %}">
+
+            </div>
+
+
+            <div class="icon">
+                why
+                <a href="http://yasushisakai.github.io/algodeq_app/">
+                    <i class="fa fa-question-circle fa-3"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

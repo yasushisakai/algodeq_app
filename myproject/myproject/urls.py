@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.views.generic import TemplateView
-
 from django.contrib import admin
 
 admin.autodiscover()
@@ -22,11 +21,11 @@ urlpatterns = patterns('',
                        url(r'log_out/', 'myproject.mainApp.views.log_out'),
                        url(r'^sign_up/', 'myproject.mainApp.views.sign_up'),
 
+                       #information
+                       url(r'^information/', 'myproject.mainApp.views.information'),
+
                        # admin
                        url(r'^admin/',include(admin.site.urls)),
-
-                       # media
-                       # (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
 
                        ###################################
                        # unit testing
@@ -38,3 +37,7 @@ urlpatterns = patterns('',
 
 
                        ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# use django serve if debug is true(local):
+if settings.DEBUG:
+    urlpatterns += patterns('', (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}))
