@@ -76,35 +76,35 @@
                         <td>time</td>
                         <td>
 
-                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.creation_time }}
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_str_time }}
                         </td>
                     </tr>
                     <tr>
                         <td>similarity</td>
                         <td>
 
-                           <i class="fa fa-angle-right"></i>&nbsp; {{ plan.similarity }}
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.similarity|floatformat:"5" }}
                         </td>
                     </tr>
                     <tr>
                         <td>points</td>
                         <td>
 
-                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points|floatformat:"5" }}
                         </td>
                     </tr>
                     <tr>
                         <td>cost</td>
                         <td>
 
-                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.cost }}
+                           <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.cost|floatformat:"0"}}0000
                         </td>
                     </tr>
                     <tr>
                         <td>architect</td>
                         <td>
 
-                           <i class="fa fa-angle-right"></i>&nbsp;  {{ plan.architect.username }}
+                           <i class="fa fa-angle-right"></i>&nbsp;{{ plan.architect.username }}
                         </td>
                     </tr>
                      <tr>
@@ -135,7 +135,7 @@
             </p>
 
              <p>
-                <button class="button-xsmall pure-button" onclick="document.location.href='../../'"><i class="fa fa-undo"></i>&nbsp;back to tree diagram
+                <button class="button-xsmall3 pure-button" onclick="document.location.href='../../'"><i class="fa fa-undo"></i>&nbsp;back to tree diagram
                 </button></p>
             </div>
         </div>

@@ -76,7 +76,7 @@
                         <td>time</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;{{creation_date}}
+                            <i class="fa fa-angle-right"></i>&nbsp;{{plan.get_str_time}}
                         </td>
                     </tr>
                     <tr>
@@ -97,7 +97,7 @@
                         <td>cost</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.cost }}
+                            <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.cost }}
                         </td>
                     </tr>
                     <tr>
@@ -136,7 +136,12 @@
                     <tr>
                         <td>cost</td>
                         <td>
-                            <i class="fa fa-angle-right"></i>&nbsp;<b id="new_model_cost"></b></td>
+                            <i class="fa fa-angle-right"></i>&nbsp;\.<b id="new_model_cost"></b></td>
+                    </tr>
+                    <tr>
+                        <td>balance</td>
+                        <td>
+                            <i class="fa fa-angle-right"></i>&nbsp;\.<b id="new_model_cost"></b></td>
                     </tr>
 
 
@@ -179,18 +184,18 @@
                 </div>
                 <div id="level_navigation">
 
-                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
+                    <button class="make_creation button-delete" onclick="change_floor(0);">1f</button>
                     <br>
 
-                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
+                    <button class="make_creation button-delete" onclick="change_floor(1);">2f</button>
                     <br>
 
-                    <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
+                    <button class="make_creation button-delete" onclick="change_floor(2);">3f</button>
                 </div>
             </div>
 
             {% if user.is_authenticated %}
-                <button id="finalize" class="button-large" onclick="to_finalize()"><i class="fa fa-check-square-o"></i>&nbsp;finalize&nbsp;
+                <button id="finalize" class="button-xsmall1 pure-button" onclick="to_finalize()"><i class="fa fa-check-square-o"></i>&nbsp;finalize&nbsp;
                 </button>
             {% else %}
                 <p class="error">you can create plans if you are logged in.</p>
