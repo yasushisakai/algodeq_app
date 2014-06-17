@@ -216,8 +216,6 @@ class Plan(models.Model):
             new_plan_similarity,
     ):
 
-
-
         if self.geometry is new_plan_geometry:
             return {'is_validation': False, 'message': 'geometry same as parent'}
 
