@@ -200,6 +200,9 @@ class Plan(models.Model):
 
         return points_to_me
 
+    def get_str_time(self):
+        return self.creation_time.strftime('%Y.%m.%d %H:%M:%S')
+
 
     def validate_new_plan(
             self,

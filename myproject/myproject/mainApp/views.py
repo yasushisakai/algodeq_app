@@ -148,7 +148,6 @@ def make(request, plan_id):
 
     return render_to_response('make.html', {
         'plan': plan,
-        'creation_date': plan.creation_time.strftime('%Y.%m.%d %H:%M:%S'),
         'plan_json': plan_json
     }, context_instance=RequestContext(request)
     )
