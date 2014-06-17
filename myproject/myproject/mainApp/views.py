@@ -1,5 +1,6 @@
 import json
 import datetime
+import math
 
 import Image
 
@@ -27,9 +28,17 @@ def index(request):
         Plan.init_plan()
 
     plans = Plan.objects.all()
-    plans_json = []
+    plans_json = [];
+
+    total_points = 0
+    user_points = 0
 
     for p in plans:
+        print request.user.username, p.architect.username, total_points, user_points
+        total_points += p.get_total_points()
+        if request.user.is_authenticated and (request.user.username == p.architect.username):
+            user_points += p.get_total_points()
+
         if len(plans_json) < 1:
 
             plans_json.append({
@@ -47,10 +56,14 @@ def index(request):
         else:
             Plan.tree_search(plans_json, p)
 
+    earning_money = math.floor((user_points / total_points)*10000)*100
+
+
     return render_to_response('index.html', {
         'plans': plans,
         'plans_num': len(plans),
-        'plans_json': json.dumps(plans_json)
+        'plans_json': json.dumps(plans_json),
+        'money': earning_money
     }, context_instance=RequestContext(request))
 
 
