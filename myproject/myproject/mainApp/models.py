@@ -204,7 +204,7 @@ class Plan(models.Model):
         return self.creation_time.strftime('%Y.%m.%d %H:%M:%S')
 
     def get_str_cost(self):
-        return '{:,}'.format(int(self.cost))
+        return '{:,}'.format(int(self.cost*10000))
 
     def get_str_similarity(self):
         return '{:.2%}'.format(self.similarity)
