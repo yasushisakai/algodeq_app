@@ -38,30 +38,29 @@
 {% block header %}
     <!-- authentication process -->
     <div class="width-wide">
-    <div class="pure-g">
+        <div class="pure-g">
 
 
-        <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+            <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
 
-            <h2>the decentralized version controlled building system</h2>
-        </div>
-        <div class="pure-u-2-5">
+                <h2>the decentralized version controlled building system</h2>
+            </div>
+            <div class="pure-u-2-5">
 
-            　　　　　
-            <div class="info"><a class='iframe' href="/information">
-                <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site
-                </button>
-
-
+                　　　　　
+                <div class="info"><a class='iframe' href="/information">
+                    <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>this site
+                    </button>
                 </a></div>
+
 
                 <div class="login">
                     {% include "header_with_login.html" %}
 
                 </div>
-
-
             </div>
+
+
         </div>
     </div>
 
@@ -104,23 +103,18 @@
                             <td>points</td>
                             <td>
 
-                                <<<<<<< HEAD
-                                <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points|floatformat:"5" }}
-                                =======
+
                                 <i class="fa fa-angle-right"></i>&nbsp;<span
                                     id="plan_total_points">{{ plan.get_total_points|floatformat:"0" }}</span>
-                                >>>>>>> origin/master
                             </td>
                         </tr>
                         <tr>
                             <td>cost</td>
                             <td>
 
-                                <<<<<<< HEAD
-                                <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.get_str_cost }}
-                                =======
+
                                 <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i>{{ plan.get_str_cost }}
-                                >>>>>>> origin/master
+
                             </td>
                         </tr>
                         <tr>

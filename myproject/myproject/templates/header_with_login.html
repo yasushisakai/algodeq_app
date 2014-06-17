@@ -1,9 +1,9 @@
 {% if user.is_authenticated %}
 
 
+
     <div id="header_status "class="webfont header_text">
-        <i class="fa fa-male fa-1"></i> Hi, {{ user.username }}. <i class="fa fa-sign-out fa-1"></i><a href="/log_out/">log
-        out</a>.
+        <i class="fa fa-male fa-1"></i> Hi, {{ user.username }}. <i class="fa fa-sign-out fa-1"></i><a href="/log_out/">log out</a>.
     </div>
 
 
@@ -32,22 +32,21 @@
 {% else %}
 
 
-    <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
+
         <div id="timers_evaluation"></div>
-    </div>
 
     <div class="pure-control-group">
 
 
         <input type="email" id="e-mail" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button class="button-xsmall4 pure-button" onclick="log_in()"><i class="fa fa-sign-in fa-1"></i> log-in</button>
+        <button class="button-xsmall4 pure-button" onclick="log_in()"><i class="fa fa-sign-in fa"></i> log-in</button>
     </div>
     <div id="login-message">
 
         you are not logged in, you can either login or sign-up. &nbsp;<i class="fa fa-hand-o-right"></i>
-        <button class="button-xsmall1 pure-button" onclick=location.href='/sign_up'>
-            <i class="fa fa-sign-in fa-1"></i>sign-up
+        <button class="button-xsmall11 pure-button" onclick=location.href='/sign_up'>
+            <i class="fa fa-sign-in fa"></i>sign-up
         </button>
 
     </div>
