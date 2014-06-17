@@ -38,19 +38,21 @@
 {% block header %}
     <!-- authentication process -->
     <div class="width-wide">
-        <div class="pure-g">
+    <div class="pure-g">
 
 
-            <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+        <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
 
-                <h2>the decentralized version controlled building system</h2>
-            </div>
-            <div class="pure-u-2-5">
+            <h2>the decentralized version controlled building system</h2>
+        </div>
+        <div class="pure-u-2-5">
 
-                　　　　　
-                <div class="info"><a class='iframe' href="/information">
-                    <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site
-                    </button>
+            　　　　　
+            <div class="info"><a class='iframe' href="/information">
+                <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site
+                </button>
+
+
                 </a></div>
 
                 <div class="login">
@@ -102,14 +104,23 @@
                             <td>points</td>
                             <td>
 
+                                <<<<<<< HEAD
                                 <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points|floatformat:"5" }}
+                                =======
+                                <i class="fa fa-angle-right"></i>&nbsp;<span
+                                    id="plan_total_points">{{ plan.get_total_points|floatformat:"0" }}</span>
+                                >>>>>>> origin/master
                             </td>
                         </tr>
                         <tr>
                             <td>cost</td>
                             <td>
 
+                                <<<<<<< HEAD
                                 <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.get_str_cost }}
+                                =======
+                                <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i>{{ plan.get_str_cost }}
+                                >>>>>>> origin/master
                             </td>
                         </tr>
                         <tr>
@@ -139,12 +150,21 @@
 
                     <p>
                         {% if user.is_authenticated %}
+
+                            {% if user.username == plan.architect.username %}
+                                <span class="error"> you can't add points to your own model.</span><br>
+                            {% else %}
+                                <button id="model_add_points" class="button-xsmall1 pure-button"
+                                        onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
+                                    points
+                                </button>
+                            {% endif %}
+                        {% else %}
+                            <!-- points from anon -->
                             <button id="model_add_points" class="button-xsmall1 pure-button"
-                                    onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
+                                    onclick="add_points({{ plan.id }},3.0,true)"><i class="fa fa-plus-square"></i>&nbsp;add
                                 points
                             </button>
-                        {% else %}
-                            you can add points by logging in.
                         {% endif %}
                         <button id="model_make_plan" class="button-xsmall1 pure-button"
                                 onclick="make_plan({{ plan.id }})"><i class="fa fa-cubes"></i>&nbsp;make plan

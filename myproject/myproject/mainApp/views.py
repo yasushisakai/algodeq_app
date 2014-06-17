@@ -68,7 +68,8 @@ def single_plan(request, name):
     if request.method == 'POST' and request.is_ajax():
         points = float(request.POST['points'])
         added_points = plan.add_points(points)
-        plan.architect.update_evaluation_time()  # update model evaluation time of user
+        if request.POST['is_anon'] == 'false':
+            request.user.update_evaluation_time()  # update model evaluation time of user
         return HttpResponse(json.dumps({'points_added': added_points}))
 
     # below happens when there is neither post nor ajax

@@ -78,7 +78,7 @@
                         <td>
                             <p>parent points</p>
                         </td><td>
-                        <i class="fa fa-angle-right"></i>&nbsp;<b id="parent_points">{{ parent_points }}</b>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="parent_points">{{ parent_points|floatformat:"0" }}</b>
                         </td>
                     </tr>
                  </tbody></table>
@@ -99,7 +99,7 @@
                         <td>
                             cost
                         </td><td>
-                        <i class="fa fa-angle-right"></i>&nbsp;<b id="cost"></b>
+                        <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i><b id="cost"></b>
                         </td>
                     </tr>
                     <tr>
@@ -115,7 +115,7 @@
                             <p>architect</p>
                         </td>
                         <td>
-                           <i class="fa fa-angle-right"></i>&nbsp; <b id="architect"> {{ user.username }}</b>
+                           <i class="fa fa-angle-right"></i>&nbsp;<b id="architect">{{ user.username }}</b>
                         </td>
                     </tr>
                  </tbody></table>

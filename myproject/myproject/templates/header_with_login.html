@@ -30,6 +30,11 @@
 
 {% else %}
 
+
+    <div class="webfont">you are not logged in, you can either login or <a href="/sign_up/">sign-up</a>.
+        <div id="timers_evaluation"></div>
+    </div>
+
     <div class="pure-control-group">
 
 
@@ -40,8 +45,9 @@
     <div id="login-message">
 
         you are not logged in, you can either login or sign-up. &nbsp;<i class="fa fa-hand-o-right"></i>
-           <button class="button-xsmall1 pure-button" onclick=location.href='/sign_up'>
-               <i class="fa fa-sign-in fa-1"></i>sign-up</button>
+        <button class="button-xsmall1 pure-button" onclick=location.href='/sign_up'>
+            <i class="fa fa-sign-in fa-1"></i>sign-up
+        </button>
 
     </div>
 
@@ -66,3 +72,4 @@
 
 
 {% endif %}
+

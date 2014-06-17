@@ -91,14 +91,14 @@
                         <td>points</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points|floatformat:"0" }}
                         </td>
                     </tr>
                     <tr>
                         <td>cost</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.get_str_cost }}
+                            <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i>{{ plan.get_str_cost }}
                         </td>
                     </tr>
                     <tr>
@@ -135,14 +135,9 @@
                             <i class="fa fa-angle-right"></i>&nbsp; <b id="new_model_similarity"></b></td>
                     </tr>
                     <tr>
-                        <td>cost</td>
-                        <td>
-                            <i class="fa fa-angle-right"></i>&nbsp;\.<b id="new_model_cost"></b></td>
-                    </tr>
-                    <tr>
                         <td>balance</td>
                         <td>
-                            <i class="fa fa-angle-right"></i>&nbsp;\.<b id="new_model_cost"></b></td>
+                            <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i><b id="new_model_cost"></b></td>
                     </tr>
 
 
