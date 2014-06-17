@@ -203,6 +203,9 @@ class Plan(models.Model):
     def get_str_time(self):
         return self.creation_time.strftime('%Y.%m.%d %H:%M:%S')
 
+    def get_str_cost(self):
+        return '{:,}'.format(int(self.cost))
+
 
     def validate_new_plan(
             self,
