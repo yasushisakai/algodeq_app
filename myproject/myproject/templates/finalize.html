@@ -8,6 +8,8 @@
     <!-- main -->
     <script src="{% static "js/finalize.js" %}"></script>
     <script src="{% static "js/events.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox-min.js" %}"></script>
 
     {% include "inhead_declaration.html" %}
 
@@ -41,8 +43,8 @@
         </div>
         <div class="pure-u-2-5">
 
-            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">
-            <button class="button-xsmall1 pure-button">about this site</button></a></div>
+            　　　　　<div class="info"><a class='iframe' href="/information">
+            <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site</button></a></div>
 
             <div class="login">
                 {% include "header_with_login.html" %}

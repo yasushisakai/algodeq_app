@@ -9,6 +9,7 @@
 
 
 {% block header %}
+    <div class="width-wide">
 
     <div class="pure-g">
         <div class="pure-u-5-5"><h1>LMN ARCHITECTURE.COM　?</h1></div>
@@ -19,6 +20,7 @@
         <div class="pure-u-1-8">jp | en</div>
 
     </div>
+    </div>
     <!-- header head -->
 
 
@@ -26,20 +28,23 @@
 {% endblock %}
 
 {% block contents %}
+    <div class="width-wide">
     <div id="sign-up">
         <div class="pure-g">
 
-            <div class="pure-u-17-24">
+            <div class="pure-u-18-24">
                 <div id="how_to">
-                    <iframe width="750" height="563" src="//www.youtube.com/embed/i2Jxaww9fnk" frameborder="0"
+                    <iframe width="900" height="676" src="//www.youtube.com/embed/i2Jxaww9fnk" frameborder="0"
                             allowfullscreen></iframe>
                 </div>
 
             </div>
 
-            <div class="pure-u-7-24">
+            <div class="pure-u-6-24">
+                <div id="sign-form">
                 <form action="" method="post">
                     {% csrf_token %}
+
 
                     <table class="pure-table2 pure-table-horizontal">
                         <tbody>
@@ -71,10 +76,10 @@
                         </tr>
                         <tr>
                             <td>
-                                <i class="fa fa-key"></i>&nbsp;password(confirm):
+                                <i class="fa fa-key"></i>&nbsp;password:
                             </td>
                             <td>
-                                <input type="password" name="password2" id="password2">
+                                <input type="password" name="password2" id="password2" placeholder="confirm">
                             </td>
 
                         </tr>
@@ -84,7 +89,7 @@
 
 
                     <p>
-                        <button class="button-xsmall pure-button" type="submit">
+                        <button class="button-xsmall1 pure-button" type="submit">
                             <i class="fa fa-plus-square"></i>&nbsp;submit
 
                         </button>
@@ -93,7 +98,7 @@
 
 
                 <p>
-                    <button class="button-xsmall pure-button" onclick="document.location.href='../'">
+                    <button class="button-xsmall4 pure-button" onclick="document.location.href='../'">
                         <i class="fa fa-undo"></i>&nbsp;back to index
                     </button>
                 </p>
@@ -101,7 +106,8 @@
             </div>
         </div>
     </div>
-
+    </div>
+</div>
 
 
 
