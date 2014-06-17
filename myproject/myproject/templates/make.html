@@ -39,7 +39,7 @@
 
             　　　　　
             <div class="info"><a class='iframe' href="{% static "html/information.html" %}">
-                <button class="button-xsmall pure-button">about this site</button>
+                <button class="button-xsmall1 pure-button">about this site</button>
             </a></div>
 
             <div class="login">
@@ -83,7 +83,7 @@
                         <td>similarity</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp; {{ plan.similarity }}
+                            <i class="fa fa-angle-right"></i>&nbsp; {{ plan.get_str_similarity }}
                         </td>
                     </tr>
                     <tr>
@@ -97,7 +97,7 @@
                         <td>cost</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.cost }}
+                            <i class="fa fa-angle-right"></i>&nbsp;\.{{ plan.get_str_cost }}
                         </td>
                     </tr>
                     <tr>
