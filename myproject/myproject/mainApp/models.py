@@ -206,6 +206,8 @@ class Plan(models.Model):
     def get_str_cost(self):
         return '{:,}'.format(int(self.cost))
 
+    def get_str_similarity(self):
+        return '{:.2%}'.format(self.similarity)
 
     def validate_new_plan(
             self,
