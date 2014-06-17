@@ -9,18 +9,20 @@
 
     <script>
 
-        $.ready=function(){
-            $(".explain_jp").hide();
+        $.ready = function () {
+            $("#explain_jp").hide();
         }
 
         function toggle_lang() {
 
-            if ($(".explain_jp").is(":visible")) {
-                $(".explain_jp").hide();
-                $(".explain_en").show();
+
+            if ($("#explain_jp").is(":visible")) {
+
+                $("#explain_jp").hide();
+                $("#explain_en").show();
             } else {
-                $(".explain_jp").show();
-                $(".explain_en").hide();
+                $("#explain_jp").show();
+                $("#explain_en").hide();
             }
 
         }
@@ -46,99 +48,83 @@
 
     <div class="pure-g">
         <div class="pure-u-5-5">
-            <!-- -->
 
             <img src="{% static "img/provoke.png" %}">
 
 
-            <h3>lmnarchitecture competition</h3>
+            <h3>lmnarchitecture competition (Child competition)</h3>
 
-            <div class="explain_en">
+            <div id="explain_en">
                 <p>
-                *1: This system was developed for the <a href="http://algodeq.org/?page=about">ALGODEQ competition</a>(so called the "Parent Competition") which is held this year.
-                According to the <a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf">guidelines</a>,
-                the competition has a prize money for the Grand Prix.
+                    *1: This system was developed for the <a href="http://algodeq.org/?page=about">ALGODEQ
+                    competition</a>(so called the "Parent" competition) which is held this year.
+                    According to the <a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf">guidelines</a>,
+                    the Parent competition has a Grand Prix including a prize money. Since this system has a evaluation
+                    method for evolutionary plan generation,this system will also have the nested form of competition(so
+                    called the "Child" competition), using
+                    the Parent Competitions prize money.
                 </p>
+
                 <p>
-                *2: The Parent Competition has announced that the Grand Prix will include 1,000,000- Yen of prize money (this will change within currency rate).
-                Payment will go along with the Parent Competition. <a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf"> See pdf section "32. Payment of prize money" </a>
+                    *2: The Parent Competition has announced that the Grand Prix will include 1,000,000- Yen of prize
+                    money.
+                    Payment restrictions will go along with the Parent Competition. <a
+                        href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_En_140220.pdf"> See pdf section
+                    "32. Payment of prize money" </a>
+                    The total amount of the child competition's prize money will be identical to the prize money given
+                    from the Parent competition, this means that if this systems loses the Grand Prix, no money will be
+                    distributed to the users.
                 </p>
+
                 <p>
-                *3 Money division will follow the process below.<br>
-                    <ol>
+                    *3 Money division will follow the process below. <span style="color: #FF3399">This method may change without announce.</span></p>
+                <ol>
                     <li>All points will be accumulated.</li>
                     <li>Prize money will be divided by the points from 1. (1pt = n yen)</li>
-                    <li>Users will gain money corresponding to the total points within the created models.</li>
-                    </ol>
-                This method may change without announce.<br>
-                </p>
-                <p>
-                *4 method of remittance will differ in countries. Once, gained the money will be sent from Japan. While we have some concern for transaction, we will do our best.
-                </p>
+                    <li>Users will gain money corresponding to the total points within the created models. If the total
+                        prize exceeds the threshold of 20,000 Yen
+                    </li>
+                </ol>
 
-
-            </div>
-            <div class="explain_jp">
-                <p>
-                    本システム(The Decentralized Version Controlled Building)の中で、建築をつくり最高得点を目指せ！！
-                </p>
-
-                <p>
-                    このシステムでは、一意に単一のモデルが評価されることが正しいわけではありません。より多くの人へ継承されることと、そして継承されたものが評価されていくことが、
-                    高得点を生み出すポイントです。いわば、未来を想定しながら考えていくことが重要です。 これは、建築に時間軸を呼び戻し、より継続されていく建築とは？という問いに対する挑戦です。
-                </p>
-
-                <p>3seconds,30seconds,3minutes,30minutes,3hours, 30hours,3days,30days, 3months,
-                    30months,3years,3decades,...
-                </p>
-
-                <p>
-                    この仕組みは、ALGODeQ（以下:親コンペ）に際して提案・作成されたシステムです。
-                    期間：6月14日～7月中旬(予定)　※締め切りは親コンペの審査日程公表後、決定します。</br>
-                    　
-                    賞金：本システムが親コンペにおいて入賞した場合、得られた賞金を分配します。(最大総額100万円)</br>
-                    ※親コンペにおいて入賞することができなかった場合、賞金はなしとします。
-
+                <p> *4 method of remittance will differ in countries. Once gained from the Parent competition, the money
+                    will be sent from Japan. While there are some concerns left for transactions throughout different
+                    nations, payment may be obstructed. In any case we will do our best.
                 </p>
             </div>
 
-            <h3>the redistribution method</h3>
-
-            <div class="explain_en">
-            </div>
-            <div class="explain_jp">
+            <div id="explain_jp">
                 <p>
-                    1.　モデルの集計
-                    1ユーザーにつき最も評価ポイントが高かったモデルが選ばれ、そのモデル群の合計ポイントを計算します。これを総ポイントとします。
-
+                    *1: このシステムは今年（2014）現在進行中の <a href="http://algodeq.org/?ja&page=about">ALGODEQ コンペティション</a>（以下：親コンペ）の為に開発されたものです。
+                    親コンペの<a href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_Ja_140220.pdf">ガイドライン</a>によると、同コンペティションの最優秀賞には賞金が設定されており、
+                    このシステムもモデルの評価システムが備わっていることから、その評価にしたがって賞金を分配するコンペティションを開催します。
                 </p>
 
                 <p>
-                    2.　賞金/総ポイント
-                    ここで、得られた賞金と総ポイントで割り算し、1ポイントあたりの金額を算出します。これをポイント換算レートとします。
-
+                    *2: 親コンペによると、最優秀賞には賞金１００万円が設定されています。賞金の支払いに関しては、 親コンペに倣うものとします。<a
+                        href="http://algodeq.org/algodeq2/file/pdf/ALGODeQ_guidelines_Ja_140220.pdf"> ガイドライン "32.
+                    賞金の支払"参照。 </a>
+                    また、子コンペの賞金総額は親コンペによって得られた賞金金額と同額とします。よって本システムが賞金を得られなかった場合（賞金0円）事実上分配は行われません。子コンペが親コンペで優勝するにはあなたの力にかかっております!
                 </p>
 
                 <p>
-                    3.　ポイント換算レート*ポイントで1000円以上となったら賞金対象です!
-                    得られた換算レートを下に、ユーザー毎最高得点を獲得したモデルが1000円以上となった場合には、賞金対象となります!
+                    *3 賞金の分配方法は下記に従います。<span style="color:#FF3399;">この分配方式は予告なく変更される可能性があります。</span>
+                <ol>
+                    <li>モデルに当てられた全てのポイントを合算します。</li>
+                    <li>得られた賞金金額を1で得られたポイントで割ります。（1ポイント/n円）</li>
+                    <li>ユーザーが作ったモデル群の合計ポイントに応じて報酬が決まります。ただし、送金手続きの関係上報酬が2万円以上となった場合に報酬が出るものとします。</li>
+                </ol>
 
                 </p>
-
                 <p>
-                    賞金の案内時に登録メールアドレスが送れなかった場合。
-                    賞金の案内時にご返信いただけなかった場合。
-                    その他運営側として不正行為と判断した場合。
-
+                    *4 送金方法は国により変わります。親コンペから子コンペへは日本で受け取られので、送金は日本からとなります。
+                    送金は国により諸事情が考えられ、出来る限り期待に添えるように努力いたしますが、不可能となった場合は予めご了承ください。
                 </p>
-
-                <img src="{% static "img/redistribution.png" %}">
-
             </div>
 
+            <img src="{% static "img/distribution.jpg" %}">
 
             <div class="icon">
-                why
+                for more details ->
                 <a href="http://yasushisakai.github.io/algodeq_app/">
                     <i class="fa fa-question-circle fa-3"></i>
                 </a>
