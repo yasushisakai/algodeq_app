@@ -121,7 +121,8 @@
                 </table>
 
             </div>
-            <div id="parent_model_info">
+            </br>
+            <div id="current_model_info">
                 &nbsp;<i class="fa fa-cube"></i>&nbsp;Current Model Information
                 <table class="pure-table2 pure-table-horizontal">
                     <tbody>
@@ -135,7 +136,6 @@
                         <td>
                             <i class="fa fa-angle-right"></i>&nbsp;<i id="new_model_cost"></i></td>
                     </tr>
-
 
 
                     </tbody>
@@ -154,6 +154,7 @@
         </div>
 
         <div id="actions">
+            <i class="fa fa-cog"></i>&nbsp;TOOLS
             <div id="make">
                 <div id="program_navigation">
                     <button class="make_creation button-living" onclick="change_room_type(0);">living</button>
@@ -175,20 +176,26 @@
                 </div>
                 <div id="level_navigation">
 
-                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button><br>
+                    <button class="make_creation button-default" onclick="change_floor(0);">1f</button>
+                    <br>
 
-                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button><br>
+                    <button class="make_creation button-default" onclick="change_floor(1);">2f</button>
+                    <br>
 
                     <button class="make_creation button-default" onclick="change_floor(2);">3f</button>
                 </div>
             </div>
-            <button class="go_back button-default" onclick="history.back()"><i class="fa fa-undo"></i>&nbsp;go back</button>
-            <br>
+
             {% if user.is_authenticated %}
-                <button id="finalize" class="button-large" onclick="to_finalize()"><i class="fa fa-check-square-o"></i>&nbsp;finalize&nbsp;</button>
+                <button id="finalize" class="button-large" onclick="to_finalize()"><i class="fa fa-check-square-o"></i>&nbsp;finalize&nbsp;
+                </button>
             {% else %}
                 <p class="error">you can create plans if you are logged in.</p>
             {% endif %}
+            </br></br>
+
+            <button class="go_back button-default" onclick="history.back()"><i class="fa fa-undo"></i>&nbsp;go back
+            </button>
         </div>
 
 
