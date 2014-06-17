@@ -7,6 +7,7 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
+from django.core.files.base import ContentFile
 
 from myproject.mainApp.admin import UserCreationForm
 from myproject.settings import MEDIA_ROOT
@@ -174,6 +175,8 @@ def finalize(request):
             new_plan_image_data = new_plan_image_data.decode("base64")
             image_name = 'img_' + new_plan_name + '.png'
 
+            # image_file = ContentFile(new_plan_image_data, image_name)
+
             # save image to server.
             image_path = MEDIA_ROOT + "/plans/" + image_name
             image_file = open(image_path, "wb")
@@ -193,7 +196,7 @@ def finalize(request):
             new_plan = Plan(
                 name=new_plan_name,
                 creation_time=datetime.datetime.now(),
-                image_file=MEDIA_ROOT + '/plans/' + image_name,
+                image_file=image_path,
                 geometry=request.POST['save_geometry'],
                 similarity=request.POST['save_similarity'],
                 points_inborn=request.POST['save_points'],

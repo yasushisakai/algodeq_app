@@ -119,7 +119,8 @@ class Plan(models.Model):
     # general info
     name = models.CharField(max_length=128, unique=True)
     creation_time = models.DateTimeField()
-    image_file = models.ImageField(upload_to='plans', blank=True)
+    #image_file = models.ImageField(upload_to='plans/', blank=True)
+    image_file = models.CharField(max_length=512, blank=True)
     geometry = models.CharField(max_length=5000)
     similarity = models.FloatField()
     cost = models.FloatField()
@@ -156,7 +157,7 @@ class Plan(models.Model):
             'id': self.id,
             'name': self.name,
             'creation_time': self.creation_time.strftime('%Y-%m-%dT%H:%M:%S'),
-            'image_file': self.image_file.name,
+            'image_file': 'img_'+self.image_file+'.png',
             'geometry': self.geometry,
             'similarity': self.similarity,
             'cost': self.cost,
