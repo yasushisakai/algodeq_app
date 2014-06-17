@@ -87,7 +87,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>total points</td>
+                        <td>points</td>
                         <td>
 
                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
@@ -122,19 +122,21 @@
             </div>
 
             <div id="model_action">
-            <p>
-                <button class="button-xsmall pure-button" onclick="document.location.href='../../'"><i class="fa fa-undo"></i>&nbsp;back to tree diagram
-                </button></p>
+
                 <p>
                 {% if user.is_authenticated %}
-                    <button id="model_add_points" class="button-xsmall pure-button" onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
+                    <button id="model_add_points" class="button-xsmall1 pure-button" onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
                         points
                     </button>
                 {% else %}
                     you can add points by logging in.
                 {% endif %}
-                <button id="model_make_plan" class="button-xsmall pure-button" onclick="make_plan({{ plan.id }})"><i class="fa fa-cubes"></i>&nbsp;make plan</button>
+                <button id="model_make_plan" class="button-xsmall1 pure-button" onclick="make_plan({{ plan.id }})"><i class="fa fa-cubes"></i>&nbsp;make plan</button>
             </p>
+
+             <p>
+                <button class="button-xsmall pure-button" onclick="document.location.href='../../'"><i class="fa fa-undo"></i>&nbsp;back to tree diagram
+                </button></p>
             </div>
         </div>
     </div>
