@@ -41,46 +41,43 @@
     </style>
 
     <script>
-        {#        var plans_json = JSON.parse({{ plans_json|safe}});#}
+
+        console.log($("#header_status").text());
+        var impData = {{ plans_json|safe}};
         var csrf_token = '{{ csrf_token }}';
-    var money = {{ money }};
-
     </script>
 
+    <script src="{% static "js/index.js" %}"></script>
 
-
-    <script src="{% static "js/index.js" %}">
-
-    </script>
 
 {% endblock %}
 
 
 
 {% block header %}
-    <!-- todo: make header -->
-    <div class ="width-wide">
+    <div class="width-wide">
 
-    <div class="pure-g">
+        <div class="pure-g">
 
 
-        <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+            <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
 
-            <h2>the decentralized version controlled building system</h2>
-        </div>
-        <div class="pure-u-2-5">
+                <h2>the decentralized version controlled building system</h2>
+            </div>
+            <div class="pure-u-2-5">
 
-            　　　　　<div class="info"><a class='iframe' href="/information">
-            <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site</button></a></div>
+                　　　　　
+                <div class="info"><a class='iframe' href="/information">
+                    <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>about this site
+                    </button>
+                </a></div>
 
-            <div class="login">
-                {% include "header_with_login.html" %}
+                <div class="login">
+                    {% include "header_with_login.html" %}
+                </div>
 
             </div>
-
-
         </div>
-    </div>
     </div>
 
 
@@ -90,48 +87,48 @@
     <div class="width-wide">
 
 
-    <div class="pure-g">
+        <div class="pure-g">
 
-        <div class="pure-u-19-24">
-            <script>
-                var impData = {{ plans_json|safe}};
-                var count = {{ plans_num }};
-                treeDiagram();
-            </script>
-        </div>
-        <div class="pure-u-5-24">
+            <div class="pure-u-19-24">
+                <script>
+
+                    var count = {{ plans_num }};
+                    treeDiagram();
+                </script>
+            </div>
+            <div class="pure-u-5-24">
 
 
-            <div id="make-list">
-                <table class="pure-table2 pure-table-horizontal">
-                    <thead>
-                    <tr>
-                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");'
-                               OnMouseOver='MouseIn(Lst[1].id);' OnMouseOut='MouseOut(Lst[1].id);'>rank</a></th>
-                        <th>
-                            <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
-                        </th>
-                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
-                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
-                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
-                        <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
-                    </tr>
-                    </thead>
-                    <tbody id="table_list">
-                    <script>
-                        var Lst = Lst_sort();
-                        SortScore(Lst, "total_points");
-                        domMaker(Lst);
-                    </script>
-                    <tbody>
+                <div id="make-list">
+                    <table class="pure-table2 pure-table-horizontal">
+                        <thead>
+                        <tr>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");'
+                                   OnMouseOver='MouseIn(Lst[1].id);' OnMouseOut='MouseOut(Lst[1].id);'>rank</a></th>
+                            <th>
+                                <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
+                            </th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_list">
+                        <script>
+                            var Lst = Lst_sort();
+                            SortScore(Lst, "total_points");
+                            domMaker(Lst);
+                        </script>
+                        <tbody>
 
-                </table>
+                    </table>
 
+
+                </div>
 
             </div>
-
         </div>
-    </div>
     </div>
 
 
