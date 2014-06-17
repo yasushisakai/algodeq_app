@@ -31,6 +31,7 @@
 {% endblock %}
 
 {% block header %}
+    <div class ="width-wide">
         <div class="pure-g">
 
 
@@ -51,31 +52,31 @@
 
         </div>
     </div>
+    </div>
 
 
-
-    <!--Hi, {{ user.username }}. <a href="/log_out/">log out</a>.-->
 
 {% endblock %}
 
 {% block contents %}
+    <div class="width-wide">
 
     <div class="pure-g">
 
-        <div id="parent_model_info" class="pure-u-1-2">
+        <div id="parent_model" class="pure-u-1-2">
             <img class="model_img" src="../../media/plans/img_{{ parent_name }}.png">
             <div class="model_info">
-                <h3><i class="fa fa-male"></i><i class="fa fa-female"></i>&nbsp;parent model</h3>
+                <h4><i class="fa fa-male"></i><i class="fa fa-female"></i>&nbsp;parent model</h4>
              <table class="pure-table2 pure-table-horizontal">
                     <tbody><tr><td>
-                        <p>name</p>
+                        name
                     </td><td>
-                        <p id="parent_name"><i class="fa fa-angle-right"></i>&nbsp;{{ parent_name }}</p>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="parent_name">{{ parent_name }}</b>
                     </td></tr><tr>
                         <td>
                             <p>parent points</p>
                         </td><td>
-                        <p id="parent_points"><i class="fa fa-angle-right"></i>&nbsp;{{ parent_points }}</p>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="parent_points">{{ parent_points }}</b>
                         </td>
                     </tr>
                  </tbody></table>
@@ -86,17 +87,17 @@
         <div id="current_model" class="pure-u-1-2">
             <div id="webgl_canvas_finalize" class="model_img"></div>
             <div class="model_info">
-                <h3><i class="fa fa-child"></i>&nbsp;new model</h3>
+                <h4><i class="fa fa-child"></i>&nbsp;new model</h4>
              <table class="pure-table2 pure-table-horizontal">
                     <tbody><tr><td>
-                        <p>similarity</p>
+                        similarity
                     </td><td>
-                         <p id="similarity"><i class="fa fa-angle-right"></i>&nbsp; {{ similarity }}</p>
+                         <i class="fa fa-angle-right"></i>&nbsp;<b id="similarity"></b>
                     </td></tr><tr>
                         <td>
-                            <p>cost</p>
+                            cost
                         </td><td>
-                        <p id="cost"><i class="fa fa-angle-right"></i>&nbsp;</p>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="cost"></b>
                         </td>
                     </tr>
                     <tr>
@@ -104,7 +105,7 @@
                             <p>points</p>
 
                         </td><td>
-                        <p id="points_inborn"><i class="fa fa-angle-right"></i>&nbsp;</p>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="points_inborn"></b>
                         </td>
                     </tr>
                     <tr>
@@ -112,7 +113,7 @@
                             <p>architect</p>
                         </td>
                         <td>
-                            <p id="architect"> <i class="fa fa-angle-right"></i>&nbsp;{{ user.username }}</p>
+                           <i class="fa fa-angle-right"></i>&nbsp; <b id="architect"> {{ user.username }}</b>
                         </td>
                     </tr>
                  </tbody></table>
@@ -121,14 +122,13 @@
 
 
                 <div id="name_box">
-                    <span id="status"></span><br>
+                    <span id="status"></span><br><br>
                     <input type="text" id="name_input" class="input-default" name="name" size="30" placeholder="model name">
-                    </br>
+                    <br><br>
                     <button id="check_name" class="button-xsmall1 pure-button" onclick="validate_name()">check name</button>
                     <button id="save_plan" class="button-xsmall2 pure-button" onclick="save_plan()">send plan!!</button>
 
                 </div>
-
 
                 <div id="actions">
                     <button class="button-xsmall1 pure-button" onclick="history.back()">go back</button>
@@ -139,6 +139,7 @@
         <div id="model_info" class="pure-u-1-1">
 
         </div>
+    </div>
     </div>
 
 {% endblock %}

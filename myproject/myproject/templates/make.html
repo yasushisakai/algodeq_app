@@ -26,6 +26,7 @@
 
 {% block header %}
     <!-- authentication process -->
+    <div class="width-wide">
 
     <div class="pure-g">
 
@@ -49,11 +50,12 @@
 
         </div>
     </div>
+    </div>
 
-    <!--{% include "header_with_login.html" %}-->
 {% endblock %}
 
 {% block contents %}
+    <div class="width-wide">
     <div id="side_bar">
         <div id="model_info">
             <div id="parent_model_info">
@@ -74,7 +76,7 @@
                         <td>time</td>
                         <td>
 
-                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.creation_time }}
+                            <i class="fa fa-angle-right"></i>&nbsp;{{ plan.creation_time}}
                         </td>
                     </tr>
                     <tr>
@@ -85,7 +87,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>total points</td>
+                        <td>points</td>
                         <td>
 
                             <i class="fa fa-angle-right"></i>&nbsp;{{ plan.get_total_points }}
@@ -129,12 +131,12 @@
                     <tr>
                         <td>similarity</td>
                         <td>
-                            <i class="fa fa-angle-right"></i>&nbsp; <i id="new_model_similarity"></i></td>
+                            <i class="fa fa-angle-right"></i>&nbsp; <b id="new_model_similarity"></b></td>
                     </tr>
                     <tr>
                         <td>cost</td>
                         <td>
-                            <i class="fa fa-angle-right"></i>&nbsp;<i id="new_model_cost"></i></td>
+                            <i class="fa fa-angle-right"></i>&nbsp;<b id="new_model_cost"></b></td>
                     </tr>
 
 
@@ -155,6 +157,7 @@
 
         <div id="actions">
             <i class="fa fa-cog"></i>&nbsp;TOOLS
+
             <div id="make">
                 <div id="program_navigation">
                     <button class="make_creation button-living" onclick="change_room_type(0);">living</button>
@@ -162,14 +165,14 @@
                     <button class="make_creation button-dining" onclick="change_room_type(1);">dining</button>
 
                     <button class="make_creation button-kitchen" onclick="change_room_type(2);">kitchen</button>
-                    <br>
+
 
                     <button class="make_creation button-bedroom" onclick="change_room_type(3);">bedroom</button>
 
                     <button class="make_creation button-wc" onclick="change_room_type(4);">wc/bath</button>
 
                     <button class="make_creation button-staircase" onclick="change_room_type(5);">staircase</button>
-                    <br>
+
 
                     <button class="make_creation button-delete" onclick="change_room_type(6);">delete</button>
 
@@ -210,6 +213,8 @@
         <input type="hidden" name="parent_name" id="parent_name" value="{{ plan.name }}">
         <input type="hidden" name="parent_points" id="parent_points" value="{{ plan.get_total_points }}">
     </form>
+
+    </div>
 
 {% endblock %}
 

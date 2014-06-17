@@ -54,8 +54,11 @@
 
 {% endblock %}
 
+
+
 {% block header %}
     <!-- todo: make header -->
+    <div class ="width-wide">
 
     <div class="pure-g">
 
@@ -66,7 +69,7 @@
         </div>
         <div class="pure-u-2-5">
 
-            　　　　　<div class="info"><a class='iframe' href="{% static "html/information.html" %}">
+            　　　　　<div class="info"><a class='iframe' href="/information">
             <button class="button-xsmall pure-button"><i class="fa fa-question">__</i>about this site</button></a></div>
 
             <div class="login">
@@ -77,11 +80,13 @@
 
         </div>
     </div>
+    </div>
 
 
 {% endblock %}
 
 {% block contents %}
+    <div class="width-wide">
 
 
     <div class="pure-g">
@@ -126,15 +131,19 @@
 
         </div>
     </div>
+    </div>
 
 
 
 
 
 {% endblock %}
+
 
 {% block footer %}
     <!-- todo: make footer -->
 
 {% endblock %}
+
+
 
