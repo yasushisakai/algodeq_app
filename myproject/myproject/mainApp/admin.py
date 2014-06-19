@@ -73,9 +73,14 @@ class UserAdmin(UserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(Plan)
+class PlanAdmin(admin.ModelAdmin):
+    list_display = ('name', 'architect', 'get_total_points', 'points_inborn', 'points_acquired')
+    list_filter = ('creation_time',)
+
+
+admin.site.register(Plan, PlanAdmin)
 admin.site.register(Log)
 admin.site.register(User, UserAdmin)
 
-#we are not using django's built-in permissions,
+# we are not using django's built-in permissions,
 admin.site.unregister(Group)
