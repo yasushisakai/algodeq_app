@@ -91,7 +91,8 @@
                 <script>
 
                     var count = {{ plans_num }};
-                    treeDiagram();
+                    var users = "{{ user.username|safe }}";
+                    treeDiagram(users);
                 </script>
             </div>
             <div class="pure-u-5-24">
@@ -100,7 +101,7 @@
                     <div class="current">
                         your current remuneration&nbsp;<i class="fa fa-jpy"></i>
                         <script type="text/javascript">
-                            var users = "{{ user.username|safe }}";
+
                             var impData = {{ plans_json|safe}};
                             var Lst = Lst_sort();
                             var user_list = user_money(Lst);
