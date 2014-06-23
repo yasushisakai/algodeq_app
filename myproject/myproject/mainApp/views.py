@@ -67,6 +67,57 @@ def index(request):
     }, context_instance=RequestContext(request))
 
 
+def tree(request):
+    """
+    view function for 'index.html'
+    """
+
+    if log_in(request):  # authentication process
+        return HttpResponse("logged in!")
+
+    # add one plan (tokyo) if there is nothing
+    if len(Plan.objects.all()) < 1:
+        Plan.init_plan()
+
+    plans = Plan.objects.all()
+    plans_json = [];
+
+    total_points = 0
+    user_points = 0
+
+    for p in plans:
+        print request.user.username, p.architect.username, total_points, user_points
+        total_points += p.get_total_points()
+        if request.user.is_authenticated and (request.user.username == p.architect.username):
+            user_points += p.get_total_points()
+
+        if len(plans_json) < 1:
+
+            plans_json.append({
+                'id': p.id,
+                'name': p.name,
+                'architect': p.architect.username,
+                'url': p.get_absolute_url(),
+                'parent': None,
+                # 'geometry': p.geometry,
+                'similarity': p.similarity,
+                'creation_time': '2014/01/01,0:0:0',
+                'total_points': p.get_total_points(),
+                'cost': p.cost,
+                'children': []})
+        else:
+            Plan.tree_search(plans_json, p)
+
+    earning_money = math.floor((user_points / total_points) * 10000) * 100
+
+    return render_to_response('index.html', {
+        'plans': plans,
+        'plans_num': len(plans),
+        'plans_json': json.dumps(plans_json),
+        'money': earning_money
+    }, context_instance=RequestContext(request))
+
+
 def single_plan(request, name):
     """
     gives the information of a single_plan

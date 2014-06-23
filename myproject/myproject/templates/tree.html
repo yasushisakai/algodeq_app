@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} lmn architecture {% endblock %}
+
+
+{% block head %}
+
+    <script type="text/javascript" src="{% static "js/three.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.layout.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox-min.js" %}"></script>
+    <script src="{% static "model/class/Plan.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/helper_functions.js" %}"></script>
+
+
+
+    {#    <link type="text/css" rel="stylesheet" href="{% static "css/d3style.css" %}"/>#}
+    {#    <style>#}
+    <style>
+
+        .node circle {
+            fill: #fff;
+            stroke: steelblue;
+            stroke-width: 1px;
+        }
+
+        .node {
+            font: 10px sans-serif;
+        }
+
+        .link {
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
+        }
+
+
+    </style>
+
+    <script>
+        var impData = {{ plans_json|safe}};
+        var csrf_token = '{{ csrf_token }}';
+    </script>
+
+    <script src="{% static "js/index.js" %}"></script>
+
+
+{% endblock %}
+
+
+
+{% block header %}
+    <div class="width-wide">
+
+        <div class="pure-g">
+
+
+            <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+
+                <h2>the decentralized version controlled building system</h2>
+            </div>
+            <div class="pure-u-2-5">
+
+                　　　　　
+                <div class="info"><a class='iframe' href="/information">
+                    <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>this site
+                    </button>
+                </a></div>
+
+                <div class="login">
+                    {% include "header_with_login.html" %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block contents %}
+    <div class="width-wide">
+
+
+        <div class="pure-g">
+
+            <div class="pure-u-19-24">
+                <script>
+
+                    var count = {{ plans_num }};
+                    var users = "{{ user.username|safe }}";
+                    treeDiagram(users);
+                </script>
+            </div>
+            <div class="pure-u-5-24">
+
+                {% if user.is_authenticated %}
+                    <div class="current">
+                        your current remuneration&nbsp;<i class="fa fa-jpy"></i>
+                        <script type="text/javascript">
+
+                            var impData = {{ plans_json|safe}};
+                            var Lst = Lst_sort();
+                            var user_list = user_money(Lst);
+                            var total_cost = 0;
+                            var all_cost = 0;
+                            ;
+                            for (var i in user_list) {
+                                all_cost += user_list[i][1];
+                                if (users == user_list[i][0]) {
+                                    total_cost = user_list[i][1];
+                                }
+
+                            }
+                            var user_cost = Math.floor((1000000 / all_cost) * total_cost);
+                            var user_costNew = Plan.format_cost(user_cost / 10000);
+                            document.write(user_costNew);
+
+                        </script>
+                    </div>
+                {% else %}
+                {% endif %}
+
+
+                <div id="make-list">
+
+                    <table class="pure-table2 pure-table-horizontal">
+                        <thead>
+                        <tr>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");' >rank</a></th>
+                            <th>
+                                <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
+                            </th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
+                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_list">
+                        <script>
+                            var Lst = Lst_sort();
+                            SortScore(Lst, "total_points");
+                            domMaker(Lst);
+                        </script>
+                        <tbody>
+
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+{% endblock %}
+
+
+{% block footer %}
+    <!-- todo: make footer -->
+
+{% endblock %}
+
+
+

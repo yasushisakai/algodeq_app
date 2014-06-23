@@ -13,6 +13,7 @@ urlpatterns = patterns('',
                        ###################################
 
                        url(r'^$', 'myproject.mainApp.views.index'),  # 0.index tree diagram
+                       url(r'^tree/', 'myproject.mainApp.views.tree'),  # tree diagram for submission
                        url(r'^make/(?P<plan_id>[-0-9]+)/?$', 'myproject.mainApp.views.make'),  # 1.create plan
                        url(r'^plan/(?P<name>[-a-zA-Z0-9_]+)/?$', 'myproject.mainApp.views.single_plan'),  # 2.view plan
                        url(r'finalize/', 'myproject.mainApp.views.finalize'),  # 3.save image and add plan to DB
