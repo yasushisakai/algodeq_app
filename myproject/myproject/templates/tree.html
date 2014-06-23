@@ -53,7 +53,7 @@
 
 
 {% block header %}
-    <div class="width-wide">
+    <div class="width-wide2">
 
         <div class="pure-g">
 
@@ -82,78 +82,21 @@
 {% endblock %}
 
 {% block contents %}
-    <div class="width-wide">
+    <div class="width-wide2">
 
 
         <div class="pure-g">
 
-            <div class="pure-u-19-24">
+            <div class="pure-u-24-24">
                 <script>
 
                     var count = {{ plans_num }};
                     var users = "{{ user.username|safe }}";
-                    treeDiagram(users);
+                    var bool = false;
+                    treeDiagram(users,bool);
                 </script>
             </div>
-            <div class="pure-u-5-24">
 
-                {% if user.is_authenticated %}
-                    <div class="current">
-                        your current remuneration&nbsp;<i class="fa fa-jpy"></i>
-                        <script type="text/javascript">
-
-                            var impData = {{ plans_json|safe}};
-                            var Lst = Lst_sort();
-                            var user_list = user_money(Lst);
-                            var total_cost = 0;
-                            var all_cost = 0;
-                            ;
-                            for (var i in user_list) {
-                                all_cost += user_list[i][1];
-                                if (users == user_list[i][0]) {
-                                    total_cost = user_list[i][1];
-                                }
-
-                            }
-                            var user_cost = Math.floor((1000000 / all_cost) * total_cost);
-                            var user_costNew = Plan.format_cost(user_cost / 10000);
-                            document.write(user_costNew);
-
-                        </script>
-                    </div>
-                {% else %}
-                {% endif %}
-
-
-                <div id="make-list">
-
-                    <table class="pure-table2 pure-table-horizontal">
-                        <thead>
-                        <tr>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");' >rank</a></th>
-                            <th>
-                                <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
-                            </th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
-                        </tr>
-                        </thead>
-                        <tbody id="table_list">
-                        <script>
-                            var Lst = Lst_sort();
-                            SortScore(Lst, "total_points");
-                            domMaker(Lst);
-                        </script>
-                        <tbody>
-
-                    </table>
-
-
-                </div>
-
-            </div>
         </div>
     </div>
 

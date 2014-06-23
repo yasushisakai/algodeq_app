@@ -110,7 +110,7 @@ def tree(request):
 
     earning_money = math.floor((user_points / total_points) * 10000) * 100
 
-    return render_to_response('index.html', {
+    return render_to_response('tree.html', {
         'plans': plans,
         'plans_num': len(plans),
         'plans_json': json.dumps(plans_json),
