@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}{% endblock %}
+
+{% block head %}
+
+    <!-- main -->
+    <script src="{% static "js/bot.js" %}"></script>
+    <script src="{% static "js/events.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox-min.js" %}"></script>
+
+
+    <script src="{% static "js/three.min.js" %}"></script>
+    <script src="{% static "js/OrbitControls.js" %}"></script>
+    <script src="{% static "js/diff_match_patch.js" %}"></script>
+
+    <script src="{% static "js/helper_functions.js" %}"></script>
+
+    <script>
+
+        var path_to_static = {% static "" %};
+        var csrf_token = '{{ csrf_token }}';
+
+        var bot_type = {{ type }};
+
+        var geometry_data = {{ random_plan.geometry|safe }};
+        var parent_geometry = JSON.parse(JSON.stringify(geometry_data));
+        var parent_id = {{ random_plan.id }};
+
+        var parent_points = {{ random_plan.get_total_points }};
+
+        {% ifequal type "1" %}
+
+            var geometry2_data ={{ random_plan_2.geometry|safe }};
+            var parent2_geometry = JSON.parse(JSON.stringify(geometry2_data));
+            var parent2_id = {{ random_plan_2.id }};
+            var parent2_points = {{ random_plan_2.get_total_points }};
+
+
+        {% endifequal %}
+
+        var is_make = false;
+
+        $(document).ready(function () {
+            initialize();
+        });
+    </script>
+
+
+
+    <!-- classes  -->
+    <script src="{% static "model/class/Axis.js" %}"></script>
+    <script src="{% static "model/class/Ground.js" %}"></script>
+    <script src="{% static "model/class/Cursor.js" %}"></script>
+    <script src="{% static "model/class/Light.js" %}"></script>
+    <script src="{% static "model/class/Cube.js" %}"></script>
+    <script src="{% static "model/class/Wall.js" %}"></script>
+    <script src="{% static "model/class/Floor.js" %}"></script>
+    <script src="{% static "model/class/Plan.js" %}"></script>
+
+{% endblock %}
+
+{% block header %}
+    <div class="width-wide">
+        <div class="pure-g">
+
+
+            <div class="pure-u-3-5"><h1>LMN ARCHITECTURE.COM</h1>
+
+                <h2>the decentralized version controlled building system</h2>
+            </div>
+            <div class="pure-u-2-5">
+
+                　　　　　
+                <div class="info"><a class='iframe' href="/information">
+                    <button class="button-xsmall1 pure-button"><i class="fa fa-question">&nbsp;&nbsp;</i>this site
+                    </button>
+                </a></div>
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block contents %}
+    <div class="width-wide">
+        <img class="model_img" src="/media/plans/img_{{ random_plan.name }}.png">
+        {% ifequal type "1" %}
+                <img class="model_img" src="/media/plans/img_{{ random_plan_2.name }}.png">
+        {% endifequal %}
+        <div id="webgl_canvas_finalize" class="model_img"></div>
+        <div class="model_info">
+            <h4><i class="fa fa-child"></i>&nbsp;new model</h4>
+            <table class="pure-table2 pure-table-horizontal">
+                <tbody>
+                <tr>
+                    <td>
+                        name
+                    </td>
+                    <td>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="name"></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        similarity
+                    </td>
+                    <td>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="similarity"></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        cost
+                    </td>
+                    <td>
+                        <i class="fa fa-angle-right"></i>&nbsp;<i class="fa fa-jpy"></i><b id="cost"></b>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>points</p>
+                    </td>
+                    <td>
+                        <i class="fa fa-angle-right"></i>&nbsp;<b id="points_inborn"></b>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+        <button id="save_plan" class="button-xsmall2 pure-button" onclick="save_plan()">send plan!!</button>
+
+        <form id="send_plan" name="send_plan" action="/fabricate/" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="input_name" id="input_name" value="">
+            <input type="hidden" name="input_username" id="input_username" vaue="">
+            <input type="hidden" name="input_image" id="input_image" value="">
+            <input type="hidden" name="input_geometry" id="input_geometry" value="">
+            <input type="hidden" name="input_similarity" id="input_similarity" value="">
+            <input type="hidden" name="input_points" id="input_points" value="">
+            <input type="hidden" name="input_cost" id="input_cost" value="">
+            <input type="hidden" name="input_parent_id" id="input_parent_id" value="">
+        </form>
+
+    </div>
+
+{% endblock %}

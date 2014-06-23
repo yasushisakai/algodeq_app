@@ -143,7 +143,6 @@
 
                     </tbody>
                 </table>
-                &nbsp;<i class="error"></i>
 
             </div>
 
@@ -188,6 +187,12 @@
 
                     <button class="make_creation button-delete" onclick="change_floor(2);">3f</button>
                 </div>
+
+                <button class="make_creation button-delete" onclick="plan.add_random_region(10)">addrnd</button>
+                <button class="make_creation button-delete" onclick="plan.remove_random_region(20)">rmvrnd</button>
+                <button class="make_creation button-delete" onclick="plan.fabricate(5)">fabricate</button>
+                <button class="make_creation button-delete" onclick="plan.clean_rooms()">clean</button>
+
             </div>
 
             {% if user.is_authenticated %}

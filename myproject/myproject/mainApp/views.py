@@ -1,6 +1,7 @@
 import json
 import datetime
 import math
+import random
 
 import Image
 
@@ -12,7 +13,7 @@ from django.core.files.base import ContentFile
 
 from myproject.mainApp.admin import UserCreationForm
 from myproject.settings import MEDIA_ROOT
-from myproject.mainApp.models import Plan
+from myproject.mainApp.models import Plan, User
 
 
 def index(request):
@@ -56,8 +57,7 @@ def index(request):
         else:
             Plan.tree_search(plans_json, p)
 
-    earning_money = math.floor((user_points / total_points)*10000)*100
-
+    earning_money = math.floor((user_points / total_points) * 10000) * 100
 
     return render_to_response('index.html', {
         'plans': plans,
@@ -237,6 +237,66 @@ def finalize(request):
         'parent_points': parent_points,
     }, context_instance=RequestContext(request)
     )
+
+
+def bot(request, type):
+    plan_num = Plan.objects.all().count()
+    random_id1 = random.randint(2, plan_num-1)
+
+    while True:
+        random_id2 = random.randint(2, plan_num-1)
+        if random_id1 != random_id2:
+            break
+
+    random_plan = Plan.objects.get(id=random_id1)
+    random_plan2 = Plan.objects.get(id=random_id2)
+
+    return render_to_response('bot.html', {
+        'type': type,
+        'random_plan': random_plan,
+        'random_plan_2': random_plan2,
+    }, context_instance=RequestContext(request)
+    )
+
+
+def fabricate(request):
+    print "hi,fab"
+
+    if 'input_name' in request.POST and 'input_image' in request.POST:
+        name = request.POST['input_name']
+        user = User.objects.get(username=request.POST['input_username'])
+
+        # #### saving image #######
+        image_data = request.POST['input_image']  # image is only sent in phase 1
+        image_data = image_data.decode("base64")
+
+        image_path = MEDIA_ROOT + "/plans/" + 'img_' + name + '.png'
+        image_file = open(image_path, "wb")
+        image_file.write(image_data)
+        image_file.close()
+
+        image_path_small = MEDIA_ROOT + "/plans/small/" + 'img_' + name + '.png'
+        Image.open(image_path).resize((128, 144)).save(image_path_small)
+
+        print 'fabricate'
+        # save and add plan
+        new_plan = Plan(
+            name=name,
+            creation_time=datetime.datetime.now(),
+            image_file=MEDIA_ROOT + "/plans/" + 'img_' + name + '.png',
+            geometry=request.POST['input_geometry'],
+            similarity=request.POST['input_similarity'],
+            points_inborn=request.POST['input_points'],
+            points_acquired=0.0,
+            architect=user,
+            cost=request.POST['input_cost'],
+            parent_plan=Plan.objects.get(id=request.POST['input_parent_id'])
+        )
+        new_plan.save()
+
+        return HttpResponse(json.dumps({"text": "success!"}));
+
+    return HttpResponseRedirect('')
 
 
 def sign_up(request):
