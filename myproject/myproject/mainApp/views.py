@@ -139,6 +139,11 @@ def single_plan(request, name):
     # below happens when there is neither post nor ajax
     plan_json = plan.get_json()
 
+    #this is a invisible feature!
+    if request.user.username != plan.architect.username:
+        plan.add_points(10)
+
+
     return render_to_response('single_plan.html', {
         'plan': plan,
         'plan_json': plan_json,
@@ -401,6 +406,12 @@ def log_out(request):
 
 def information(request):
     return render_to_response("information.html",
+        {
+        },
+                              context_instance=RequestContext(request))
+
+def archive(request):
+    return render_to_response("archive.html",
         {
         },
                               context_instance=RequestContext(request))

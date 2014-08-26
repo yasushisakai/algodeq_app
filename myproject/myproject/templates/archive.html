@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}lmn architecture information {% endblock %}
+{% block head %}
+
+
+
+    <script>
+        var is_authenticated;
+        {% if user.is_authenticated %}
+            is_authenticated = true;
+        {% else %}
+            is_authenticated = false;
+        {% endif %}
+
+    </script>
+
+{% endblock %}
+
+{% block header %}
+    <div class="width-narrow">
+
+        <div class="pure-g">
+            <div class="pure-u-5-5"><h1>LMN ARCHITECTURE.COM　archive</h1></div>
+            <div class="pure-u-7-8">
+
+                <h2>the decentralized version controlled building system</h2></div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block contents %}
+    <div class="width-narrow">
+
+        <div class="pure-g">
+            <div class="pure-u-5-5">
+
+                <h3>lmnarchitecture image archives</h3>
+
+                <br><br>
+
+                <a href="/media/archive/lmn_000.png" ><img src="/media/archive/lmn_000.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_001.png" ><img src="/media/archive/lmn_001.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_002.png" ><img src="/media/archive/lmn_002.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_003.png" ><img src="/media/archive/lmn_003.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_004.png" ><img src="/media/archive/lmn_004.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_005.png" ><img src="/media/archive/lmn_005.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_006.png" ><img src="/media/archive/lmn_006.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_007.png" ><img src="/media/archive/lmn_007.png" class="archive_images"></a>
+                <a href="/media/archive/lmn_008.png" ><img src="/media/archive/lmn_008.png" class="archive_images"></a>
+                <p>
+
+                    below are large (raw) images
+
+                </p>
+
+                <a href="/media/archive/lmn_000_L.png" ><img src="/media/archive/lmn_000_L.png" width="1200px" class="archive_images"></a>
+                <a href="/media/archive/lmn_003_L.png" ><img src="/media/archive/lmn_003_L.png" width="1200px" class="archive_images"></a>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

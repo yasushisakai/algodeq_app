@@ -114,7 +114,7 @@
 
                             {% if plan.parent_plan %}
                                 <i class="fa fa-angle-right"></i>&nbsp;
-                                <a href="./{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
+                                <a href="../plan/{{ plan.parent_plan.name }}">{{ plan.parent_plan.name }}</a>
 
 
                             {% endif %}
@@ -187,11 +187,6 @@
 
                     <button class="make_creation button-delete" onclick="change_floor(2);">3f</button>
                 </div>
-
-                <button class="make_creation button-delete" onclick="plan.add_random_region(10)">addrnd</button>
-                <button class="make_creation button-delete" onclick="plan.remove_random_region(20)">rmvrnd</button>
-                <button class="make_creation button-delete" onclick="plan.fabricate(5)">fabricate</button>
-                <button class="make_creation button-delete" onclick="plan.clean_rooms()">clean</button>
 
             </div>
 

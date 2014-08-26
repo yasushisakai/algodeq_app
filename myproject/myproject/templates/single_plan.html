@@ -149,14 +149,14 @@
                                 <span class="error"> you can't add points to your own model.</span><br>
                             {% else %}
                                 <button id="model_add_points" class="button-xsmall1 pure-button"
-                                        onclick="add_points({{ plan.id }},10.0)"><i class="fa fa-plus-square"></i>&nbsp;add
+                                        onclick="add_points({{ plan.id }},20.0)"><i class="fa fa-plus-square"></i>&nbsp;add
                                     points
                                 </button>
                             {% endif %}
                         {% else %}
                             <!-- points from anon -->
                             <button id="model_add_points" class="button-xsmall1 pure-button"
-                                    onclick="add_points({{ plan.id }},3.0,true)"><i class="fa fa-plus-square"></i>&nbsp;add
+                                    onclick="add_points({{ plan.id }},1.0,true)"><i class="fa fa-plus-square"></i>&nbsp;add
                                 points
                             </button>
                         {% endif %}
