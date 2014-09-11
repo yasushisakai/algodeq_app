@@ -4,8 +4,6 @@
 {% block title %}lmn architecture information {% endblock %}
 {% block head %}
 
-
-
     <script>
         var is_authenticated;
         {% if user.is_authenticated %}
@@ -56,13 +54,6 @@
 
         <div class="pure-g">
             <div class="pure-u-5-5">
-
-                <img src="{% static "img/provoke.png" %}">
-                {% if user.is_authenticated %}
-                    <!-- sign-up now!! -->
-                {% else %}
-                    <a href="/sign_up/" target="_parent"><img src="{% static "img/signup_now.png" %}"></a>
-                {% endif %}
 
                 <iframe width="800" height="450" src="//www.youtube.com/embed/pHYjeDQxBeA" frameborder="0"
                         allowfullscreen></iframe>

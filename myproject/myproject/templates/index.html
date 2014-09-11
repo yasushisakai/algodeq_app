@@ -14,6 +14,8 @@
     <script src="{% static "js/jquery.colorbox-min.js" %}"></script>
     <script src="{% static "model/class/Plan.js" %}"></script>
     <script type="text/javascript" src="{% static "js/helper_functions.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.scrollTo.min.js" %}"></script>
+
 
 
 
@@ -54,7 +56,7 @@
 
 
 {% block header %}
-    <div class="width-wide">
+    <div class="width-wide top-layer">
 
         <div class="pure-g">
 
@@ -85,9 +87,7 @@
 {% block contents %}
     <div class="width-wide">
 
-
         <div class="pure-g">
-
             <div class="pure-u-5-24">
 
                 {% if user.is_authenticated %}
@@ -103,29 +103,25 @@
                         </script>
                     </div>
                 {% else %}
+
                 {% endif %}
 
-
-                <div id="make-list">
-
-
+                <div id="make-list" class="top-layer-side-bar">
                     <table class="pure-table2 pure-table-horizontal">
                         <thead>
                         <tr>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"rank");' >rank</a></th>
-                            <th>
-                                <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a>
-                            </th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
-                            <th><a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"rank");'>rank</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"id");'>ID</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"name");'>name</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"total_points");'>point</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"similarity");'>diff</a></th>
+                            <th> <a href="javascript:void(0);" onclick='reWrite(Lst,"creation_time");'>time</a></th>
                         </tr>
                         </thead>
                         <tbody id="table_list">
                         <script>
                             var Lst = Lst_sort();
-                            SortScore(Lst, "total_points");
+                            SortScore(Lst, "total_points"); // list
                             domMaker(Lst);
 
 {#                            graph_bar(user_list);#}
@@ -139,13 +135,17 @@
                 </div>
 
             </div>
-            <div class="pure-u-19-24">
+            <div class="pure-u-19-24 bottom-layer">
                 <script>
 
                     var count = {{ plans_num }};
                     var users = "{{ user.username|safe }}";
                     var Lst = Lst_sort();
+
                     treeDiagram(users,true);
+                    $.scrollTo(  { top:10, left:3250}, 800);
+                    //absolute position
+
                 </script>
             </div>
 
