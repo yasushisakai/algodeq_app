@@ -314,6 +314,28 @@ def bot(request, type):
     }, context_instance=RequestContext(request)
     )
 
+def controlled_bot(request, ids):
+    #check id
+
+    id_s = ids.split('_')
+    id_1 = int(id_s[0])
+    id_2 = int(id_s[1])
+
+    while True:
+        if id_1 != id_2:
+            break
+        plan_num = Plan.objects.all().count()
+        id_2 = random.randint(2, plan_num-1)
+
+    plan_1 = Plan.objects.get(id=id_1)
+    plan_2 = Plan.objects.get(id=id_2)
+
+    return render_to_response('bot.html', {
+        'type': '1',
+        'random_plan': plan_1,
+        'random_plan_2': plan_2,
+    }, context_instance=RequestContext(request)
+    )
 
 def fabricate(request):
     print "hi,fab"

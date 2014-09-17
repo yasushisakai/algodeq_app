@@ -19,6 +19,7 @@ urlpatterns = patterns('',
                        url(r'finalize/', 'myproject.mainApp.views.finalize'),  # 3.save image and add plan to DB
 
                        url(r'^bot/(?P<type>[-0-9]+)/?$', 'myproject.mainApp.views.bot'),  # 4.fabrication
+                       url(r'^bot_c/(?P<ids>[-0-9_]+)/?$', 'myproject.mainApp.views.controlled_bot'),
                        url(r'fabricate/', 'myproject.mainApp.views.fabricate'),
 
                        # authentication
