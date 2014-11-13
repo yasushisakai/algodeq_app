@@ -46,6 +46,9 @@
     <script>
         var impData = {{ plans_json|safe}};
         var csrf_token = '{{ csrf_token }}';
+    var count = {{ plans_num }};
+                            var users = "{{ user.username|safe }}";
+                            //var Lst = Lst_sortAll();
     </script>
 
     <script src="{% static "js/index.js" %}"></script>
@@ -89,11 +92,13 @@
 
         <div class="pure-g">
             <div class="pure-u-5-24">
+            <div id="make-list" class="top-layer-side-bar">
 
                 {% if user.is_authenticated %}
                     <div class="current">
                         your current remuneration&nbsp;<i class="fa fa-jpy"></i>
                         <script type="text/javascript">
+
 
                             var user_list = user_money(Lst);
                             var u_cost = cost_cal(user_list,users);
@@ -106,7 +111,7 @@
 
                 {% endif %}
 
-                <div id="make-list" class="top-layer-side-bar">
+
                     <table class="pure-table2 pure-table-horizontal">
                         <thead>
                         <tr>
@@ -120,11 +125,11 @@
                         </thead>
                         <tbody id="table_list">
                         <script>
-                            var Lst = Lst_sort();
+
                             SortScore(Lst, "total_points"); // list
                             domMaker(Lst);
 
-{#                            graph_bar(user_list);#}
+                            //graph_bar(user_list);
 
                         </script>
                         <tbody>
@@ -138,9 +143,8 @@
             <div class="pure-u-19-24 bottom-layer">
                 <script>
 
-                    var count = {{ plans_num }};
-                    var users = "{{ user.username|safe }}";
-                    var Lst = Lst_sort();
+
+                    //var Lst = Lst_sortAll();
 
                     treeDiagram(users,true);
                     $.scrollTo(  { top:0, left:4000}, 800);

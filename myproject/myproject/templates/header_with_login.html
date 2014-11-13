@@ -14,7 +14,8 @@
 
         var impData = {{ plans_json|safe}};
         var count = 0;
-        var Lst = Lst_sort();
+        var Lst = Lst_sortAll();
+        console.log(Lst);
 
         $(document).ready(function () {
             //Examples of how to assign the Colorbox event to elements
@@ -48,7 +49,7 @@
 
         var impData = {{ plans_json|safe}};
         var count = 0;
-        var Lst = Lst_sort();
+        var Lst = Lst_sortAll();
 
         $(document).ready(function () {
             //Examples of how to assign the Colorbox event to elements
