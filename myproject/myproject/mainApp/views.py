@@ -29,7 +29,7 @@ def index(request):
         Plan.init_plan()
 
     plans = Plan.objects.all()
-    plans_json = [];
+    plans_json = []
 
     total_points = 0
     user_points = 0
@@ -336,6 +336,7 @@ def controlled_bot(request, ids):
         'random_plan_2': plan_2,
     }, context_instance=RequestContext(request)
     )
+
 
 def fabricate(request):
     print "hi,fab"

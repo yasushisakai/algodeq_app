@@ -31,14 +31,14 @@
 
         var parent_points = {{ random_plan.get_total_points }};
 
-        {% ifequal type "1" %}
+        {% if type == "1" or type == "2" %}
 
             var geometry2_data ={{ random_plan_2.geometry|safe }};
             var parent2_geometry = JSON.parse(JSON.stringify(geometry2_data));
             var parent2_id = {{ random_plan_2.id }};
             var parent2_points = {{ random_plan_2.get_total_points }};
 
-        {% endifequal %}
+        {% endif %}
 
         var is_make = false;
 
@@ -87,9 +87,9 @@
 {% block contents %}
     <div class="width-wide">
         <img class="model_img" src="/media/plans/small/img_{{ random_plan.name }}.png">
-        {% ifequal type "1" %}
+        {% if type == "1" or type == "2" %}
                 <img class="model_img" src="/media/plans/small/img_{{ random_plan_2.name }}.png">
-        {% endifequal %}
+        {% endif %}
         <div id="webgl_canvas_finalize" class="model_img"></div>
         <div class="model_info">
             <h4><i class="fa fa-child"></i>&nbsp;new model</h4>
@@ -134,6 +134,7 @@
 
         <button id="save_plan" class="button-xsmall2 pure-button" onclick="save_plan()">send plan!!</button>
 
+
         <form id="send_plan" name="send_plan" action="/fabricate/" method="post">
             {% csrf_token %}
             <input type="hidden" name="input_name" id="input_name" value="">
@@ -146,6 +147,17 @@
             <input type="hidden" name="input_parent_id" id="input_parent_id" value="">
         </form>
 
+            {% if type == "2" %}
+        <script>
+            function auto_click(){
+                $("#save_plan").click();
+            }
+
+            $(window).load(function(){
+                setTimeout("auto_click()",10000);
+            });
+        </script>
+        {% endif %}
     </div>
 
 {% endblock %}
