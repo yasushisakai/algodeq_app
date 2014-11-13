@@ -4,6 +4,11 @@
 myproject/myproject/settings.py
 
 
+# we are not php people
+*.php
+
+
+
 ############
 ## pycharm file
 ############

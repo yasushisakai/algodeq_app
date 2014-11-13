@@ -78,7 +78,7 @@ class PlanAdmin(admin.ModelAdmin):
     list_filter = ('creation_time',)
 
 
-admin.site.register(Plan, PlanAdmin)
+admin.site.register(Plan,PlanAdmin)
 admin.site.register(Log)
 admin.site.register(User, UserAdmin)
 

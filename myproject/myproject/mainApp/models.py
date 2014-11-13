@@ -275,6 +275,8 @@ class Plan(models.Model):
         print '** added first plan tokyo **'
 
 
+
+
 class Log(models.Model):
     """
     simple activity log throughout process
