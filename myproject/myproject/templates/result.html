@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}lmn architecture information {% endblock %}
+{% block head %}
+    <script type="text/javascript" src="{% static "js/three.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/d3.layout.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/packages.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox.js" %}"></script>
+    <script src="{% static "js/jquery.colorbox-min.js" %}"></script>
+    <script src="{% static "model/class/Plan.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/helper_functions.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.scrollTo.min.js" %}"></script>
+
+    <script src="{% static "js/results.js" %}"></script>
+
+
+
+    <script>
+        var is_authenticated;
+        {% if user.is_authenticated %}
+            is_authenticated = true;
+        {% else %}
+            is_authenticated = false;
+        {% endif %}
+
+        //var impData = {{ plans_json|safe}};
+
+        var impData = loadjson("http://lmnarchitecture.com/media/results/algodeq_db.json");
+
+
+    </script>
+
+{% endblock %}
+
+{% block header %}
+    <div class="width-narrow">
+
+        <div class="pure-g">
+            <div class="pure-u-5-5"><h1>LMN ARCHITECTURE.COM　archive</h1></div>
+            <div class="pure-u-7-8">
+
+                <h2>the decentralized version controlled building system</h2></div>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block contents %}
+    <div class="width-narrow">
+
+        <div class="pure-g">
+            <div class="pure-u-5-5">
+
+                <h3>lmnarchitecture user's reslut</h3>
+
+                <div id="explain_jp">
+                    <h3>
+                        報告
+                    </h3>
+
+                    <p>
+                        昨年lmnarchitecture.comは、『ALGODeQ』（以下:親コンペ）にて最優秀の<a href="http://algodeq.org/?page=award_list">ALGODeQ AWARD</a>を獲得いたしました。
+                        建築及びデザインのモデリングレベルでの「多参加」の形、ネットワーク時代のボトムアップ型の設計の可能性を評価頂いたものだと思っております。
+                        その上で、無くてはならない要素である皆様のご協力に感謝いたすともに今回至らない点をさらに改善して「設計」の可能性そのものを広げたいと思いますので、
+                        これからも暖かくみまもっていただけると幸いです。
+                        <img src="http://lmnarchitecture.com/media/results/lmnTreeDiagramS.gif">
+
+
+                        <br><a href="http://lmnarchitecture.com/media/results/lmnTreeDiagram.gif">Tree Diagram/large
+                            size</a>[18,000px*13,000px:10.37MB]
+                    </p>
+
+                    <h3>結果</h3>
+
+                    <p>
+                        以下のデータは親コンペの結果が示された2014年11月3日時点のものです。（今現在走っているものとはデータが違います）
+                        2014年6月18日から2014年11月3日までに、総計1750モデルがアップロードされました。
+                        登録ユーザーは16名でうち9名からモデルの送信がありました。
+                        最もポイントを獲得したユーザーは「jaldabaoth」の15857.654点(1557モデル)で、
+                        ついで「yasushisakai」の7291.5166点(102モデル)、三位に「dfloor」の3609.196点(62モデル)となりました。
+                    </p>
+                </div>
+                <div class="graph_result_simple"></div>
+                <div id="explain_jp">
+                    <p>
+                        モデルを比べると、最も点数を獲得したものは順に「making sense」の550点、「gate house」の374点、「making_sense03」の323点となりました。
+                    </p>
+                </div>
+                <div class="model_result"></div>
+                <div id="explain_jp">
+                    <h3>未公開情報</h3>
+
+                    <p>
+                        賞金金額の発表のまえに、事前に発表していなかった情報があります。
+                        実はこのシステムに二種類のBOT（案を自動的に生成し投稿するロボット）を予め作っておきました。
+                        このボットは二種類存在しており、一つは任意のモデルにまとまった部屋をランダムに足し引きするもの。
+                        もう一つは点数が上位のモデル2つを選択し、遺伝的アルゴリズムを使って交配させるというものです。
+                        このBOTを走らせているユーザーは一位を獲得した「jaldabaoth」です。
+                        継承を要としたこのクラウド・ソーシングシステムにおいて、人にみならず同じ立場で機械の参加をさせることが狙いです。
+                        なお、評価の過程にはBOTは利用しておりません。
+
+                    </p>
+
+                    <h3>
+                        賞金の分配
+                    </h3>
+
+                    <p>
+                        さて、皆さんのご尽力もあり結果として賞金を276,697円獲得いたしました。
+                        この賞金は当初の親コンペにて発表されていた100万円に対して最優秀賞が三点あったことから三等分され、
+                        そこから税金を差し引いたものになります。これを獲得賞金とし、当初のルールに基づき分配致します。
+                        総得点数は30198.166となりましたので、賞金総額をこれで割ると、1点あたり9.162円となります。
+                        得点したユーザーの金額換算は次の表になります。
+
+                    </p>
+                </div>
+                <div class="graph_result"></div>
+                <div id="explain_jp">
+                    <p>
+                        当初のルールに基づきますと、20,000円を超えたユーザー（※1）が報酬取得対象となります。
+                        よって、「jaldabaoth」、「yasushisakai」、「dfloor」の3ユーザーが報酬対象となります。
+                        20,000円に至らなかったユーザーの得点分の報酬は28,333円となります。
+                        加えて、「jaldabaoth」は、未公表情報でありBOTなので※2、報酬受取権利ユーザーとして外します。
+                        結果175,032円が未確定報酬となります。この報酬ですが、
+                        開発側の判断で今現在集合知として最も人類の役に立っていると言われる
+                        <a href="https://donate.wikimedia.org/w/index.php?title=Special:FundraiserLandingPage&country=JP&uselang=ja&utm_medium=spontaneous&utm_source=fr-redir&utm_campaign=spontaneous">wikipediaに寄付する</a>事にいたしました。
+                        2014年11月3日以前の登録ユーザーで、異議がある方はresults@lmnarchitecture.comにて2015年2月末までにご連絡ください。
+                        <br><br>※1: 報酬管理の都合上設定致しました。
+                        <br>※2: 送金する口座が存在しない。
+                    </p>
+                    <Div Align="right">
+                    <p>2015年2月4日</p>
+                        </Div>
+
+                </div>
+
+
+            <br><br>
+
+
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -440,5 +440,11 @@ def archive(request):
                               context_instance=RequestContext(request))
 
 
+def result(request):
+    return render_to_response("result.html",
+        {
+        },
+                              context_instance=RequestContext(request))
+
 
 

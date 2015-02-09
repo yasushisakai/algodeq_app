@@ -30,6 +30,9 @@ urlpatterns = patterns('',
                        url(r'^information/', 'myproject.mainApp.views.information'),
                        url(r'^archive/', 'myproject.mainApp.views.archive'),
 
+                       #result
+                       url(r'^result/', 'myproject.mainApp.views.result'),
+
                        # admin
                        url(r'^admin/', include(admin.site.urls)),
 
